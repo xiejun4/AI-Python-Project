@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HTML文件汇总工具</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- 引用本地的 Font Awesome 4.7.0 all.min.css 文件 -->
+        <link href="../css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#3b82f6',
+                            secondary: '#10b981',
+                            accent: '#8b5cf6',
+                        },
+                        fontFamily: {
+                            sans: ['Inter', 'system-ui', 'sans-serif'],
+                        },
+                    },
+                }
+            }
+        </script>
+        <style type="text/tailwindcss">
+            @layer utilities {
+                .content-auto {
+                    content-visibility: auto;
+                }
+                .btn-circle {
+                    @apply rounded-full w-16 h-16 flex items-center justify-center text-white font-bold shadow-lg transition-all duration-300;
+                }
+                .btn-circle:hover {
+                    @apply scale-110 shadow-xl;
+                }
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50 min-h-screen p-6">
+        <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-primary to-accent text-white p-6">
+                <h1 class="text-2xl md:text-3xl font-bold flex items-center">
+                    <i class="fa fa-file-text-o mr-3"></i>日志汇总工具
+                </h1>
+                <p class="mt-2 opacity-90">汇总多个HTML文件内容到一个新的HTML文件中</p>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <div class="space-y-4">
+                    <label for="fileInput" class="block text-gray-700 font-medium">选择要汇总的HTML文件</label>
+                    <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+                        <input type="file" id="fileInput" multiple accept=".html" class="flex-1 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                        <button id="aggregateBtn" class="btn-circle bg-secondary self-start" title="汇总文件">
+                            <i class="fa fa-compress"></i>
+                        </button>
+                    </div>
+                    <div id="fileList" class="mt-4 p-4 bg-gray-50 rounded-md max-h-60 overflow-y-auto border border-gray-200 hidden">
+                        <h3 class="font-medium text-gray-700 mb-2"><i class="fa fa-list mr-2"></i>已选择的文件</h3>
+                        <ul id="selectedFiles" class="space-y-1 text-sm text-gray-600"></ul>
+                    </div>
+                </div>
+
+                <div id="resultSection" class="hidden space-y-4">
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-md">
+                        <h3 class="font-medium text-green-700 flex items-center"><i class="fa fa-check-circle mr-2"></i>汇总成功</h3>
+                        <p class="mt-1 text-green-600 text-sm">HTML文件已成功汇总，点击下方按钮下载或预览。</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <a id="downloadBtn" href="#" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors text-sm">
+                            <i class="fa fa-download mr-2"></i>下载汇总文件
+                        </a>
+                        <button id="previewBtn" class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors text-sm">
+                            <i class="fa fa-eye mr-2"></i>预览汇总文件
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const fileInput = document.getElementById('fileInput');
+                const fileList = document.getElementById('fileList');
+                const selectedFiles = document.getElementById('selectedFiles');
+
+                // 显示已选择的文件
+                fileInput.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        fileList.classList.remove('hidden');
+                        selectedFiles.innerHTML = '';
+
+                        // 过滤出.html文件并排序
+                        const htmlFiles = Array.from(e.target.files)
+                            .filter(file => file.name.toLowerCase().endsWith('.html'))
+                            .sort((a, b) => a.name.localeCompare(b.name));
+
+                        // 限制最多显示10个文件
+                        const maxFilesToShow = 10;
+                        const filesToShow = htmlFiles.slice(0, maxFilesToShow);
+
+                        filesToShow.forEach(file => {
+                            const li = document.createElement('li');
+                            li.className = 'flex items-center';
+                            li.innerHTML = `<i class="fa fa-file-code-o text-primary mr-2"></i>${file.name}`;
+                            selectedFiles.appendChild(li);
+                        });
+
+                        // 如果文件数量超过10个，显示提示
+                        if (htmlFiles.length > maxFilesToShow) {
+                            const hiddenCount = htmlFiles.length - maxFilesToShow;
+                            const li = document.createElement('li');
+                            li.className = 'flex items-center text-gray-500 italic';
+                            li.innerHTML = `<i class="fa fa-ellipsis-h mr-2"></i>... 还有 ${hiddenCount} 个文件未显示`;
+                            selectedFiles.appendChild(li);
+                        }
+                    } else {
+                        fileList.classList.add('hidden');
+                    }
+                });        
+            });
+
+            // 汇总按钮点击事件
+            document.getElementById('aggregateBtn').addEventListener('click', function() {
+                
+                const files = fileInput.files;
+                if (files.length === 0) {
+                    alert('请至少选择一个HTML文件进行汇总！');
+                    return;
+                }
+
+                // 注意：由于浏览器安全限制，无法直接访问文件系统目录，以下代码模拟原Python逻辑在浏览器环境下的实现
+                // 此实现基于已选择的文件进行处理，而非指定目录
+                const htmlFiles = Array.from(files)
+                    .filter(file => file.name.toLowerCase().endsWith('.html') && !file.name.includes('aggregated_failed_logs_'))
+                    .sort((a, b) => {
+                        // 修复：使用 slice(-1) 替代 [-1] 获取最后一个元素，避免 undefined 错误
+                        const nameA = a.name.split('Failed').slice(-1)[0];
+                        const nameB = b.name.split('Failed').slice(-1)[0];
+                        return nameA.localeCompare(nameB);
+                    });
+
+                if (htmlFiles.length === 0) {
+                    alert('未找到 HTML 文件可汇总。');
+                    return;
+                }
+
+                // 初始化汇总 HTML 文件内容
+                let aggregatedContent = "<html><head><title>汇总失败日志</title></head><body>";
+                // 添加索引目录
+                aggregatedContent += '<div id="index" style="position: fixed; left: 10px; top: 10px; width: 250px; margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; background: white; max-height: 90vh; overflow-y: auto; font-size: 50%; transition: all 0.3s ease;"><span id="toggleBtn" style="cursor: pointer; font-size: 1.2em; vertical-align: middle;">▼</span> <h3 style="display: inline-block; margin-left: 10px;">索引目录</h3><ul id="indexContent">';
+                let indexItems = [];
+                let fileContents = [];  // 存储文件内容
+
+                // 逐个读取 HTML 文件内容并添加到fileContents
+                const readPromises = htmlFiles.map(htmlFile => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            try {
+                                const content = e.target.result;
+                                // 提取文件名作为标题
+                                const fileName = htmlFile.name;
+                                // 生成唯一id，替换特殊字符
+                                const fileId = "file_" + fileName.replace(/\W+/g, '_');
+                                indexItems.push(`<li><a href="#${fileId}">${fileName}</a></li>`);
+                                fileContents.push(`<h4 id='${fileId}'>文件来源: ${fileName}</h4>`);
+                                fileContents.push(content);
+                                resolve();
+                            } catch (error) {
+                                console.error(`读取文件 ${fileName} 时出错:`, error);
+                                reject(error);
+                            }
+                        };
+                        reader.onerror = function() {
+                            const errorMsg = `读取文件 ${htmlFile.name} 时出错`;
+                            console.error(errorMsg, reader.error);
+                            reject(reader.error);
+                        };
+                        reader.readAsText(htmlFile, 'utf-8');
+                    });
+                });
+
+                Promise.all(readPromises)
+                    .then(() => {
+                        // 完成所有文件读取后，添加索引目录和文件内容
+                        aggregatedContent += indexItems.join('') + '</ul></div>';
+
+                        // 将所有文件的异常信息fileContents加入汇总的失败日志文件节点中
+                        aggregatedContent += "<div id='contentArea' style='margin-left: 280px; transition: margin-left 0.3s ease;'><h3>汇总的失败日志文件</h3>";
+                        aggregatedContent += fileContents.join('');
+                        aggregatedContent += '</div>';
+
+                        // 给索引目录添加点击事件
+                        // 点击展开索引按钮：切换索引目录的宽度和背景颜色，将所以异常文件的超文本链接显示出来，用户点击其中某一个异常文件的超文本链接可以定位到页面中的异常文件位置。、
+                        // 点击折叠索引按钮：切换索引目录的宽度和背景颜色，将异常文件的超文本链接隐藏起来。
+                        aggregatedContent += "<script>";
+                        aggregatedContent += "function toggleIndex() {";
+                        aggregatedContent += "const indexDiv = document.getElementById('index');";
+                        aggregatedContent += "const indexContent = document.getElementById('indexContent');";
+                        aggregatedContent += "const toggleBtn = document.getElementById('toggleBtn');";
+                        aggregatedContent += "const h3 = indexDiv.querySelector('h3');";
+                        aggregatedContent += "const contentArea = document.getElementById('contentArea');";
+                        aggregatedContent += "const computedStyle = window.getComputedStyle(indexDiv);";
+                        aggregatedContent += "if (computedStyle.width === '25px') {";
+                        aggregatedContent += "indexDiv.style.width = '250px';";
+                        aggregatedContent += "indexDiv.style.background = 'white';";
+                        aggregatedContent += "indexContent.style.display = 'block';";
+                        aggregatedContent += "h3.style.display = 'inline-block';";
+                        aggregatedContent += "toggleBtn.textContent = '▼';";
+                        aggregatedContent += "toggleBtn.style.color = 'blue';";
+                        aggregatedContent += "contentArea.style.marginLeft = '280px';";
+                        aggregatedContent += "} else {";
+                        aggregatedContent += "indexDiv.style.width = '25px';";
+                        aggregatedContent += "indexDiv.style.background = 'red';";
+                        aggregatedContent += "indexContent.style.display = 'none';";
+                        aggregatedContent += "h3.style.display = 'none';";
+                        aggregatedContent += "toggleBtn.textContent = '▶';";
+                        aggregatedContent += "toggleBtn.style.color = 'white';";
+                        aggregatedContent += "contentArea.style.marginLeft = '50px';";
+                        aggregatedContent += "}";
+                        aggregatedContent += "}";
+                        aggregatedContent += "document.addEventListener('DOMContentLoaded', function() {";
+                        aggregatedContent += "const toggleBtn = document.getElementById('toggleBtn');";
+                        aggregatedContent += "if (toggleBtn) {";
+                        aggregatedContent += "toggleBtn.addEventListener('click', toggleIndex);";
+                        aggregatedContent += "} else {";
+                        aggregatedContent += "console.error('Toggle button not found');";
+                        aggregatedContent += "}";
+                        aggregatedContent += "});";
+                        aggregatedContent += "<\/script>";
+
+                        
+                        aggregatedContent += '</body></html>';
+
+                        // 显示结果部分
+                        document.getElementById('resultSection').classList.remove('hidden');
+
+                        // 设置下载链接
+                        const blob = new Blob([aggregatedContent], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        const downloadBtn = document.getElementById('downloadBtn');
+                        downloadBtn.href = url;
+
+                        // 给下载文件添加一个时间戳避免重复写入，还可以避免用户重复点击下载按钮。
+                        const now = new Date();
+                        const timestamp = now.getFullYear() + 
+                                         String(now.getMonth() + 1).padStart(2, '0') + 
+                                         String(now.getDate()).padStart(2, '0') + '_' +
+                                         String(now.getHours()).padStart(2, '0') + 
+                                         String(now.getMinutes()).padStart(2, '0') + 
+                                         String(now.getSeconds()).padStart(2, '0');
+                        downloadBtn.download = `aggregated_failed_logs_${timestamp}.html`;
+
+                        // 设置预览功能
+                        document.getElementById('previewBtn').addEventListener('click', function() {
+                            const previewWindow = window.open('', '_blank');
+                            previewWindow.document.write(aggregatedContent);
+                            previewWindow.document.close();
+                        });
+                    })
+                    .catch(error => {
+                        alert('汇总文件时出现错误，请检查文件并重新尝试。');
+                        console.error('汇总文件时出错:', error);
+                    });
+
+
+            });
+        </script>
+    </body>
+</html>

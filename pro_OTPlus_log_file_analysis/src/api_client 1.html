@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API请求工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+    <!-- 移除了max-w-4xl限制，使容器占满整个浏览器宽度 -->
+    <div class="mx-auto bg-white rounded-lg shadow-lg p-6 md:p-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">API请求工具</h1>
+        
+        <div class="space-y-6">
+            <!-- 文件选择区域 -->
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50">
+                <label for="fileSelector" class="block text-sm font-medium text-gray-700 mb-3">选择HTML文件（可多选）</label>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <label for="fileSelector" class="cursor-pointer bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 inline-flex items-center">
+                        <i class="fa fa-folder-open mr-2"></i>浏览文件
+                    </label>
+                    <input id="fileSelector" type="file" accept=".html" multiple class="hidden" />
+                    <span id="fileCount" class="text-gray-500 self-center">未选择任何文件</span>
+                </div>
+                
+                <!-- 选中文件列表 -->
+                <div class="mt-4">
+                    <h3 class="text-sm font-medium text-gray-700 mb-2">已选文件：</h3>
+                    <ul id="fileList" class="space-y-2 max-h-40 overflow-y-auto">
+                        <!-- 选中的文件将显示在这里 -->
+                        <li class="text-gray-500 italic text-sm">无选中文件</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div>
+                <label for="fileName" class="block text-sm font-medium text-gray-700 mb-1">文件名称</label>
+                <input type="text" id="fileName" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="输入报告文件名称（可选）">
+            </div>
+            
+            <div>
+                <label for="questionTags" class="block text-sm font-medium text-gray-700 mb-1">问题标签</label>
+                <input type="text" id="questionTags" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="输入问题标签，用逗号分隔（可选）">
+            </div>
+            
+            <div>
+                <label for="textPrompt" class="block text-sm font-medium text-gray-700 mb-1">用户问题</label>
+                <textarea id="textPrompt" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">我是一名测试人员，我需要分析异常数据，给出建议措施各至少1到3条，每1条数字控制在100个字以内，内容不要太专业，要言简意赅，浅显易懂:</textarea>
+            </div>
+            
+            <div>
+                <label for="payload" class="block text-sm font-medium text-gray-700 mb-1">异常数据</label>
+                <textarea id="payload" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{"TestItem": {"TestGroup": "硬件控制和状态检查", "SpecialTestItems": "ENTRY_HANDLER_L2AUDIO", "TestDetailInformation": "　", "Dependency": "站点各器件加载和moto USB驱动检查", "Principle": "检查站点硬件环境和通信环境", "Impact": "测试环境不满足测试要求，无法测试", "Risk": "Low", "Owner": "zhigang", "IssuesAndSuggestion": "null"}}</textarea>
+            </div>
+            
+            <div class="flex space-x-4">
+                <button id="sendBtn" class="flex-1 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                    <i class="fa fa-paper-plane mr-2"></i>发送请求
+                </button>
+                <button id="generateReportBtn" class="flex-1 bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200" disabled>
+                    <i class="fa fa-file-text-o mr-2"></i>生成报告
+                </button>
+                <button id="batchGenerateBtn" class="flex-1 bg-purple-600 text-white py-3 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
+                    <i class="fa fa-files-o mr-2"></i>批量生成
+                </button>
+            </div>
+            
+            <div>
+                <label for="response" class="block text-sm font-medium text-gray-700 mb-1">响应结果</label>
+                <textarea id="response" rows="8" class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500" readonly placeholder="响应将显示在这里..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 存储选中的文件
+        let selectedFiles = [];
+        // 存储完整的响应数据
+        let fullResponseData = null;
+        // 存储当前选中的文件索引
+        let currentFileIndex = -1;
+        // 批量处理状态标记
+        let isBatchProcessing = false;
+        
+        // 隐藏的API配置 - 作为默认值但不在页面上显示
+        const API_CONFIG = {
+            url: "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
+            key: "c5566d4b-deae-4b7a-bffc-85ad4e103ad5"
+        };
+        
+        // 文件选择处理
+        const fileSelector = document.getElementById('fileSelector');
+        const fileList = document.getElementById('fileList');
+        const fileCount = document.getElementById('fileCount');
+        const batchGenerateBtn = document.getElementById('batchGenerateBtn');
+        
+        fileSelector.addEventListener('change', (e) => {
+            selectedFiles = Array.from(e.target.files);
+            updateFileList();
+        });
+        
+        // 批量生成按钮事件
+        batchGenerateBtn.addEventListener('click', async () => {
+            if (selectedFiles.length === 0) {
+                alert('请先选择文件');
+                return;
+            }
+            
+            if (isBatchProcessing) {
+                alert('正在批量处理中，请等待完成');
+                return;
+            }
+            
+            // 重置所有文件状态
+            selectedFiles.forEach(file => {
+                file.status = '';
+            });
+            updateFileList();
+            
+            isBatchProcessing = true;
+            batchGenerateBtn.disabled = true;
+            batchGenerateBtn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i>处理中...';
+            
+            try {
+                // 从第一个文件开始处理
+                await processFilesInBatch(0);
+                alert(`批量处理完成！共处理 ${selectedFiles.length} 个文件`);
+            } catch (error) {
+                console.error('批量处理出错:', error);
+                alert(`批量处理过程中发生错误: ${error.message}`);
+            } finally {
+                isBatchProcessing = false;
+                batchGenerateBtn.disabled = false;
+                batchGenerateBtn.innerHTML = '<i class="fa fa-files-o mr-2"></i>批量生成';
+            }
+        });
+        
+        // 批量处理文件
+        async function processFilesInBatch(index) {
+            // 所有文件处理完毕，返回
+            if (index >= selectedFiles.length) {
+                return;
+            }
+            
+            // 处理当前文件
+            const file = selectedFiles[index];
+            currentFileIndex = index;
+            
+            try {
+                // 导入文件内容
+                await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        try {
+                            const content = e.target.result;
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = content;
+                            
+                            // 提取文件信息到表单
+                            const fileName = file.name.replace(/\.html$/i, '');
+                            document.getElementById('fileName').value = fileName;
+                            
+                            const h4Element = tempDiv.querySelector('h4');
+                            const questionTagsContent = h4Element ? h4Element.textContent.trim() : '';
+                            document.getElementById('questionTags').value = questionTagsContent;
+                            
+                            const divElement = tempDiv.querySelector('div');
+                            let payloadContent = '';
+                            if (divElement) {
+                                const temp = document.createElement('div');
+                                temp.innerHTML = divElement.innerHTML;
+                                payloadContent = temp.textContent.trim();
+                            }
+                            document.getElementById('payload').value = payloadContent;
+                            
+                            resolve();
+                        } catch (error) {
+                            reject(error);
+                        }
+                    };
+                    
+                    reader.onerror = function() {
+                        reject(new Error('无法读取文件: ' + reader.error.message));
+                    };
+                    
+                    reader.readAsText(file);
+                });
+                
+                // 发送API请求
+                const response = await sendApiRequest();
+                
+                // 更新文件状态
+                if (response.status === 200) {
+                    file.status = 'success';
+                    // 生成报告
+                    generateReport();
+                } else {
+                    file.status = 'error';
+                }
+                
+                // 更新文件列表显示
+                updateFileList();
+                
+                // 延迟500ms处理下一个文件，避免请求过于频繁
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // 处理下一个文件
+                await processFilesInBatch(index + 1);
+                
+            } catch (error) {
+                console.error(`处理文件 ${file.name} 时出错:`, error);
+                file.status = 'error';
+                updateFileList();
+                // 继续处理下一个文件
+                await processFilesInBatch(index + 1);
+            }
+        }
+        
+        // 更新文件列表显示
+        function updateFileList() {
+            if (selectedFiles.length === 0) {
+                fileList.innerHTML = '<li class="text-gray-500 italic text-sm">无选中文件</li>';
+                fileCount.textContent = '未选择任何文件';
+                return;
+            }
+            
+            // 更新文件计数
+            fileCount.textContent = `已选择 ${selectedFiles.length} 个文件`;
+            
+            // 更新文件列表
+            fileList.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const li = document.createElement('li');
+                // 根据状态设置不同的背景色
+                let bgClass = 'bg-gray-50';
+                if (file.status === 'success') {
+                    bgClass = 'bg-green-50 border-green-200';
+                } else if (file.status === 'error') {
+                    bgClass = 'bg-red-50 border-red-200';
+                }
+                
+                li.className = `flex items-center justify-between ${bgClass} p-2 rounded border border-gray-200 cursor-pointer hover:bg-gray-100 transition duration-150`;
+                li.innerHTML = `
+                    <span class="flex items-center">
+                        <i class="fa fa-file-code-o text-blue-500 mr-2"></i>
+                        <span class="truncate max-w-[80%]">${file.name}</span>
+                        ${file.status === 'success' ? '<i class="fa fa-check-circle text-green-500 ml-2"></i>' : ''}
+                        ${file.status === 'error' ? '<i class="fa fa-exclamation-circle text-red-500 ml-2"></i>' : ''}
+                        ${isBatchProcessing && currentFileIndex === index ? '<i class="fa fa-spinner fa-spin text-blue-500 ml-2"></i>' : ''}
+                    </span>
+                    <button class="text-red-500 hover:text-red-700 focus:outline-none" data-index="${index}">
+                        <i class="fa fa-times"></i>
+                    </button>
+                `;
+                
+                // 添加点击事件处理文件内容导入
+                li.addEventListener('click', (e) => {
+                    // 如果正在批量处理，不允许手动选择
+                    if (isBatchProcessing) return;
+                    
+                    // 如果点击的是删除按钮，则不执行导入操作
+                    if (e.target.closest('button')) return;
+                    
+                    importFileContent(file, index);
+                });
+                
+                fileList.appendChild(li);
+            });
+            
+            // 添加删除文件事件
+            document.querySelectorAll('#fileList button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // 如果正在批量处理，不允许删除
+                    if (isBatchProcessing) return;
+                    
+                    e.stopPropagation(); // 阻止事件冒泡到li元素
+                    const index = parseInt(e.target.closest('button').dataset.index);
+                    selectedFiles.splice(index, 1);
+                    updateFileList();
+                    // 更新fileSelector的值（清除后重新设置，实现视觉同步）
+                    fileSelector.value = '';
+                });
+            });
+        }
+        
+        // 导入文件内容到表单字段
+        function importFileContent(file, index) {
+            currentFileIndex = index; // 记录当前选中的文件索引
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    // 获取文件内容
+                    const content = e.target.result;
+                    
+                    // 创建临时DOM元素解析HTML
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = content;
+                    
+                    // 1. 将文件名写入文件名称字段（去除.html扩展名）
+                    const fileName = file.name.replace(/\.html$/i, '');
+                    document.getElementById('fileName').value = fileName;
+                    
+                    // 2. 提取<h4>标签内容到问题标签
+                    const h4Element = tempDiv.querySelector('h4');
+                    const questionTagsContent = h4Element ? h4Element.textContent.trim() : '';
+                    document.getElementById('questionTags').value = questionTagsContent;
+                    
+                    // 3. 提取<div>标签内容（去除HTML标签）到Payload(JSON)
+                    const divElement = tempDiv.querySelector('div');
+                    let payloadContent = '';
+                    
+                    if (divElement) {
+                        // 创建一个临时元素用于去除HTML标签
+                        const temp = document.createElement('div');
+                        temp.innerHTML = divElement.innerHTML;
+                        payloadContent = temp.textContent.trim();
+                    }
+                    
+                    document.getElementById('payload').value = payloadContent;
+                    
+                    // 视觉反馈：高亮显示当前选中的文件行
+                    document.querySelectorAll('#fileList li').forEach((li, i) => {
+                        if (i === index) {
+                            li.classList.add('ring-2', 'ring-blue-300');
+                        } else {
+                            li.classList.remove('ring-2', 'ring-blue-300');
+                        }
+                    });
+                    
+                } catch (error) {
+                    console.error('导入文件内容时出错:', error);
+                    alert('处理文件内容时发生错误: ' + error.message);
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('无法读取文件: ' + reader.error.message);
+            };
+            
+            // 读取文件内容
+            reader.readAsText(file);
+        }
+        
+        // 发送API请求（提取为独立函数，供单个和批量处理使用）
+        async function sendApiRequest() {
+            const apiUrl = API_CONFIG.url;
+            const apiKey = API_CONFIG.key;
+            const responseTextarea = document.getElementById('response');
+            
+            try {
+                // 构建请求头
+                const headers = {
+                    'Content-Type': 'application/json',
+                };
+                
+                // 添加API Key到请求头
+                if (apiKey) {
+                    headers['Authorization'] = `Bearer ${apiKey}`;
+                }
+                
+                // 获取用户问题和Payload内容
+                const textPrompt = document.getElementById('textPrompt').value;
+                const payload = document.getElementById('payload').value;
+                const combinedText = textPrompt + payload;
+
+                // 构建请求体
+                const requestBody = {
+                    "model": "doubao-seed-1-6-250615",
+                    "messages": [
+                        {
+                            "content": [
+                                {
+                                    "text": combinedText,
+                                    "type": "text"
+                                }
+                            ],
+                            "role": "user"
+                        }
+                    ]
+                };
+
+                // 发送请求
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(requestBody),
+                });
+                
+                // 获取响应内容
+                let responseData;
+                let responseContent = "";
+                try {
+                    responseData = await response.json();
+                    // 从choices数组中提取message对象
+                    const choices = responseData.choices || [];
+                    const message = choices.length > 0 ? choices[0].message : {};
+                    // 只提取content字段
+                    responseContent = message.content || "content字段不存在";
+                } catch (e) {
+                    responseData = await response.text();
+                    responseContent = responseData;
+                }
+                
+                // 保存完整响应数据以便生成报告
+                fullResponseData = {
+                    status: response.status,
+                    content: responseContent
+                };
+                
+                // 显示响应内容
+                responseTextarea.value = `状态码: ${response.status}\n\n${responseContent}`;
+                
+                return response;
+                
+            } catch (error) {
+                const errorMsg = `请求错误: ${error.message}`;
+                responseTextarea.value = errorMsg;
+                throw new Error(errorMsg);
+            }
+        }
+        
+        // 发送请求按钮事件
+        document.getElementById('sendBtn').addEventListener('click', async () => {
+            if (isBatchProcessing) {
+                alert('正在批量处理中，请等待完成');
+                return;
+            }
+            
+            if (currentFileIndex === -1 && selectedFiles.length > 0) {
+                alert('请先选择一个文件');
+                return;
+            }
+            
+            const responseTextarea = document.getElementById('response');
+            const generateReportBtn = document.getElementById('generateReportBtn');
+            
+            // 清空之前的响应
+            responseTextarea.value = '发送中...';
+            generateReportBtn.disabled = true;
+            fullResponseData = null;
+            
+            try {
+                const response = await sendApiRequest();
+                
+                // 根据响应状态码更新当前选中文件的状态
+                if (currentFileIndex !== -1 && currentFileIndex < selectedFiles.length) {
+                    if (response.status === 200) {
+                        selectedFiles[currentFileIndex].status = 'success';
+                    } else {
+                        selectedFiles[currentFileIndex].status = 'error';
+                    }
+                    updateFileList(); // 刷新文件列表以显示状态变化
+                }
+                
+                // 启用生成报告按钮
+                generateReportBtn.disabled = false;
+                
+            } catch (error) {
+                // 如果有选中的文件，标记为错误状态
+                if (currentFileIndex !== -1 && currentFileIndex < selectedFiles.length) {
+                    selectedFiles[currentFileIndex].status = 'error';
+                    updateFileList();
+                }
+            }
+        });
+        
+        // 生成报告按钮点击事件
+        document.getElementById('generateReportBtn').addEventListener('click', () => {
+            if (isBatchProcessing) {
+                alert('正在批量处理中，请等待完成');
+                return;
+            }
+            
+            generateReport();
+        });
+        
+        // 生成报告的通用函数
+        function generateReport() {
+            if (!fullResponseData) return;
+            
+            // 获取需要包含在报告中的数据
+            const fileName = document.getElementById('fileName').value;
+            const questionTags = document.getElementById('questionTags').value;
+            const userQuestion = document.getElementById('textPrompt').value;
+            const payload = document.getElementById('payload').value;
+            const responseContent = fullResponseData.content;
+            const statusCode = fullResponseData.status;
+            const timestamp = new Date().toLocaleString();
+            
+            // 确定报告文件名
+            let reportFileName = fileName.trim() || `api-report-${new Date().getTime()}`;
+            // 确保文件名以.html结尾
+            if (!reportFileName.endsWith('.html')) {
+                reportFileName += '.html';
+            }
+            
+            // 创建HTML报告内容
+            const reportHtml = `
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+                <meta charset="UTF-8">
+                <title>${escapeHtml(fileName || '报告')} - ${timestamp}</title>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; color: #333; }
+                    .container { max-width: 100%; width: 100%; margin: 0 auto; }
+                    h1, h2 { color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+                    .section { margin-bottom: 25px; }
+                    .code-block { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+                    .metadata { color: #7f8c8d; font-size: 0.9em; margin-bottom: 20px; }
+                    .tags { margin-top: 10px; }
+                    .tag { display: inline-block; background-color: #e3f2fd; color: #1976d2; padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 5px; margin-bottom: 5px; }
+                    .status-success { color: #28a745; }
+                    .status-error { color: #dc3545; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>${escapeHtml(fileName || '报告')}</h1>
+                    <div class="metadata">生成时间: ${timestamp} | 状态码: <span class="${statusCode === 200 ? 'status-success' : 'status-error'}">${statusCode}</span></div>
+                    
+                    <!-- 显示文件名称 -->
+                    <div class="section">
+                        <h2>文件名称</h2>
+                        <p>${escapeHtml(fileName || '未命名文件')}</p>
+                    </div>
+                    
+                    ${questionTags ? `
+                    <div class="section">
+                        <h2>问题标签</h2>
+                        <div class="tags">
+                            ${questionTags.split(',').map(tag => `<span class="tag">${escapeHtml(tag.trim())}</span>`).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <!-- 用户问题替换为用户需求 -->
+                    <div class="section">
+                        <h2>用户需求</h2>
+                        <p>${escapeHtml(userQuestion)}</p>
+                    </div>
+                    
+                    <!-- Payload (JSON)替换为异常内容 -->
+                    <div class="section">
+                        <h2>异常内容</h2>
+                        <div class="code-block">${formatJson(payload)}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>响应结果</h2>
+                        <p>${escapeHtml(responseContent)}</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            `;
+            
+            // 创建Blob并下载报告
+            const blob = new Blob([reportHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = reportFileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // 辅助函数：转义HTML特殊字符
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+                .replace(/\n/g, "<br>");
+        }
+        
+        // 辅助函数：格式化JSON
+        function formatJson(jsonString) {
+            try {
+                const obj = JSON.parse(jsonString);
+                return escapeHtml(JSON.stringify(obj, null, 2));
+            } catch (e) {
+                return escapeHtml(jsonString);
+            }
+        }
+    </script>
+</body>
+</html>

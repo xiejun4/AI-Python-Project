@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日志切分工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 JSZip 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- 引用本地的 Font Awesome 4.7.0 all.min.css 文件 -->
+    <link href="../css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .btn-primary {
+                @apply bg-primary hover:bg-primary/90 text-white font-medium py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+            }
+            .btn-secondary {
+                @apply bg-secondary hover:bg-secondary/90 text-white font-medium py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50;
+            }
+            .btn-danger {
+                @apply bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50;
+            }
+            .form-input {
+                @apply w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-200;
+            }
+            .card {
+                @apply bg-white rounded-lg shadow-md p-6 transition duration-300 hover:shadow-lg;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 md:p-8 font-sans">
+    <div class="max-w-5xl mx-auto">
+        <!-- 头部区域 -->
+        <header class="mb-8 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                <i class="fa fa-scissors text-primary mr-3"></i>日志切分工具
+            </h1>
+            <p class="text-gray-600">从原始日志文件中切分出异常的日志内容并生成HTML报告</p>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="space-y-8">
+            <!-- 日志文件路径输入区域 -->
+            <section class="card">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                    <i class="fa fa-folder-open text-primary mr-2"></i>日志文件路径
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <input type="text" id="logFilePath" class="form-input flex-1" placeholder="输入日志文件路径，例如: D:\\logs\\">
+                        <button id="browseBtn" class="btn-primary whitespace-nowrap">
+                            <i class="fa fa-search mr-2"></i>浏览路径
+                        </button>
+                        <button id="unzipBtn" class="btn-secondary whitespace-nowrap">
+                            <i class="fa fa-file-archive-o mr-2"></i>解压文件
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500">工具将遍历指定路径下的所有.log_zip文件</p>
+                    <!-- 文件列表框，用于显示用户选择目录下的文件 -->
+                    <div class="h-48 overflow-y-auto bg-gray-50 rounded-md p-4 border border-gray-200 text-sm text-gray-700">
+                        <ul id="selectedFilesList" class="space-y-1 break-words">
+                            <!-- <li class="text-gray-500 italic">未选择文件</li> -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 处理选项区域 -->
+            <section class="card">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                    <i class="fa fa-sliders text-primary mr-2"></i>处理选项
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="filterStartupLogs" class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" checked>
+                        <label for="filterStartupLogs" class="ml-2 block text-sm text-gray-700">
+                            过滤掉包含 "_startup"，“.xml”，“.txt” 的日志文件
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="removeTimestamps" class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" checked>
+                        <label for="removeTimestamps" class="ml-2 block text-sm text-gray-700">
+                            移除日志文件中的时间戳等无效数据列
+                        </label>
+                    </div>
+                    <div>
+                        <label for="outputFolder" class="block text-sm font-medium text-gray-700 mb-1">
+                            输出HTML文件路径
+                        </label>
+                        <input type="text" id="outputFolder" class="form-input" placeholder="输入输出文件路径，例如: D:\\reports\\">
+                    </div>
+                </div>
+            </section>
+
+            <!-- 操作按钮区域 -->
+            <section class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="processBtn" class="btn-primary flex-1 sm:flex-none sm:w-48 flex items-center justify-center">
+                    <i class="fa fa-cog fa-spin mr-2" id="processIcon"></i>处理日志文件
+                </button>
+                <button id="generateHtmlBtn" class="btn-secondary flex-1 sm:flex-none sm:w-48 flex items-center justify-center" disabled>
+                    <i class="fa fa-file-text-o mr-2"></i>生成HTML报告
+                </button>
+                <button id="clearBtn" class="btn-danger flex-1 sm:flex-none sm:w-48 flex items-center justify-center">
+                    <i class="fa fa-trash mr-2"></i>清空
+                </button>
+            </section>
+
+            <!-- 处理结果区域 -->
+            <section class="card">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                    <i class="fa fa-list-alt text-primary mr-2"></i>处理结果
+                </h2>
+                <div class="space-y-4">
+                    <div class="h-64 overflow-y-auto bg-gray-50 rounded-md p-4 border border-gray-200 text-sm text-gray-700" id="processResult">
+                        <p class="text-gray-500 italic">等待处理日志文件...</p>
+                    </div>
+                    <div id="fileList" class="hidden">
+                        <h3 class="font-medium text-gray-700 mb-2">已处理的日志文件：</h3>
+                        <ul id="processedFiles" class="space-y-1 text-sm text-gray-600 max-h-40 overflow-y-auto"></ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部区域 -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 日志工具中心 | 版本 1.0.0</p>
+        </footer>
+    </div>
+
+    <script>
+        // 这里仅保留空的script标签，根据需求不实现JS功能
+        // 1. 日志文件路径输入区域
+        // 监听浏览路径按钮的点击事件
+        document.getElementById('browseBtn').addEventListener('click', function() {
+            // 创建一个隐藏的input元素用于选择目录
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.webkitdirectory = true;
+            input.style.display = 'none';
+
+            // 添加到body中
+            document.body.appendChild(input);
+
+            // 监听文件选择事件
+            input.addEventListener('change', function() {
+                if (input.files.length > 0) {
+                    try {
+                        // 直接使用文件对象的webkitRelativePath属性获取目录路径
+                        const path = input.files[0].webkitRelativePath.split('/')[0];
+                        // 将路径显示在日志文件路径输入框中
+                        document.getElementById('logFilePath').value = path;
+
+                        // 获取文件列表容器
+                        const fileList = document.getElementById('fileList');
+                        const processedFiles = document.getElementById('processedFiles');
+                        
+                        // 清空之前的文件列表
+                        processedFiles.innerHTML = '';
+
+                        // 显示文件列表区域
+                        fileList.classList.remove('hidden');
+
+                        // 获取选择文件列表元素
+                        const listItem = document.getElementById('selectedFilesList');
+                        // 清空之前的文件列表
+                        listItem.innerHTML = '';
+                        
+                        // 存储选中的.log_zip文件
+                        window.selectedLogZipFiles = [];
+                        
+                        // 遍历选择的文件并添加.log_zip文件到列表中
+                        let firstItem = true;
+                        for (let i = 0; i < input.files.length; i++) {
+                            const file = input.files[i];
+                            if (file.name.endsWith('.log_zip')) {
+                                // 为每个文件项添加分隔符，第一个文件不添加
+                                if (!firstItem) {
+                                    listItem.innerHTML += '<hr class="my-1 border-gray-300">';
+                                }
+                                listItem.innerHTML += `<li>${file.webkitRelativePath}</li>`;
+                                // 存储文件对象
+                                window.selectedLogZipFiles.push(file);
+                                firstItem = false;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('获取目录路径或文件列表时出错:', error);
+                    }
+                }
+            });
+
+            // 触发文件选择对话框
+            input.click();
+
+            // 选择完成后移除input元素
+            input.addEventListener('blur', function() {
+                setTimeout(() => {
+                    document.body.removeChild(input);
+                }, 100);
+            });
+        });
+
+        // 2. 解压文件按钮
+        document.getElementById('unzipBtn').addEventListener('click', function() {
+            try {
+                // 检查是否有已选择的文件
+                if (window.selectedLogZipFiles && window.selectedLogZipFiles.length > 0) {
+                    // 遍历已选择的文件
+                    for (let i = 0; i < window.selectedLogZipFiles.length; i++) {
+                        const file = window.selectedLogZipFiles[i];
+                        if (file.name.endsWith('.log_zip')) {
+                            // 打印解压开始信息
+                            console.log(`[开始解压文件] ${file.name}`);
+                            
+                            // 使用 JSZip 库读取并解压文件
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const content = e.target.result;
+                                JSZip.loadAsync(content)
+                                    .then(zip => {
+                                        // 遍历 ZIP 中的文件，只解压prod/log路径下的文件
+                                        zip.forEach((relativePath, zipFile) => {
+                                            // 检查文件路径是否包含prod/log/，并且文件名不包含_startup、.xml和.txt
+                                            if (relativePath.includes('prod/log/') && !relativePath.includes('_startup') && !relativePath.endsWith('.xml') && !relativePath.endsWith('.txt')) {
+                                                zipFile.async("uint8array").then(function (content) {
+                                                    // 创建Blob和下载链接
+                                                    const blob = new Blob([content], { type: "application/octet-stream" });
+                                                    const url = URL.createObjectURL(blob);
+                                                    const a = document.createElement('a');
+                                                    a.href = url;
+                                                    a.download = relativePath;
+                                                    document.body.appendChild(a);
+                                                    a.click();
+                                                    document.body.removeChild(a);
+                                                    URL.revokeObjectURL(url);
+                                                    console.log(`[解压完成] ${relativePath}`);
+
+                                                    // 将解压后的日志文件添加到extractedLogFiles数组
+                                                    if (relativePath.endsWith('.log') && !relativePath.includes('_startup') && !relativePath.endsWith('.xml') && !relativePath.endsWith('.txt')) {
+                                                        const logFile = new File([content], relativePath, { type: 'text/plain' });
+                                                        window.extractedLogFiles.push(logFile);
+                                                        console.log(`[添加到处理列表] ${relativePath}`);
+                                                    }
+                                                });
+                                            } else {
+                                                let reason = '';
+                                                if (!relativePath.includes('prod/log/')) {
+                                                    reason = '不在prod/log/路径下';
+                                                } else if (relativePath.includes('_startup')) {
+                                                    reason = '文件名包含_startup';
+                                                } else if (relativePath.endsWith('.xml')) {
+                                                    reason = '文件为.xml格式';
+                                                } else if (relativePath.endsWith('.txt')) {
+                                                    reason = '文件为.txt格式';
+                                                }
+                                                console.log(`[跳过文件] ${relativePath} (${reason})`);
+                                            }
+                                        });
+                                    })
+                                    .catch(err => {
+                                        console.error(`解压文件失败: ${err.message}`);
+                                    });
+                            };
+
+                            reader.onerror = function() {
+                                console.error(`读取文件时发生错误: ${file.name}`);
+                            };
+
+                            // 读取已选择的文件
+                            reader.readAsArrayBuffer(file);
+                        }
+                    }
+                } else {
+                    console.warn('没有选择要解压的文件，请先浏览并选择.log_zip文件');
+                    // 可以选择显示提示信息给用户
+                    alert('请先浏览并选择.log_zip文件，然后再点击解压按钮');
+                }
+            } catch (error) {
+                console.error('解压文件时出错:', error);
+            }
+        });
+
+        // 3. 处理日志文件
+        document.getElementById('processBtn').addEventListener('click', function() {
+            try {
+                // 检查是否有已解压的日志文件
+                if (window.extractedLogFiles && window.extractedLogFiles.length > 0) {
+                    // 遍历已解压的日志文件
+                    window.extractedLogFiles.forEach(function(file) {
+                        if (file.name.endsWith('.log') && !file.name.includes('_startup') && !file.name.endsWith('.xml') && !file.name.endsWith('.txt')) {
+                            console.log(`[开始处理文件] ${file.name}`);
+                            
+                            // 匹配并删除时间戳、日志级别、测试模块及后续时间戳
+                            remove_timestamp2log_level(file);
+
+                            // 读取log文件内容，按照第一列的内容对log文件内容分组
+                            group_log_by_first_column(file).then(logGroups => {
+                                console.log(`[分组完成] ${file.name}，共 ${Object.keys(logGroups).length} 组`);
+                            }).catch(error => {
+                                console.error(`[分组失败] ${file.name}：`, error);
+                            });
+
+                            // 将包含异常分组日志转成HTML文本
+                            generate_failed_groups_to_html(logGroups, `${file.name}_failed_log.html`)
+                        } else {
+                            console.log(`[跳过文件] ${file.name} (不符合要求)`);
+                        }
+                    });
+                } else {
+                    console.warn('没有可处理的日志文件，请先解压.log_zip文件');
+                    alert('请先解压.log_zip文件，然后再点击处理按钮');
+                }
+            } catch (error) {
+                console.error('处理日志文件时出错:', error);
+            }
+        });
+
+        // 过滤出包含'* FAILED *'的分组
+          function filter_failed_groups(grouped_logs) {
+              const failed_groups = {};
+              for (const [key, lines] of Object.entries(grouped_logs)) {
+                  const hasFailed = lines.some(line => line.includes('* FAILED *'));
+                  if (hasFailed) {
+                      failed_groups[key] = lines;
+                  }
+              }
+              return failed_groups;
+          }
+
+          // 高亮日志中的详细信息
+          function highlight_details(lines) {
+              return lines.map(line => {
+                  // 这里可以添加详细信息的高亮逻辑
+                  // 例如高亮特定关键词或模式
+                  return line;
+              });
+          }
+
+          // 高亮::Start到::End之间的内容
+          function highlight_start_end_blocks(lines) {
+              return lines.map(line => {
+                  // 高亮::Start到::End之间的内容
+                  if (line.includes('::Start') && line.includes('::End')) {
+                      return line.replace(/(::Start.*?::End)/g, '<span style="background-color: yellow;">$1</span>');
+                  } else if (line.includes('::Start')) {
+                      return line.replace(/(::Start.*)/g, '<span style="background-color: yellow;">$1</span>');
+                  } else if (line.includes('::End')) {
+                      return line.replace(/(.*::End)/g, '<span style="background-color: yellow;">$1</span>');
+                  }
+                  return line;
+              });
+          }
+
+          // 将包含异常分组日志转成HTML文本
+          function generate_failed_groups_to_html(grouped_logs, html_file_path) {
+              /**
+               * 过滤并打印出grouped_logs中的分组中包含* FAILED *的分组，同时将结果转成html文件
+               *
+               * @param {Object} grouped_logs - 按第一列内容分组的字典，键为第一列内容，值为对应行列表
+               * @param {string} html_file_path - 生成的HTML文件路径
+               */
+              const failed_groups = filter_failed_groups(grouped_logs);
+              for (const [key, lines] of Object.entries(failed_groups)) {
+                  console.log(`包含 ' * FAILED * ' 的分组 '${key}':`);
+                  if (lines.length > 0) {
+                      console.log(lines[0]);
+                  }
+                  console.log();
+              }
+
+              // 生成 HTML 内容
+              let html_content = "<html><head><title>Failed Log Groups</title></head><body>";
+
+              for (const [key, lines] of Object.entries(failed_groups)) {
+                  html_content += `<h4>包含 ' * FAILED * ' 的分组 '${key}'</h4>`;
+                  html_content += "<div style='white-space: pre-wrap;'>";
+
+                  // 如果lines长度超过100，只过滤包含 * FAILED * 的行
+                  if (lines.length > 100) {
+                      const filteredLines = lines.filter(line => line.includes('* FAILED *'));
+                      let joined_lines = filteredLines.join('\n');
+
+                      // 处理 * FAILED * 的内容，同时删除其前面的 2 个对象
+                      joined_lines = joined_lines.replace(/(\S+\s+){2}\* FAILED \*/g, '<span style="color:red;">* FAILED *</span>');
+
+                      // 将 * FAILED * 后面的内容去掉
+                      joined_lines = joined_lines.replace(/\* FAILED \*.*$/gm, '* FAILED *');
+
+                      // 处理 EvalAndLogResults 后面的 2 项，将删除的内容替换为制表符 	，保持数据间距
+                      joined_lines = joined_lines.replace(/EvalAndLogResults\s+\S+\s+\S+/g, 'EvalAndLogResults\t');
+
+                      // 先将 EvalAndLogResult 前后紧挨着的制表符替换成空字符串
+                      joined_lines = joined_lines.replace(/\tEvalAndLogResults\t/g, 'EvalAndLogResults');
+
+                      // 将 EvalAndLogResults 替换成制表符 	
+                      joined_lines = joined_lines.replace(/EvalAndLogResults/g, '\t');
+
+                      // 将内容字体设置为当前的80%
+                      html_content += `<div style="font-size: 50%;">${joined_lines}</div>`;
+                  }
+                  // 如果lines长度小于等于100
+                  else if (lines.length > 0) {
+                      // 处理 ::Start到::End之间的内容高亮
+                      const processed_lines = highlight_start_end_blocks(lines);
+                      let joined_lines = processed_lines.join('\n');
+
+                      // 处理 details 内容
+                      joined_lines = highlight_details(processed_lines).join('\n');
+
+                      // 先将 EvalAndLogResult 前后紧挨着的制表符替换成空字符串
+                      joined_lines = joined_lines.replace(/\tEvalAndLogResults\t/g, 'EvalAndLogResults');
+                      // 再将 EvalAndLogResults 替换成制表符 	
+                      joined_lines = joined_lines.replace(/EvalAndLogResults/g, '\t');
+
+                      // 处理 * FAILED * 的内容
+                      joined_lines = joined_lines.replace(/\* FAILED \*/g, '<span style="color:red;">* FAILED *</span>');
+                      // 将内容字体设置为当前的80%
+                      html_content += `<div style="font-size: 50%;">${joined_lines}</div>`;
+                  }
+              }
+
+              html_content += "</body></html>";
+
+              try {
+                  // 在浏览器环境中创建并下载文件
+                  const blob = new Blob([html_content], { type: 'text/html;charset=utf-8' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = html_file_path;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+                  console.log(`已成功将失败分组日志保存到 ${html_file_path} 文件中。`);
+              } catch (error) {
+                  console.error(`保存失败分组日志到HTML文件时出错:`, error);
+              }
+          }
+
+          // 匹配并删除时间戳、日志级别、测试模块及后续时间戳
+          function remove_timestamp2log_level(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // 定义正则表达式：匹配并删除时间戳、日志级别、测试模块及后续时间戳
+                    // 模式说明：
+                    // ^ 从行首开始匹配
+                    // 第一部分：匹配时间戳1（如：2025-01-19 19:41:47,170）
+                    // 第二部分：匹配日志级别（如：[] INFO ）
+                    // 第三部分：匹配测试模块（如：TEST_APP_2010）
+                    // 第四部分：匹配后续时间戳（如：09:33:27.4305803）
+                    // 第五部分：匹配制表符
+                    const pattern = /^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d+)\s+\[]\s+\w+\s+[^\t]+\t(\d{2}:\d{2}:\d{2}\.\d+)\t/;
+
+                    const content = e.target.result;
+                    const lines = content.split('\n');
+                    const processedLines = [];
+
+                    for (let line of lines) {
+                        line = line.trim();
+                        if (!line) continue;
+
+                        // 使用正则表达式删除匹配部分，保留剩余内容
+                        const processedLine = line.replace(pattern, '');
+                        if (processedLine) {
+                            processedLines.push(processedLine);
+                        }
+                    }
+
+                    // 创建处理后的文件
+                    const processedContent = processedLines.join('\n');
+                    const blob = new Blob([processedContent], { type: 'text/plain;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+
+                    // 创建下载链接
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `processed_${file.name}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    console.log(`[处理完成] ${file.name} -> processed_${file.name}`);
+                } catch (error) {
+                    console.error(`处理文件时出错: ${file.name}`, error);
+                }
+            };
+
+            reader.onerror = function() {
+                console.error(`读取文件时发生错误: ${file.name}`);
+            };
+
+            // 读取文件内容
+            reader.readAsText(file, 'utf-8');
+        }
+
+        // 初始化存储已解压日志文件的数组
+        window.extractedLogFiles = [];
+
+        // 按第一列内容分组日志文件的函数
+        function group_log_by_first_column(file) {
+            return new Promise((resolve, reject) => {
+                const logGroups = {};
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    try {
+                        const content = e.target.result;
+                        const lines = content.split('\n');
+
+                        for (let line of lines) {
+                            line = line.trim();
+                            if (!line) continue;
+
+                            // 按空白字符分割行，获取第一列内容
+                            const parts = line.split(/\s+/);
+                            if (parts.length > 0) {
+                                const first_column = parts[0];
+                                if (!logGroups[first_column]) {
+                                    logGroups[first_column] = [];
+                                }
+                                logGroups[first_column].push(line);
+                            }
+                        }
+
+                        resolve(logGroups);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+
+                reader.onerror = function() {
+                    reject(new Error(`读取文件时发生错误: ${file.name}`));
+                };
+
+                // 尝试使用utf-8编码读取文件
+                reader.readAsText(file, 'utf-8');
+            });
+        }
+
+
+
+
+
+    </script>
+</body>
+</html>
