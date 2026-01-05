@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>MIC_4_LEVEL_FFT_SPEC_16000</SpecialTestItems>
+    <TestDetailInformation>MIC4录音测试  SWB测试区间内全频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic SWB频率录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴SWB音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC4高频补偿电路参数不匹配，导致高频响应衰减。
+2. 人工嘴SWB信号高频成分失真。
+3. 测试环境高频吸声材料布置不合理。
+4. MIC4 PCB走线过长导致高频信号损耗。
+5. 音频ADC采样率不足，无法准确量化高频信号。
+6. 手机外壳对高频声波产生屏蔽效应。
+7. 多MIC相位校准不一致影响高频拾音。
+
+建议措施：
+1. 调整高频补偿电路参数，优化高频响应曲线。
+2. 校准人工嘴高频输出，确保信号不失真。
+3. 优化测试环境吸声材料布局，减少高频反射。
+4. 缩短MIC4 PCB走线长度，降低高频损耗。
+5. 提高音频ADC采样率至满足SWB测试要求。
+6. 优化手机外壳设计，改善高频声波透入率。
+7. 重新校准多MIC相位参数，确保高频一致性。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_1_L2AR_SOURCE_8Khz_450_100_500hz_BLOCK</SpecialTestItems>
+    <TestDetailInformation>堵孔后MIC1录音测试</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过堵住MIC孔，下发CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC1堵孔装置密封不严，导致漏音。
+2. 人工嘴与MIC1相对位置偏移，影响堵孔效果。
+3. MIC1周围结构存在缝隙，导致声波泄漏。
+4. 堵孔材料硬度不合适，无法形成有效密封。
+5. 测试软件未正确识别堵孔状态，导致误判。
+6. 手机外壳与MIC1安装面不平整，影响密封。
+7. 堵孔操作时间不足，未达到稳定密封状态。
+
+建议措施：
+1. 检查堵孔装置密封性，更换老化密封圈。
+2. 校准人工嘴与MIC1的相对位置，确保对准。
+3. 检查MIC1周围结构，填补缝隙。
+4. 更换合适硬度的堵孔材料，提高密封效果。
+5. 更新测试软件，优化堵孔状态识别算法。
+6. 打磨手机外壳与MIC1安装面，确保平整。
+7. 延长堵孔操作时间，等待密封状态稳定。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_2_L2AR_SOURCE_8Khz_450_550_3400HZ_BLOCK</SpecialTestItems>
+    <TestDetailInformation>堵孔后MIC2录音测试</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过堵住MIC孔，下发CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC2声学孔内部有异物，影响堵孔效果。
+2. 堵孔装置与MIC2接触面积不足。
+3. 手机内部气压不平衡，导致堵孔后压力变化异常。
+4. MIC2支架弹性不足，堵孔时产生位移。
+5. 测试环境温度变化影响堵孔材料膨胀系数。
+6. 音频信号处理算法对堵孔状态适应性差。
+7. 堵孔装置的定位机构精度不足。
+
+建议措施：
+1. 清理MIC2声学孔内部异物。
+2. 增加堵孔装置与MIC2的接触面积。
+3. 优化手机内部气压平衡设计。
+4. 更换弹性更好的MIC2支架材料。
+5. 控制测试环境温度稳定。
+6. 更新音频信号处理算法，增强堵孔状态适应性。
+7. 提高堵孔装置定位机构精度。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_3_L2AR_SOURCE_8Khz_450_550_3400HZ_BLOCK</SpecialTestItems>
+    <TestDetailInformation>堵孔后MIC3录音测试</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过堵住MIC孔，下发CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC3防水膜破损，导致堵孔后声波泄漏。
+2. 堵孔装置施加压力不均匀。
+3. 手机外壳注塑成型精度不足，MIC3位置偏差。
+4. 测试信号频率范围与堵孔状态不匹配。
+5. MIC3焊点松动，堵孔时产生接触不良。
+6. 人工嘴输出声压级在堵孔状态下不稳定。
+7. 音频通路中堵孔状态下的增益补偿错误。
+
+建议措施：
+1. 检查并更换破损的MIC3防水膜。
+2. 优化堵孔装置压力施加方式，确保均匀。
+3. 提高手机外壳注塑成型精度，控制MIC3位置公差。
+4. 调整测试信号频率范围，适应堵孔测试要求。
+5. 加固MIC3焊点，确保电气连接可靠。
+6. 校准人工嘴在堵孔状态下的输出声压级。
+7. 修正音频通路中堵孔状态下的增益补偿参数。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_4_L2AR_SOURCE_8Khz_450_550_3400HZ_BLOCK</SpecialTestItems>
+    <TestDetailInformation>堵孔后MIC4录音测试</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过堵住MIC孔，下发CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC4密封硅胶圈老化，弹性下降。
+2. 堵孔装置的驱动机构精度不足。
+3. 手机内部气流通道设计影响堵孔测试结果。
+4. 测试软件对堵孔后信号特征提取不准确。
+5. MIC4与PCB板之间的密封胶涂抹不均匀。
+6. 人工嘴与MIC4的声学耦合不佳。
+7. 堵孔状态下的背景噪声干扰测试结果。
+
+建议措施：
+1. 定期更换MIC4密封硅胶圈。
+2. 升级堵孔装置驱动机构，提高精度。
+3. 优化手机内部气流通道设计。
+4. 更新测试软件，改进堵孔后信号特征提取算法。
+5. 规范MIC4与PCB板之间的密封胶涂抹工艺。
+6. 调整人工嘴位置，改善与MIC4的声学耦合。
+7. 降低测试环境背景噪声，或增强抗干扰算法。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_MIC1_NORMAL_VS_SEAL</SpecialTestItems>
+    <TestDetailInformation>MIC1正常测试与堵孔测试作差计算</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过将正常MIC测试值与堵孔后的测试值作差，判断正常与堵孔之间的Delta值是否符合气密要求</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 正常测试与堵孔测试之间的人工嘴输出不一致。
+2. 测试环境温湿度变化影响两次测试结果。
+3. 堵孔前后MIC1位置发生微小位移。
+4. 音频通路增益在两次测试中未保持一致。
+5. Delta值判定阈值设置不合理。
+6. 测试软件对两次测试数据的同步性处理不佳。
+7. 手机在两次测试中的放置姿态不同。
+
+建议措施：
+1. 校准人工嘴输出，确保两次测试条件一致。
+2. 控制测试环境温湿度稳定。
+3. 优化堵孔装置，确保堵孔前后MIC1位置固定。
+4. 锁定音频通路增益，避免两次测试中变化。
+5. 根据产品特性调整Delta值判定阈值。
+6. 更新测试软件，提高两次测试数据的同步性。
+7. 使用固定夹具，确保手机两次测试姿态一致。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_MIC2_NORMAL_VS_SEAL</SpecialTestItems>
+    <TestDetailInformation>MIC2正常测试与堵孔测试作差计算</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过将正常MIC测试值与堵孔后的测试值作差，判断正常与堵孔之间的Delta值是否符合气密要求</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC2防水透气膜特性变化影响差值计算。
+2. 正常与堵孔测试之间的时间间隔过长。
+3. 测试系统的本底噪声波动影响Delta值。
+4. 两次测试中MIC2的偏置电压存在差异。
+5. 差值计算算法未考虑MIC2的非线性特性。
+6. 堵孔装置的重复性精度不足。
+7. 音频信号的相位差影响差值计算结果。
+
+建议措施：
+1. 选用特性更稳定的MIC2防水透气膜。
+2. 缩短正常测试与堵孔测试之间的时间间隔。
+3. 优化测试系统，降低本底噪声波动。
+4. 校准两次测试中MIC2的偏置电压。
+5. 改进差值计算算法，考虑MIC2的非线性特性。
+6. 提高堵孔装置的重复性精度。
+7. 增加相位补偿算法，消除相位差对结果的影响。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_MIC3_NORMAL_VS_SEAL</SpecialTestItems>
+    <TestDetailInformation>MIC3常测试与堵孔测试作差计算</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过将正常MIC测试值与堵孔后的测试值作差，判断正常与堵孔之间的Delta值是否符合气密要求</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC3声学结构在堵孔前后发生形变。
+2. 两次测试中人工嘴与MIC3的距离存在差异。
+3. 测试软件对差值的统计方法不合理。
+4. 音频通路中的自动增益控制影响测试结果。
+5. 堵孔装置的密封方式对MIC3产生应力。
+6. 手机主板在两次测试中的接地状态不同。
+7. 差值计算未考虑不同频率成分的权重。
+
+建议措施：
+1. 优化MIC3声学结构设计，减少堵孔形变。
+2. 使用精密定位装置，确保两次测试距离一致。
+3. 改进测试软件差值统计方法，提高准确性。
+4. 关闭音频通路中的自动增益控制功能。
+5. 调整堵孔装置密封方式，减少对应力的影响。
+6. 确保手机主板在两次测试中接地状态一致。
+7. 改进差值计算算法，增加不同频率成分的权重。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_MIC3_NORMAL_VS_SEAL</SpecialTestItems>
+    <TestDetailInformation>MIC4正常测试与堵孔测试作差计算</TestDetailInformation>
+    <Dependency>测试手机mic 气密状态</Dependency>
+    <Principle>通过将正常MIC测试值与堵孔后的测试值作差，判断正常与堵孔之间的Delta值是否符合气密要求</Principle>
+    <Impact>测试失败，说明手机mic气密不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC4的校准参数在两次测试中不一致。
+2. 堵孔装置的材料对声波反射特性有影响。
+3. 测试环境中的气流干扰两次测试结果。
+4. 差值计算未考虑MIC4的温度特性。
+5. 手机在测试过程中发生轻微振动。
+6. 音频通路中的数字滤波参数发生变化。
+7. 两次测试中人工嘴的相位不一致。
+
+建议措施：
+1. 确保两次测试使用相同的MIC4校准参数。
+2. 更换堵孔装置材料，减少声波反射影响。
+3. 改善测试环境气流控制，减少干扰。
+4. 改进差值计算算法，考虑MIC4的温度特性。
+5. 使用减振夹具，固定手机位置。
+6. 锁定音频通路数字滤波参数。
+7. 校准人工嘴相位，确保两次测试一致。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_disable_FULL_1_1</SpecialTestItems>
+    <TestDetailInformation>手机震动开关指令</TestDetailInformation>
+    <Dependency>打开和关闭手机震动sensor指令</Dependency>
+    <Principle>通过下发指令使手机开启和关闭震动</Principle>
+    <Impact>测试失败，说明手机指令响应失败</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动电路故障，无法响应指令。
+2. 震动传感器与主板连接松动。
+3. 系统固件中震动控制模块异常。
+4. 电池电量过低导致震动马达无法正常工作。
+5. 震动马达机械结构卡死。
+6. 指令发送接口参数配置错误。
+7. 其他进程占用震动马达资源。
+
+建议措施：
+1. 检查震动马达驱动电路，修复故障。
+2. 加固震动传感器与主板的连接。
+3. 更新系统固件，修复震动控制模块问题。
+4. 确保测试时电池电量充足。
+5. 检查震动马达机械结构，排除卡死问题。
+6. 修正指令发送接口参数配置。
+7. 关闭其他占用震动马达资源的进程。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

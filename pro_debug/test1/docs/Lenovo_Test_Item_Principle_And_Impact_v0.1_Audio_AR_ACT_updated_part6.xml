@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>L2AR_MIC_BLOCK_OFF</SpecialTestItems>
+    <TestDetailInformation>设备mic堵孔器件及振动sensor联控指令</TestDetailInformation>
+    <Dependency>设备动作指令</Dependency>
+    <Principle>通过下发指令控制设备堵头气缸动作</Principle>
+    <Impact>指令失败说明气缸没有到位或者感应sensor位置异常</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 气缸控制电路电源不足，无法驱动气缸复位。
+2. 气缸机械结构存在异物阻碍，无法正常回位。
+3. 传感器安装位置偏移，导致检测不到气缸复位信号。
+4. 传感器灵敏度下降，无法准确检测气缸位置。
+5. 气缸驱动信号线路接触不良。
+6. 传感器信号线路干扰严重。
+7. 控制系统固件存在逻辑错误，无法正确处理复位指令。
+
+建议措施：
+1. 检查气缸控制电路电源，确保电压稳定。
+2. 清理气缸机械结构，排除异物阻碍。
+3. 校准传感器安装位置，确保准确检测气缸复位。
+4. 调整传感器灵敏度，提高检测精度。
+5. 检查并修复气缸驱动信号线路接触问题。
+6. 增加传感器信号线路屏蔽，减少干扰。
+7. 更新控制系统固件，修复逻辑错误。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>ANDROID_START_ACTIVITY_AUDIO_SAMPLE</SpecialTestItems>
+    <TestDetailInformation>打开关闭MIC测试动态</TestDetailInformation>
+    <Dependency>CQA工模内的MIC测试动态</Dependency>
+    <Principle>打开和关闭CQA工模内的MIC测试动态</Principle>
+    <Impact>测试失败，无法正常开始mic测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 音频采样权限未授予，导致无法启动MIC。
+2. CQA工模版本与当前系统不兼容。
+3. MIC驱动程序未正确加载。
+4. 系统音频服务崩溃，无法响应启动请求。
+5. 测试参数配置错误，导致启动失败。
+6. 其他应用占用MIC资源，导致冲突。
+7. 设备安全策略限制了MIC测试功能。
+
+建议措施：
+1. 检查并授予应用音频采样权限。
+2. 更新CQA工模到兼容版本。
+3. 重启设备，重新加载MIC驱动程序。
+4. 重启系统音频服务。
+5. 检查并修正测试参数配置。
+6. 关闭其他占用MIC资源的应用。
+7. 调整设备安全策略，允许MIC测试功能。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>ANDROID_STOP_ACTIVITY_AUDIO_SAMPLE</SpecialTestItems>
+    <TestDetailInformation>打开关闭MIC测试动态</TestDetailInformation>
+    <Dependency>CQA工模内的MIC测试动态</Dependency>
+    <Principle>打开和关闭CQA工模内的MIC测试动态</Principle>
+    <Impact>测试失败，无法正常开始mic测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 音频采样进程卡死，无法响应停止指令。
+2. CQA工模存在内存泄漏，导致资源无法释放。
+3. MIC驱动程序未正确实现停止接口。
+4. 系统音频服务异常，无法处理停止请求。
+5. 测试代码中存在死循环，导致无法退出测试。
+6. 设备处于低电量状态，导致操作异常。
+7. 安全机制误判，拦截了停止指令。
+
+建议措施：
+1. 强制结束音频采样进程。
+2. 更新CQA工模，修复内存泄漏问题。
+3. 更新MIC驱动程序，完善停止接口实现。
+4. 重启系统音频服务。
+5. 检查并修正测试代码中的逻辑错误。
+6. 确保设备电量充足。
+7. 检查安全策略，解除对停止指令的拦截。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_1_L2AR_SOURCE_8Khz_450_100_500hz</SpecialTestItems>
+    <TestDetailInformation>MIC1录音测试  测试区间内Low频灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic Low频录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC1物理连接松动或损坏，导致低频信号传输异常。
+2. 前置放大器低频增益不足，影响450-500Hz频段信号。
+3. 音频通路中的低频滤波电路参数设置不当。
+4. 测试环境存在低频噪声干扰。
+5. 人工嘴低频输出不稳定。
+6. MIC1振膜灵敏度在低频区域下降。
+7. 手机外壳设计影响MIC1对低频声波的接收。
+
+建议措施：
+1. 检查MIC1焊点及连接线，确保牢固无松动。
+2. 调整前置放大器低频增益参数。
+3. 校准音频通路中的低频滤波电路参数。
+4. 在消声室环境下重新测试，排除环境干扰。
+5. 检查并校准人工嘴低频输出。
+6. 更换MIC1器件，确保低频灵敏度达标。
+7. 优化手机外壳设计，改善MIC1对低频声波的接收。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_2_L2AR_SOURCE_8Khz_450_100_500HZ</SpecialTestItems>
+    <TestDetailInformation>MIC2录音测试  测试区间内Low频灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic Low频录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC2焊点虚焊，导致低频信号接触不良。
+2. 音频编解码器对低频信号处理异常。
+3. 手机内部低频噪声通过结构传导至MIC2。
+4. MIC2安装位置靠近热源，导致温度影响灵敏度。
+5. 低频信号导致MIC2振膜产生非线性响应。
+6. 多MIC系统中，MIC2与其他MIC存在相位干涉。
+7. 测试信号的低频成分谐波含量过高。
+
+建议措施：
+1. 重新焊接MIC2焊点，确保电气连接可靠。
+2. 更新音频编解码器固件，修复低频处理异常。
+3. 增加MIC2的隔音措施，减少结构传导噪声。
+4. 优化MIC2散热设计，降低温度影响。
+5. 更换MIC2器件，提高低频线性响应。
+6. 调整多MIC系统相位参数，避免干涉。
+7. 净化测试信号，降低低频谐波含量。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_3_L2AR_SOURCE_8Khz_450_100_500hz</SpecialTestItems>
+    <TestDetailInformation>MIC3录音测试  测试区间内Low频灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic Low频录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC3声学孔被异物堵塞，影响低频声波进入。
+2. 低频信号导致MIC3电路产生自激振荡。
+3. 手机主板地回路设计导致低频噪声干扰。
+4. 测试设备传声器低频响应校准不准确。
+5. MIC3的偏置电压不稳定，影响低频灵敏度。
+6. 人工嘴与MIC3距离不合适，导致低频测量误差。
+7. 音频通路中低频信号衰减过大。
+
+建议措施：
+1. 清理MIC3声学孔，确保畅通。
+2. 调整电路参数，消除自激振荡。
+3. 优化主板地回路设计，减少低频噪声。
+4. 校准测试设备传声器低频响应。
+5. 检查并稳定MIC3偏置电压。
+6. 调整人工嘴与MIC3的距离至标准位置。
+7. 检查音频通路，增加低频信号增益。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_MIC_4_L2AR_SOURCE_8Khz_450_100_500hz</SpecialTestItems>
+    <TestDetailInformation>MIC4录音测试  测试区间内Low频灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic Low频录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC4振膜表面沾染灰尘，导致低频响应下降。
+2. 音频放大器与MIC4阻抗不匹配。
+3. 测试环境气压变化影响低频测量结果。
+4. 低频信号导致MIC4支架共振。
+5. MIC4数据传输线路存在干扰。
+6. 手机软件中的降噪算法过度抑制低频。
+7. 人工嘴低频输出声压级不足。
+
+建议措施：
+1. 清洁MIC4振膜表面，去除灰尘。
+2. 匹配音频放大器与MIC4阻抗。
+3. 控制测试环境气压稳定。
+4. 优化MIC4支架结构，避开低频共振点。
+5. 增加数据传输线路屏蔽，减少干扰。
+6. 调整手机软件降噪算法参数。
+7. 提高人工嘴低频输出声压级。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>MIC_1_LEVEL_FFT_SPEC_16000</SpecialTestItems>
+    <TestDetailInformation>MIC1录音测试  SWB测试区间内全频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic SWB频率录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴SWB音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC1高频响应不足，导致SWB频段灵敏度下降。
+2. 音频通路中的高频滤波电路参数设置不当。
+3. 人工嘴SWB信号输出不稳定。
+4. 测试设备FFT分析参数配置错误。
+5. MIC1声学孔设计影响高频声波进入。
+6. 手机内部电磁干扰影响高频信号。
+7. 音频编解码器对高频信号处理异常。
+
+建议措施：
+1. 更换高频响应更好的MIC1器件。
+2. 调整高频滤波电路参数，优化SWB频段响应。
+3. 校准人工嘴SWB信号输出。
+4. 检查并修正测试设备FFT分析参数。
+5. 优化MIC1声学孔设计，改善高频声波进入。
+6. 增加电磁屏蔽措施，减少内部干扰。
+7. 更新音频编解码器固件，修复高频处理异常。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>MIC_2_LEVEL_FFT_SPEC_16000</SpecialTestItems>
+    <TestDetailInformation>MIC2录音测试  SWB测试区间内全频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic SWB频率录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴SWB音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC2焊点氧化，导致高频信号传输损耗。
+2. 前置放大器高频增益不足。
+3. 测试环境高频反射导致测量误差。
+4. MIC2振膜材料高频响应特性不佳。
+5. 多MIC系统中，MIC2与其他MIC存在高频相位干涉。
+6. 音频通路中高频信号衰减过大。
+7. 测试设备传声器高频校准不准确。
+
+建议措施：
+1. 清洁或更换MIC2焊点，确保高频信号传输。
+2. 调整前置放大器高频增益参数。
+3. 在消声室环境下重新测试，排除高频反射干扰。
+4. 更换高频响应更好的MIC2振膜材料。
+5. 调整多MIC系统相位参数，避免高频干涉。
+6. 检查音频通路，增加高频信号增益。
+7. 校准测试设备传声器高频响应。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>MIC_3_LEVEL_FFT_SPEC_16000</SpecialTestItems>
+    <TestDetailInformation>MIC3录音测试  SWB测试区间内全频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试手机mic SWB频率录音功能</Dependency>
+    <Principle>通过CQA指令让手机mic采集人工嘴SWB音频信号</Principle>
+    <Impact>测试失败，说明手机mic器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC3声学腔设计不合理，导致高频驻波。
+2. 高频信号导致MIC3电路产生寄生振荡。
+3. 测试设备采样率不足，无法准确捕获高频信号。
+4. MIC3与手机外壳耦合不佳，影响高频响应。
+5. 音频驱动程序中SWB频段补偿算法错误。
+6. 人工嘴高频输出声压级不足。
+7. 测试环境湿度影响高频声波传播。
+
+建议措施：
+1. 优化MIC3声学腔设计，消除高频驻波。
+2. 调整电路参数，消除寄生振荡。
+3. 提高测试设备采样率，确保高频信号捕获。
+4. 改进MIC3安装结构，增强与外壳的耦合。
+5. 更新音频驱动程序，修正SWB频段补偿算法。
+6. 提高人工嘴高频输出声压级。
+7. 控制测试环境湿度在标准范围内。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

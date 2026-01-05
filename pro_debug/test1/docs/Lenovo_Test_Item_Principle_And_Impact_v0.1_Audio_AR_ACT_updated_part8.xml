@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_ENABLE_FULL_1</SpecialTestItems>
+    <TestDetailInformation>手机震动开关指令</TestDetailInformation>
+    <Dependency>打开和关闭手机震动sensor指令</Dependency>
+    <Principle>通过下发指令使手机开启和关闭震动</Principle>
+    <Impact>测试失败，说明手机指令响应失败</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动电路故障，无法响应开启指令。
+2. 震动传感器与主板连接松动。
+3. 系统固件中震动控制模块异常。
+4. 电池电量过低导致震动马达无法正常工作。
+5. 震动马达机械结构卡死。
+6. 指令发送接口参数配置错误。
+7. 其他进程占用震动马达资源。
+
+建议措施：
+1. 检查震动马达驱动电路，修复故障。
+2. 加固震动传感器与主板的连接。
+3. 更新系统固件，修复震动控制模块问题。
+4. 确保测试时电池电量充足。
+5. 检查震动马达机械结构，排除卡死问题。
+6. 修正指令发送接口参数配置。
+7. 关闭其他占用震动马达资源的进程。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>L2AR_VIBE_TEST_V2_OFF</SpecialTestItems>
+    <TestDetailInformation>手机震动关闭时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机停止震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在停止震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 加速度计零点校准不准确，导致静态数据异常。
+2. 手机放置平台不平整，产生额外振动干扰。
+3. 测试环境存在外部振动源干扰。
+4. 加速度计与主板连接松动，导致数据传输异常。
+5. 系统固件中传感器数据采集模块异常。
+6. 加速度计本身温漂过大，影响静态数据准确性。
+7. 测试软件对静态数据的阈值设置不合理。
+
+建议措施：
+1. 重新校准加速度计零点。
+2. 确保手机放置平台平整，减少额外振动。
+3. 隔离测试环境，避免外部振动源干扰。
+4. 加固加速度计与主板的连接。
+5. 更新系统固件，修复传感器数据采集模块问题。
+6. 选用温漂小的加速度计，或增加温度补偿算法。
+7. 调整测试软件对静态数据的阈值设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_AMPLITUDE_OFF</SpecialTestItems>
+    <TestDetailInformation>手机震动关闭时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机停止震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在停止震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 加速度计噪声过大，导致静态幅值异常。
+2. 手机内部其他组件工作产生的振动干扰。
+3. 测试系统本底噪声过高。
+4. 加速度计灵敏度超出规格范围。
+5. 加速度计安装不牢固，产生自振。
+6. 数据采集电路存在电磁干扰。
+7. 测试软件对静态幅值的计算方法有误。
+
+建议措施：
+1. 更换低噪声的加速度计。
+2. 优化手机内部布局，减少其他组件对震动测试的干扰。
+3. 降低测试系统本底噪声。
+4. 校准加速度计灵敏度。
+5. 加固加速度计安装，避免自振。
+6. 增加数据采集电路的电磁屏蔽。
+7. 修正测试软件对静态幅值的计算方法。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_FREQUENCY_OFF</SpecialTestItems>
+    <TestDetailInformation>手机震动关闭时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机停止震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在停止震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 测试环境存在固定频率的振动干扰。
+2. 加速度计内部电路产生寄生振荡。
+3. 数据采集系统采样率设置不合理。
+4. 手机结构存在共振频率。
+5. 测试软件频谱分析算法存在误差。
+6. 加速度计频响曲线异常。
+7. 测试过程中手机位置发生移动。
+
+建议措施：
+1. 改变测试环境，避免固定频率振动源。
+2. 检查加速度计内部电路，消除寄生振荡。
+3. 调整数据采集系统采样率。
+4. 修改手机结构设计，避开共振频率。
+5. 优化测试软件频谱分析算法。
+6. 校准加速度计频响曲线。
+7. 使用固定夹具，确保测试过程中手机位置稳定。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_HOHD_OFF</SpecialTestItems>
+    <TestDetailInformation>手机震动关闭时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机停止震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在停止震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 加速度计谐波失真过大。
+2. 测试环境中存在谐波干扰源。
+3. 数据采集系统动态范围不足。
+4. 加速度计非线性特性超出规格。
+5. 测试软件对谐波的计算方法不准确。
+6. 手机内部电源纹波过大。
+7. 加速度计与其他器件产生电磁耦合。
+
+建议措施：
+1. 更换低谐波失真的加速度计。
+2. 改善测试环境，减少谐波干扰源。
+3. 提高数据采集系统动态范围。
+4. 校准加速度计非线性特性。
+5. 优化测试软件对谐波的计算方法。
+6. 降低手机内部电源纹波。
+7. 增加加速度计与其他器件的电磁隔离。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_SIGNAL_SNR_BENCH_MIC_OFF</SpecialTestItems>
+    <TestDetailInformation>手机震动关闭时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机停止震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在停止震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 加速度计本底噪声过高。
+2. 测试环境噪声过大。
+3. 信号调理电路增益设置不合理。
+4. 加速度计与主板连接存在接触不良。
+5. 测试软件对SNR的计算方法有误。
+6. 数据采集系统抗干扰能力不足。
+7. 加速度计供电电压不稳定。
+
+建议措施：
+1. 选用低噪声的加速度计。
+2. 改善测试环境，降低环境噪声。
+3. 调整信号调理电路增益。
+4. 检查并加固加速度计与主板的连接。
+5. 修正测试软件对SNR的计算方法。
+6. 增强数据采集系统抗干扰能力。
+7. 稳定加速度计供电电压。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_THD_OFF</SpecialTestItems>
+    <TestDetailInformation>手机震动关闭时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机停止震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在停止震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 加速度计非线性失真过大。
+2. 测试环境中存在谐波干扰。
+3. 数据采集系统动态范围不足。
+4. 加速度计内部电路产生互调失真。
+5. 测试软件对THD的计算方法不准确。
+6. 加速度计安装应力影响性能。
+7. 测试系统频率响应不平坦。
+
+建议措施：
+1. 更换低非线性失真的加速度计。
+2. 改善测试环境，减少谐波干扰。
+3. 提高数据采集系统动态范围。
+4. 优化加速度计内部电路设计。
+5. 修正测试软件对THD的计算方法。
+6. 改进加速度计安装方式，减少应力。
+7. 校准测试系统频率响应。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>L2AR_VIBE_TEST_V2</SpecialTestItems>
+    <TestDetailInformation>收集震动打开时的震动测试数据</TestDetailInformation>
+    <Dependency>测试手机震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动信号不稳定。
+2. 加速度计采样率不足。
+3. 手机固定方式不当导致震动传递异常。
+4. 测试软件对动态数据的处理算法有误。
+5. 加速度计动态响应特性不符合要求。
+6. 震动马达与加速度计频率不匹配。
+7. 测试过程中手机温度变化影响性能。
+
+建议措施：
+1. 稳定震动马达驱动信号。
+2. 提高加速度计采样率。
+3. 优化手机固定方式，确保震动传递正常。
+4. 修正测试软件对动态数据的处理算法。
+5. 选用动态响应特性符合要求的加速度计。
+6. 匹配震动马达与加速度计频率。
+7. 控制测试过程中手机温度稳定。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_AMPLITUDE_ON</SpecialTestItems>
+    <TestDetailInformation>幅值</TestDetailInformation>
+    <Dependency>测试手机震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动电压不稳定。
+2. 加速度计量程设置不合理。
+3. 手机安装位置偏移导致测量误差。
+4. 测试软件对幅值的计算方法有误。
+5. 加速度计灵敏度漂移。
+6. 震动马达老化导致输出幅值下降。
+7. 测试环境温度影响震动马达性能。
+
+建议措施：
+1. 稳定震动马达驱动电压。
+2. 调整加速度计量程设置。
+3. 校准手机安装位置。
+4. 修正测试软件对幅值的计算方法。
+5. 定期校准加速度计灵敏度。
+6. 更换老化的震动马达。
+7. 控制测试环境温度稳定。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_FREQUENCY_ON</SpecialTestItems>
+    <TestDetailInformation>频率</TestDetailInformation>
+    <Dependency>测试手机震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动信号频率不准确。
+2. 加速度计采样频率不足。
+3. 测试软件频谱分析算法分辨率不够。
+4. 手机结构共振影响频率测量。
+5. 加速度计频响曲线不平坦。
+6. 测试环境中存在频率干扰。
+7. 数据采集系统时钟不稳定。
+
+建议措施：
+1. 校准震动马达驱动信号频率。
+2. 提高加速度计采样频率。
+3. 优化测试软件频谱分析算法。
+4. 修改手机结构设计，避开共振频率。
+5. 校准加速度计频响曲线。
+6. 改善测试环境，减少频率干扰。
+7. 稳定数据采集系统时钟。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

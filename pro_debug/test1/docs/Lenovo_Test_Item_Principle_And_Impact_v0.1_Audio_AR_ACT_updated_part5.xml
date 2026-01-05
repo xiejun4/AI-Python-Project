@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK1_UL_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>左上扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使左上扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机左上扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 左上扬声器物理连接松动或损坏，导致低频信号传输异常。
+2. 音频通路中的低频滤波电路参数设置不当，影响280Hz-8kHz频段信号。
+3. CQA指令中的低频测试参数与左上扬声器特性不匹配。
+4. 测试环境存在低频驻波或共振，干扰测试结果。
+5. 扬声器振膜材料在低频下刚性不足，导致失真增加。
+6. 低频信号功率过大，导致扬声器过载产生失真。
+7. 扬声器安装结构与手机外壳耦合不佳，影响低频响应。
+
+建议措施：
+1. 检查左上扬声器焊点及连接线，确保牢固无松动。
+2. 调整低频滤波电路参数，优化280Hz-8kHz频段信号传输。
+3. 校准CQA指令中的低频测试参数，匹配左上扬声器规格。
+4. 在消声室环境下重新测试，排除环境干扰。
+5. 更换振膜材料或调整结构设计，增强低频刚性。
+6. 降低测试信号功率，避免扬声器过载。
+7. 优化扬声器安装结构，改善与外壳的耦合效应。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK2_DL_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>左下扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使左下扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机左下扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 左下扬声器音圈与振膜连接松动，导致低频振动异常。
+2. 音频放大器低频增益不足，无法驱动扬声器达到目标声压。
+3. 手机底部出声孔设计影响低频辐射效率。
+4. 测试设备低频响应校准不准确。
+5. 低频信号导致扬声器悬挂系统产生非线性变形。
+6. 多扬声器系统中，左下扬声器与其他扬声器存在相位干涉。
+7. 手机主板地回路噪声干扰低频信号。
+
+建议措施：
+1. 检查音圈与振膜连接，确保焊接牢固。
+2. 调整音频放大器低频增益参数。
+3. 优化底部出声孔设计，增加低频反射结构。
+4. 校准测试设备低频响应曲线。
+5. 更换悬挂系统材料，提高线性度。
+6. 调整多扬声器相位参数，避免干涉。
+7. 优化主板地回路设计，减少低频噪声干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK3_UR_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>右上扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使右上扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机右上扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 右上扬声器磁路系统偏移，导致驱动力不均匀。
+2. 高频保护电路在低频测试时误触发，限制信号幅度。
+3. 扬声器腔体密封不良，导致低频能量泄漏。
+4. 测试环境温度影响扬声器材料特性。
+5. 低频信号导致扬声器支架共振。
+6. 音频驱动程序中低频补偿算法参数错误。
+7. 扬声器与麦克风之间存在声学反馈。
+
+建议措施：
+1. 检查磁路系统安装位置，确保居中无偏移。
+2. 调整高频保护电路阈值，避免低频误触发。
+3. 检查扬声器腔体密封，增加密封材料。
+4. 控制测试环境温度在标准范围内。
+5. 优化扬声器支架结构，避开低频共振点。
+6. 更新音频驱动程序，修正低频补偿参数。
+7. 调整麦克风位置或增加声学隔离措施。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK4_DR_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>右下扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使右下扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机右下扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 右下扬声器振膜边缘固定不牢，导致低频失真。
+2. 音频通路中低频信号衰减过大。
+3. 手机底部结构影响扬声器低频辐射模式。
+4. 测试信号的低频成分谐波含量过高。
+5. 扬声器弹波老化导致弹性系数变化。
+6. 多扬声器系统中，右下扬声器与其他扬声器功率配比不当。
+7. 电池位置靠近扬声器，影响磁路系统性能。
+
+建议措施：
+1. 重新固定振膜边缘，确保牢固。
+2. 检查音频通路，增加低频信号增益。
+3. 优化底部结构设计，改善低频辐射。
+4. 净化测试信号，降低低频谐波含量。
+5. 更换老化弹波，恢复弹性特性。
+6. 调整多扬声器功率配比，确保均衡。
+7. 优化电池位置或增加磁屏蔽措施。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK5_ULU_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>上左上扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使上左上扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机上左上扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 上左上扬声器焊点虚焊，导致接触电阻不稳定。
+2. 音频放大器输出阻抗与扬声器不匹配。
+3. 扬声器安装位置靠近天线，受到射频干扰。
+4. 测试环境湿度影响扬声器材料特性。
+5. 低频信号导致扬声器悬边产生分割振动。
+6. 手机顶部结构限制扬声器低频辐射空间。
+7. 音频编解码芯片对低频信号处理异常。
+
+建议措施：
+1. 重新焊接焊点，确保电气连接可靠。
+2. 匹配音频放大器输出阻抗与扬声器阻抗。
+3. 增加天线与扬声器之间的屏蔽措施。
+4. 控制测试环境湿度在标准范围内。
+5. 优化悬边设计，避免分割振动。
+6. 改进顶部结构，增加低频辐射空间。
+7. 更新音频编解码芯片固件，修复处理异常。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK6_URU_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>上右上扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使上右上扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机上右上扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 上右上扬声器音圈局部短路，导致阻抗变化。
+2. 低频测试信号调制方式不适合该扬声器特性。
+3. 扬声器腔体内部存在异物，影响振动。
+4. 测试设备传声器位置偏差导致测量误差。
+5. 低频信号导致扬声器盆架共振。
+6. 手机上盖材料对低频声波吸收过大。
+7. 音频驱动程序中低频动态范围压缩参数错误。
+
+建议措施：
+1. 更换音圈，确保阻抗正常。
+2. 调整测试信号调制方式，匹配扬声器特性。
+3. 清理扬声器腔体，移除异物。
+4. 校准测试设备传声器位置。
+5. 优化盆架结构，避开低频共振点。
+6. 更换上盖材料，减少低频吸收。
+7. 更新音频驱动程序，修正动态范围压缩参数。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK7_DLD_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>下左下扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使下左下扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机下左下扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 下左下扬声器弹波阻尼系数不合适，导致低频响应异常。
+2. 音频通路中低频相位偏移过大。
+3. 手机底部开孔率不足，影响低频辐射效率。
+4. 测试信号低频段能量分布不均匀。
+5. 低频信号导致扬声器振膜产生非线性变形。
+6. 多扬声器系统中，下左下扬声器与其他扬声器存在梳状滤波效应。
+7. 主板上电源纹波干扰低频信号。
+
+建议措施：
+1. 更换弹波，调整阻尼系数。
+2. 补偿音频通路中的低频相位偏移。
+3. 增加底部开孔率，提高低频辐射效率。
+4. 优化测试信号低频段能量分布。
+5. 改进振膜设计，提高线性度。
+6. 调整多扬声器相位关系，避免梳状滤波。
+7. 增加电源滤波电路，减少纹波干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_SPK8_DRD_8K-280HZ</SpecialTestItems>
+    <TestDetailInformation>下右下扬声器测试</TestDetailInformation>
+    <Dependency>扬声器Low频测试</Dependency>
+    <Principle>通过CQA指令使下右下扬声器发出SWB频率测试</Principle>
+    <Impact>指标测试失败，说明手机下右下扬声器不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 下右下扬声器振膜材料疲劳，导致低频响应下降。
+2. 音频放大器低频动态范围不足。
+3. 手机底部结构对低频声波反射不均匀。
+4. 测试环境本底噪声影响低频测量精度。
+5. 低频信号导致扬声器支架产生机械噪声。
+6. 多扬声器系统中，下右下扬声器与其他扬声器功率不平衡。
+7. 扬声器焊点热阻过大，导致温度升高影响性能。
+
+建议措施：
+1. 更换振膜材料，恢复低频响应。
+2. 升级音频放大器，提高低频动态范围。
+3. 优化底部结构，使低频反射均匀。
+4. 降低测试环境本底噪声，提高测量精度。
+5. 加固扬声器支架，减少机械噪声。
+6. 平衡多扬声器功率输出。
+7. 改进焊点设计，降低热阻。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>ANDROID_TELL_TURN_OFF_TONE</SpecialTestItems>
+    <TestDetailInformation>喇叭停止播放指令</TestDetailInformation>
+    <Dependency>CQA工模指令停止扬声器发音</Dependency>
+    <Principle>通过CQA指令停止扬声器发音</Principle>
+    <Impact>指令失败，说明底层软件CQA api fail</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. CQA API版本与当前系统不兼容。
+2. 音频服务未正确响应停止指令。
+3. 扬声器驱动程序存在死锁，无法执行停止操作。
+4. 指令参数传递过程中发生数据丢失。
+5. 音频编解码器处于繁忙状态，无法处理停止指令。
+6. 系统资源不足，导致指令执行超时。
+7. 安全机制拦截了CQA指令。
+
+建议措施：
+1. 检查并更新CQA API到兼容版本。
+2. 重启音频服务，恢复正常响应。
+3. 更新扬声器驱动程序，修复死锁问题。
+4. 增加指令参数校验，确保数据完整传递。
+5. 优化音频编解码器调度，避免繁忙状态。
+6. 释放系统资源，确保指令有足够资源执行。
+7. 检查安全策略，解除对CQA指令的拦截。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>MIC测试</TestGroup>
+    <SpecialTestItems>L2AR_MIC_BLOCK_ON</SpecialTestItems>
+    <TestDetailInformation>设备mic堵孔器件及振动sensor联控指令</TestDetailInformation>
+    <Dependency>设备动作指令</Dependency>
+    <Principle>通过下发指令控制设备堵头气缸动作</Principle>
+    <Impact>指令失败说明气缸没有到位或者感应sensor位置异常</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 气缸控制电路电源不足，无法驱动气缸动作。
+2. 气缸机械结构卡死，无法正常移动到指定位置。
+3. 传感器安装位置偏移，导致检测不到气缸到位信号。
+4. 传感器灵敏度下降，无法准确检测气缸位置。
+5. 气缸驱动信号线路接触不良。
+6. 传感器信号线路干扰严重。
+7. 控制系统固件存在逻辑错误，无法正确处理联控指令。
+
+建议措施：
+1. 检查气缸控制电路电源，确保电压稳定。
+2. 清理气缸机械结构，排除卡死故障。
+3. 校准传感器安装位置，确保准确检测气缸位置。
+4. 调整传感器灵敏度，提高检测精度。
+5. 检查并修复气缸驱动信号线路接触问题。
+6. 增加传感器信号线路屏蔽，减少干扰。
+7. 更新控制系统固件，修复逻辑错误。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API请求工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 md:p-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">API请求工具</h1>
+        
+        <div class="space-y-6">
+            <div>
+                <label for="apiUrl" class="block text-sm font-medium text-gray-700 mb-1">API URL</label>
+                <input type="text" id="apiUrl" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="https://ark.cn-beijing.volces.com/api/v3/chat/completions" required>
+            </div>
+            
+            <div>
+                <label for="apiKey" class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+                <input type="text" id="apiKey" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="c5566d4b-deae-4b7a-bffc-85ad4e103ad5">
+            </div>
+            
+            <div>
+                <label for="textPrompt" class="block text-sm font-medium text-gray-700 mb-1">用户问题</label>
+                <textarea id="textPrompt" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">根据各&lt;TestItem&gt;节点内容编写的&lt;IssuesAndSuggestion&gt;部分，分析问题并给出建议措施各至少1到3条，每1条数字控制在100个字以内，内容不要太专业，要言简意赅，浅显易懂:</textarea>
+            </div>
+            
+            <div>
+                <label for="payload" class="block text-sm font-medium text-gray-700 mb-1">Payload (JSON)</label>
+                <textarea id="payload" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{"TestItem": {"TestGroup": "硬件控制和状态检查", "SpecialTestItems": "ENTRY_HANDLER_L2AUDIO", "TestDetailInformation": "　", "Dependency": "站点各器件加载和moto USB驱动检查", "Principle": "检查站点硬件环境和通信环境", "Impact": "测试环境不满足测试要求，无法测试", "Risk": "Low", "Owner": "zhigang", "IssuesAndSuggestion": "null"}}</textarea>
+            </div>
+            
+            <button id="sendBtn" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                发送请求
+            </button>
+            
+            <div>
+                <label for="response" class="block text-sm font-medium text-gray-700 mb-1">响应结果</label>
+                <div class="flex space-x-4 mb-2">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="responseType" value="content" checked class="form-radio text-blue-600">
+                        <span class="ml-2">content</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="responseType" value="reasoning_content" class="form-radio text-blue-600">
+                        <span class="ml-2">reasoning_content</span>
+                    </label>
+                </div>
+                <textarea id="response" rows="8" class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500" readonly placeholder="响应将显示在这里..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('sendBtn').addEventListener('click', async () => {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const apiKey = document.getElementById('apiKey').value;
+            const payload = document.getElementById('payload').value;
+            const responseTextarea = document.getElementById('response');
+            
+            // 清空之前的响应
+            responseTextarea.value = '发送中...';
+            
+            try {
+                // 构建请求头
+                const headers = {
+                    'Content-Type': 'application/json',
+                };
+                
+                // 如果提供了API Key，添加到请求头
+                if (apiKey) {
+                    headers['Authorization'] = `Bearer ${apiKey}`;
+                }
+                
+                // 获取用户问题和Payload内容
+                const textPrompt = document.getElementById('textPrompt').value;
+                const payload = document.getElementById('payload').value;
+                const combinedText = textPrompt + payload;
+
+                // 构建请求体
+                const requestBody = {
+                    "model": "doubao-seed-1-6-250615",
+                    "messages": [
+                        {
+                            "content": [
+                                {
+                                    "text": combinedText,
+                                    "type": "text"
+                                }
+                            ],
+                            "role": "user"
+                        }
+                    ]
+                };
+
+                // 发送请求
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(requestBody),
+                });
+                
+                // 获取响应内容
+                let responseData;
+                let responseContent = {};
+                try {
+                    responseData = await response.json();
+                    // 从choices数组中提取message对象
+                    const choices = responseData.choices || [];
+                    const message = choices.length > 0 ? choices[0].message : {};
+                    // 提取content和reasoning_content字段
+                    responseContent.content = message.content || "content字段不存在";
+                    responseContent.reasoning_content = message.reasoning_content || "reasoning_content字段不存在";
+                } catch (e) {
+                    responseData = await response.text();
+                    responseContent.content = responseData;
+                    responseContent.reasoning_content = "无法解析JSON响应";
+                }
+                
+                // 根据选中的选项显示响应内容
+                const displayResponse = () => {
+                    const selectedType = document.querySelector('input[name="responseType"]:checked').value;
+                    responseTextarea.value = `状态码: ${response.status}\n\n${responseContent[selectedType]}`;
+                };
+                
+                // 初始显示
+                displayResponse();
+                
+                // 添加选项切换事件监听
+                document.querySelectorAll('input[name="responseType"]').forEach(radio => {
+                    radio.addEventListener('change', displayResponse);
+                });
+                
+            } catch (error) {
+                responseTextarea.value = `请求错误: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
