@@ -1,0 +1,240 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>硬件控制和状态检查</TestGroup>
+    <SpecialTestItems>ENTRY_HANDLER_L2AUDIO</SpecialTestItems>
+    <TestDetailInformation>　</TestDetailInformation>
+    <Dependency>站点各器件加载和moto USB驱动检查</Dependency>
+    <Principle>检查站点硬件环境和通信环境</Principle>
+    <Impact>测试环境不满足测试要求，无法测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 站点器件未能成功加载，可能是由于硬件出现故障、配置存在错误或者电源供应有问题。
+2. moto USB驱动版本不兼容，或者安装过程不正确，又或者驱动本身已损坏。
+3. 通信线路出现故障，网络存在问题，或者设备的通信设置有误。
+
+建议措施：
+1. 仔细检查器件的连接情况，确保连接稳固且电源正常，可尝试重启硬件设备。
+2. 确认moto USB驱动的版本，及时更新或重新安装驱动。
+3. 检查通信线路和网络连接，利用诊断工具排查问题。
+4. 查看系统和设备日志，获取详细的错误信息。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>硬件控制和状态检查</TestGroup>
+    <SpecialTestItems>VERIFY_MOTOROLA_USB_DRIVER_VERSION_TECFILE_MIN_647</SpecialTestItems>
+    <TestDetailInformation>　</TestDetailInformation>
+    <Dependency>站点各器件加载和moto USB驱动检查</Dependency>
+    <Principle>检查站点硬件环境和通信环境</Principle>
+    <Impact>测试环境不满足测试要求，无法测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 驱动版本低于要求，可能致使功能不兼容。
+2. 驱动安装过程中出现错误，造成版本信息不准确。
+3. 系统环境存在问题，影响了驱动版本的识别。
+
+建议措施：
+1. 从官方网站下载并安装符合要求的驱动版本。
+2. 卸载现有的驱动程序，重新安装最新版本。
+3. 检查系统环境，确保没有干扰因素影响驱动版本的识别。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>端口连接</TestGroup>
+    <SpecialTestItems>WAIT_FOR_BLAN_NETWORK_DEVICE_ARRIVAL_1</SpecialTestItems>
+    <TestDetailInformation>TCMD端口连接</TestDetailInformation>
+    <Dependency>待测机TCMD通信检测</Dependency>
+    <Principle>检查手机是否有CQA工模通信基础</Principle>
+    <Impact>连接不上，无法测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 手机未开启USB调试模式，或者USB调试模式的授权已过期。
+2. 数据线存在损坏情况，或者连接不牢固。
+3. 电脑端的驱动程序不完整，或者与手机型号不匹配。
+4. TCMD服务未启动，或者端口被其他程序占用。
+
+建议措施：
+1. 确保手机已开启USB调试模式，并完成授权操作。
+2. 更换数据线，或者重新插拔数据线，确保连接稳固。
+3. 在电脑端更新手机的驱动程序。
+4. 检查并重启TCMD服务，释放被占用的端口。
+5. 尝试在手机的开发者选项中重置USB配置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>端口连接</TestGroup>
+    <SpecialTestItems>CONNECT_TO_BLAN_NETWORK_DEVICE_1</SpecialTestItems>
+    <TestDetailInformation>TCMD端口连接</TestDetailInformation>
+    <Dependency>待测机TCMD通信检测</Dependency>
+    <Principle>检查手机是否有CQA工模通信基础</Principle>
+    <Impact>连接不上，无法测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 手机的CQA工模未正确开启，或者版本不兼容。
+2. TCMD通信参数配置错误，如IP地址、端口号等。
+3. 手机或测试设备的网络连接不稳定。
+4. 防火墙或安全软件阻止了TCMD通信。
+
+建议措施：
+1. 确认手机已正确进入CQA工模，必要时更新工模版本。
+2. 检查并修正TCMD通信参数，确保与手机配置一致。
+3. 重启手机和测试设备的网络连接。
+4. 临时关闭防火墙或安全软件，检查是否是其阻止了通信。
+5. 尝试使用其他设备进行连接测试，判断问题所在。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>端口连接</TestGroup>
+    <SpecialTestItems>POWER_UP_CHECKPOINT_QUERY_30sec</SpecialTestItems>
+    <TestDetailInformation>检查开机</TestDetailInformation>
+    <Dependency>判断手机是否开机</Dependency>
+    <Principle>检查手机是否开机</Principle>
+    <Impact>手机没有开机，无法测试</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 手机电量耗尽，或者电池接触不良。
+2. 开机按键损坏，或者操作方法不正确。
+3. 手机系统出现故障，导致无法正常启动。
+4. 硬件存在问题，如主板故障等。
+
+建议措施：
+1. 使用充电器为手机充电，等待一段时间后再尝试开机。
+2. 检查电池连接是否稳固，如有必要，重新安装电池。
+3. 尝试使用不同的开机方法，如同时按下电源键和音量键。
+4. 对手机进行强制重启操作（具体方法根据手机型号而定）。
+5. 如果问题仍然存在，可能是硬件故障，建议联系维修人员。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>端口连接</TestGroup>
+    <SpecialTestItems>ANDROID_CONNECT</SpecialTestItems>
+    <TestDetailInformation>CQA_TEST APP端口连接和释放</TestDetailInformation>
+    <Dependency>手机是否有CQA工模</Dependency>
+    <Principle>进入CQA工模指令</Principle>
+    <Impact>连接失败，所有CQA测试内容无法进行，包括音频和基带</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. CQA_TEST APP未安装在手机上，或者版本不兼容。
+2. 手机未开启USB调试模式，或者未授予APP相应权限。
+3. 手机与测试设备之间的通信协议不匹配。
+4. APP服务未正常运行，或者被其他程序干扰。
+
+建议措施：
+1. 确认手机已安装正确版本的CQA_TEST APP，如有必要，进行更新。
+2. 确保手机的USB调试模式已开启，并授予APP所需权限。
+3. 检查测试设备和手机的通信协议设置，确保两者匹配。
+4. 重启手机和测试设备上的CQA_TEST APP服务。
+5. 关闭手机上可能干扰APP运行的其他程序。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>端口连接</TestGroup>
+    <SpecialTestItems>ANDROID_DISCONNECT</SpecialTestItems>
+    <TestDetailInformation>CQA_TEST APP端口连接和释放</TestDetailInformation>
+    <Dependency>手机是否有CQA工模</Dependency>
+    <Principle>进入CQA工模指令</Principle>
+    <Impact>连接失败，所有CQA测试内容无法进行，包括音频和基带</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. CQA_TEST APP在手机上已崩溃，或者无响应。
+2. 测试设备与手机之间的连接已中断，但APP仍保持连接状态。
+3. APP内部的断开连接机制存在故障。
+4. 手机系统资源不足，导致APP无法正常执行断开操作。
+
+建议措施：
+1. 在手机上手动关闭CQA_TEST APP，然后重新启动。
+2. 断开并重新连接手机与测试设备的USB连接。
+3. 检查APP的日志文件，查看是否有断开连接失败的具体错误信息。
+4. 清理手机的系统资源，关闭不必要的后台程序。
+5. 如果问题仍然存在，尝试卸载并重新安装CQA_TEST APP。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>SMART PA</TestGroup>
+    <SpecialTestItems>SMART_PA_RDC_VALUE_OHM_611</SpecialTestItems>
+    <TestDetailInformation>SMART PA 校准   RDC读值</TestDetailInformation>
+    <Dependency>手机内置PA芯片自校准测试</Dependency>
+    <Principle>手机PA芯片进行自校准</Principle>
+    <Impact>测试失败，PA芯片存在异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. PA芯片与手机主板之间的连接存在松动情况，或者接触不良。
+2. 扬声器或耳机等外部设备存在故障，影响了PA芯片的校准。
+3. PA芯片固件版本过旧，需要进行更新。
+4. 校准环境存在干扰因素，如电磁干扰等。
+5. PA芯片本身出现硬件故障。
+
+建议措施：
+1. 检查PA芯片与主板的连接，确保连接牢固，无松动现象。
+2. 更换不同的外部设备，如扬声器或耳机，进行测试。
+3. 更新PA芯片的固件到最新版本。
+4. 确保校准环境安静，无明显的电磁干扰源。
+5. 如果问题仍然存在，可能需要更换PA芯片或整个音频模块。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>SMART PA</TestGroup>
+    <SpecialTestItems>SMART_PA_FO_VALUE_OHM_612</SpecialTestItems>
+    <TestDetailInformation>SMART PA 校准   F0读值</TestDetailInformation>
+    <Dependency>手机内置PA芯片自校准测试</Dependency>
+    <Principle>手机PA芯片进行自校准</Principle>
+    <Impact>测试失败，PA芯片存在异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 扬声器机械结构出现损坏，如振膜破裂等。
+2. PA芯片的F0参数设置不正确，与扬声器不匹配。
+3. 音频通路中存在阻抗不匹配的情况，影响了F0值的准确性。
+4. 环境温度或湿度异常，对扬声器的物理特性产生了影响。
+5. PA芯片的自校准算法存在缺陷，需要更新。
+
+建议措施：
+1. 检查扬声器的物理状态，查看是否有明显的损坏迹象。
+2. 调整PA芯片的F0参数，使其与扬声器的规格相匹配。
+3. 检查音频通路中的阻抗匹配情况，确保信号传输正常。
+4. 在标准环境条件下重新进行校准测试。
+5. 更新PA芯片的驱动程序或固件，修复可能存在的算法问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>SMART PA</TestGroup>
+    <SpecialTestItems>DISABLE_SMARTBOOST</SpecialTestItems>
+    <TestDetailInformation>手机SMART PA 功能开关指令</TestDetailInformation>
+    <Dependency>手机SMART PA 功能开关</Dependency>
+    <Principle>打开或者关闭手机PA功能</Principle>
+    <Impact>测试失败，会对音频扬声器测试值有影响</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. SMART BOOST功能被系统或其他应用程序锁定，无法关闭。
+2. PA芯片固件版本过低，不支持SMART BOOST功能的开关操作。
+3. 指令传输过程中出现错误，导致开关命令未能正确执行。
+4. 手机系统存在故障，影响了PA功能的控制。
+
+建议措施：
+1. 检查手机系统设置，确保没有其他应用程序锁定SMART BOOST功能。
+2. 更新PA芯片的固件到支持SMART BOOST开关功能的版本。
+3. 重新发送开关指令，确保指令传输正常。
+4. 重启手机，清除系统缓存，然后再次尝试关闭SMART BOOST功能。
+5. 如果问题仍然存在，尝试恢复手机的出厂设置（注意备份数据）。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>HEADSET_REMOVAL_HAS_MIC_STATUS</SpecialTestItems>
+    <TestDetailInformation>MIC不在位状态</TestDetailInformation>
+    <Dependency>判断手机是否为耳机移除状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否移除</Principle>
+    <Impact>指令失败说明耳机移除识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机拔出后，MIC检测触点粘连。
+2. MIC在位检测电路故障，无法正确识别移除状态。
+3. CQA指令参数配置错误。
+4. 手机系统固件问题导致MIC移除检测异常。
+5. 设备端耳机拔出动作不完全。
+6. 检测电路响应延迟。
+7. 环境静电干扰MIC检测信号。
+
+建议措施：
+1. 清洁手机耳机孔MIC检测触点，消除粘连。
+2. 检测并修复MIC在位检测电路故障。
+3. 修正CQA指令参数配置。
+4. 更新手机系统固件。
+5. 确保设备端耳机完全拔出。
+6. 优化检测电路响应时间。
+7. 增加防静电措施，减少环境干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>HEADSET_REMOVAL_PLUGGED_STATUS</SpecialTestItems>
+    <TestDetailInformation>耳机移除状态</TestDetailInformation>
+    <Dependency>判断手机是否为耳机移除状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否移除</Principle>
+    <Impact>指令失败说明耳机移除识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机拔出后，耳机孔检测触点粘连。
+2. 耳机在位检测电路故障，无法正确识别移除状态。
+3. CQA指令参数配置错误。
+4. 手机系统固件问题导致移除检测异常。
+5. 设备端耳机拔出动作不完全。
+6. 检测电路响应延迟。
+7. 环境静电干扰检测电路。
+
+建议措施：
+1. 清洁手机耳机孔检测触点，消除粘连。
+2. 检测并修复耳机在位检测电路故障。
+3. 修正CQA指令参数配置。
+4. 更新手机系统固件。
+5. 确保设备端耳机完全拔出。
+6. 优化检测电路响应时间。
+7. 增加防静电措施，减少环境干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>HEADSET_REMOVAL_TYPE_STATUS_DONT_CARE</SpecialTestItems>
+    <TestDetailInformation>耳机移除类型</TestDetailInformation>
+    <Dependency>判断手机是否为耳机移除状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否移除</Principle>
+    <Impact>指令失败说明耳机移除识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机拔出后，类型检测电路仍保持原有状态。
+2. 耳机类型检测电路故障，无法正确识别移除状态。
+3. CQA指令参数配置错误。
+4. 手机系统固件问题导致类型移除检测异常。
+5. 设备端耳机拔出动作不完全。
+6. 检测电路响应延迟。
+7. 环境电磁干扰影响类型检测信号。
+
+建议措施：
+1. 清洁手机耳机孔类型检测触点，消除粘连。
+2. 检测并修复耳机类型检测电路故障。
+3. 修正CQA指令参数配置。
+4. 更新手机系统固件。
+5. 确保设备端耳机完全拔出。
+6. 优化检测电路响应时间。
+7. 增加电磁屏蔽措施，减少环境干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>AUDIO_L2AR_PLAY_SOUNDCARD_MUSIC_START_1K_15%</SpecialTestItems>
+    <TestDetailInformation>设置设备声卡耳机MIC通路输出  打开和停止</TestDetailInformation>
+    <Dependency>设备动作，打开或者关闭声卡测试耳机频响通路信号</Dependency>
+    <Principle>通过控制设备硬件使声卡对应通路开关</Principle>
+    <Impact>指令失败说明设备硬件通路异常</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 声卡硬件开关控制电路故障。
+2. 控制信号传输线路断路或短路。
+3. 声卡驱动程序未正确加载。
+4. CQA指令参数配置错误。
+5. 声卡硬件损坏。
+6. 耳机接口与声卡连接不良。
+7. 系统资源不足，无法响应声卡控制指令。
+
+建议措施：
+1. 检测并修复声卡硬件开关控制电路故障。
+2. 检查控制信号传输线路，修复断路或短路问题。
+3. 重新加载声卡驱动程序。
+4. 修正CQA指令参数配置。
+5. 更换损坏的声卡硬件。
+6. 检查并加固耳机接口与声卡的连接。
+7. 释放系统资源，确保有足够资源响应声卡控制指令。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>AUDIO_L2AR_PLAY_SOUNDCARD_MUSIC_STOP_1K_15%</SpecialTestItems>
+    <TestDetailInformation>设置设备声卡耳机MIC通路输出  打开和停止</TestDetailInformation>
+    <Dependency>设备动作，打开或者关闭声卡测试耳机频响通路信号</Dependency>
+    <Principle>通过控制设备硬件使声卡对应通路开关</Principle>
+    <Impact>指令失败说明设备硬件通路异常</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 声卡硬件开关控制电路故障。
+2. 控制信号传输线路断路或短路。
+3. 声卡驱动程序未正确加载。
+4. CQA指令参数配置错误。
+5. 声卡硬件损坏。
+6. 耳机接口与声卡连接不良。
+7. 系统资源不足，无法响应声卡控制指令。
+
+建议措施：
+1. 检测并修复声卡硬件开关控制电路故障。
+2. 检查控制信号传输线路，修复断路或短路问题。
+3. 重新加载声卡驱动程序。
+4. 修正CQA指令参数配置。
+5. 更换损坏的声卡硬件。
+6. 检查并加固耳机接口与声卡的连接。
+7. 释放系统资源，确保有足够资源响应声卡控制指令。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>AUDIO_SAMPLE_HDSETMIC_MAX_VALUE_1K</SpecialTestItems>
+    <TestDetailInformation>耳机MIC录音测试</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机MIC本身故障。
+2. 耳机MIC与手机耳机孔接触不良。
+3. 手机耳机孔MIC通路电路故障。
+4. 声卡驱动程序未正确支持MIC录音。
+5. CQA指令参数配置错误。
+6. 录音环境噪声过大。
+7. 系统录音权限未正确授予。
+
+建议措施：
+1. 更换故障的耳机MIC。
+2. 清洁耳机MIC与手机耳机孔，确保良好接触。
+3. 检测并修复手机耳机孔MIC通路电路故障。
+4. 更新声卡驱动程序，确保正确支持MIC录音。
+5. 修正CQA指令参数配置。
+6. 改善录音环境，降低噪声。
+7. 检查并授予系统录音权限。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>AUDIO_L2AR_LEFT_1kHz</SpecialTestItems>
+    <TestDetailInformation>耳机左声道播放测试</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机左声道本身故障。
+2. 耳机左声道与手机耳机孔接触不良。
+3. 手机耳机孔左声道通路电路故障。
+4. 声卡驱动程序未正确支持左声道播放。
+5. CQA指令参数配置错误。
+6. 音频文件本身左声道无信号。
+7. 系统音量设置左声道被静音。
+
+建议措施：
+1. 更换故障的耳机。
+2. 清洁耳机左声道与手机耳机孔，确保良好接触。
+3. 检测并修复手机耳机孔左声道通路电路故障。
+4. 更新声卡驱动程序，确保正确支持左声道播放。
+5. 修正CQA指令参数配置。
+6. 更换正常的音频文件进行测试。
+7. 检查并调整系统音量设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>AUDIO_L2AR_RIGHT_2kHz</SpecialTestItems>
+    <TestDetailInformation>耳机右声道播放测试</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机右声道本身故障。
+2. 耳机右声道与手机耳机孔接触不良。
+3. 手机耳机孔右声道通路电路故障。
+4. 声卡驱动程序未正确支持右声道播放。
+5. CQA指令参数配置错误。
+6. 音频文件本身右声道无信号。
+7. 系统音量设置右声道被静音。
+
+建议措施：
+1. 更换故障的耳机。
+2. 清洁耳机右声道与手机耳机孔，确保良好接触。
+3. 检测并修复手机耳机孔右声道通路电路故障。
+4. 更新声卡驱动程序，确保正确支持右声道播放。
+5. 修正CQA指令参数配置。
+6. 更换正常的音频文件进行测试。
+7. 检查并调整系统音量设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>ANDROID_START_ACTIVITY_KEYTEST</SpecialTestItems>
+    <TestDetailInformation>打开手机按键动态</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 手机按键测试应用未正确安装。
+2. CQA指令参数配置错误。
+3. 手机系统权限不足，无法启动按键测试应用。
+4. 手机系统出现异常，无法响应应用启动请求。
+5. 按键测试应用与当前手机系统版本不兼容。
+6. 手机内存不足，无法启动新应用。
+7. 按键测试应用本身存在故障。
+
+建议措施：
+1. 确认手机按键测试应用已正确安装。
+2. 修正CQA指令参数配置。
+3. 授予手机系统足够权限，允许启动按键测试应用。
+4. 重启手机，恢复系统正常运行状态。
+5. 更新按键测试应用至兼容当前手机系统版本的版本。
+6. 清理手机内存，确保有足够空间启动新应用。
+7. 卸载并重新安装按键测试应用。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>KeyTest START_RECORD</SpecialTestItems>
+    <TestDetailInformation>清空按键状态</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 按键测试应用未正确启动。
+2. CQA指令参数配置错误。
+3. 手机系统权限不足，无法执行按键状态清空操作。
+4. 按键测试应用内部数据异常，无法清空按键状态。
+5. 手机按键硬件存在故障，导致状态无法正常清空。
+6. 手机系统出现异常，无法响应按键状态清空请求。
+7. 按键测试应用版本过旧，不支持按键状态清空功能。
+
+建议措施：
+1. 确认按键测试应用已正确启动。
+2. 修正CQA指令参数配置。
+3. 授予手机系统足够权限，允许执行按键状态清空操作。
+4. 重启按键测试应用，恢复正常数据状态。
+5. 检查手机按键硬件，修复故障。
+6. 重启手机，恢复系统正常运行状态。
+7. 更新按键测试应用至最新版本。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>KEY_TEST_L2_HS_SEND_END</SpecialTestItems>
+    <TestDetailInformation>控制设备模拟耳机挂断键</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机挂断键控制电路故障。
+2. 控制信号传输线路断路或短路。
+3. 手机系统未正确识别耳机挂断键信号。
+4. CQA指令参数配置错误。
+5. 耳机挂断键机械结构损坏。
+6. 手机耳机孔与耳机接触不良。
+7. 系统资源不足，无法响应耳机按键控制指令。
+
+建议措施：
+1. 检测并修复耳机挂断键控制电路故障。
+2. 检查控制信号传输线路，修复断路或短路问题。
+3. 更新手机系统固件，确保正确识别耳机挂断键信号。
+4. 修正CQA指令参数配置。
+5. 更换损坏的耳机挂断键机械结构。
+6. 清洁耳机插头和手机耳机孔，确保良好接触。
+7. 释放系统资源，确保有足够资源响应耳机按键控制指令。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>KEYS_TEST_ANDY_NA_HS_SENDEND_NOSTART_RECORDING</SpecialTestItems>
+    <TestDetailInformation>读取按键记录KEY值并与挂断键KEY值比对</TestDetailInformation>
+    <Dependency>测试手机耳机通路各功能指标</Dependency>
+    <Principle>通过CQA指令控制耳机各功能模块测试值</Principle>
+    <Impact>指令失败说明手机耳机通路异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 按键记录读取功能异常。
+2. CQA指令参数配置错误。
+3. 手机系统权限不足，无法读取按键记录。
+4. 按键记录存储异常。
+5. 比对算法逻辑错误。
+6. 耳机挂断键KEY值定义与实际不符。
+7. 手机系统版本与测试脚本不兼容。
+
+建议措施：
+1. 重启手机，恢复按键记录读取功能。
+2. 修正CQA指令参数配置。
+3. 授予手机系统足够权限，允许读取按键记录。
+4. 清除按键记录缓存，重新测试。
+5. 检查并修正比对算法逻辑。
+6. 确认耳机挂断键KEY值定义与实际一致。
+7. 更新测试脚本，确保与手机系统版本兼容。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>超声波测试（ACT）</TestGroup>
+    <SpecialTestItems>MIC_1_LEVEL_SPEC_30000</SpecialTestItems>
+    <TestDetailInformation>MIC1和2和3录音测试  22~30K频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试MIC超声频段指标</Dependency>
+    <Principle>通过TCMD指令控制手机MIC采集人工嘴播放的超声频率信息</Principle>
+    <Impact>指令失败说明手机mic器件超声频段测试异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC1器件本身超声频段响应不良。
+2. MIC1与主板连接不良。
+3. 超声频段信号被手机结构屏蔽。
+4. TCMD指令参数配置错误。
+5. 人工嘴超声信号输出异常。
+6. 测试环境存在超声干扰。
+7. 手机系统对超声频段支持不完善。
+
+建议措施：
+1. 更换MIC1器件，确保超声频段响应良好。
+2. 检查并加固MIC1与主板的连接。
+3. 优化手机结构设计，减少对超声频段信号的屏蔽。
+4. 修正TCMD指令参数配置。
+5. 校准人工嘴，确保超声信号输出正常。
+6. 改善测试环境，减少超声干扰。
+7. 更新手机系统固件，完善对超声频段的支持。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>超声波测试（ACT）</TestGroup>
+    <SpecialTestItems>MIC_2_LEVEL_SPEC_30000</SpecialTestItems>
+    <TestDetailInformation>MIC1和2和3录音测试  22~30K频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试MIC超声频段指标</Dependency>
+    <Principle>通过TCMD指令控制手机MIC采集人工嘴播放的超声频率信息</Principle>
+    <Impact>指令失败说明手机mic器件超声频段测试异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC2器件本身超声频段响应不良。
+2. MIC2与主板连接不良。
+3. 超声频段信号被手机结构屏蔽。
+4. TCMD指令参数配置错误。
+5. 人工嘴超声信号输出异常。
+6. 测试环境存在超声干扰。
+7. 手机系统对超声频段支持不完善。
+
+建议措施：
+1. 更换MIC2器件，确保超声频段响应良好。
+2. 检查并加固MIC2与主板的连接。
+3. 优化手机结构设计，减少对超声频段信号的屏蔽。
+4. 修正TCMD指令参数配置。
+5. 校准人工嘴，确保超声信号输出正常。
+6. 改善测试环境，减少超声干扰。
+7. 更新手机系统固件，完善对超声频段的支持。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>超声波测试（ACT）</TestGroup>
+    <SpecialTestItems>MIC_3_LEVEL_SPEC_30000</SpecialTestItems>
+    <TestDetailInformation>MIC1和2和3录音测试  22~30K频率灵敏度计算</TestDetailInformation>
+    <Dependency>测试MIC超声频段指标</Dependency>
+    <Principle>通过TCMD指令控制手机MIC采集人工嘴播放的超声频率信息</Principle>
+    <Impact>指令失败说明手机mic器件超声频段测试异常</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. MIC3器件本身超声频段响应不良。
+2. MIC3与主板连接不良。
+3. 超声频段信号被手机结构屏蔽。
+4. TCMD指令参数配置错误。
+5. 人工嘴超声信号输出异常。
+6. 测试环境存在超声干扰。
+7. 手机系统对超声频段支持不完善。
+
+建议措施：
+1. 更换MIC3器件，确保超声频段响应良好。
+2. 检查并加固MIC3与主板的连接。
+3. 优化手机结构设计，减少对超声频段信号的屏蔽。
+4. 修正TCMD指令参数配置。
+5. 校准人工嘴，确保超声信号输出正常。
+6. 改善测试环境，减少超声干扰。
+7. 更新手机系统固件，完善对超声频段的支持。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>超声波测试（ACT）</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_96K_ALERT_LEFT_AMP_30000</SpecialTestItems>
+    <TestDetailInformation>30K频点扬声器频响测试</TestDetailInformation>
+    <Dependency>手机内部左右扬器件超声频率测试</Dependency>
+    <Principle>通过CQA指令使左右扬器件发出超声频率测试</Principle>
+    <Impact>指标测试失败，说明手机左右扬器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 左扬声器本身超声频段响应不良。
+2. 左扬声器与主板连接不良。
+3. 超声频段信号被手机结构衰减。
+4. CQA指令参数配置错误。
+5. 音频处理模块对超声频段支持不佳。
+6. 测试环境存在超声反射干扰。
+7. 手机系统对高采样率音频支持不完善。
+
+建议措施：
+1. 更换左扬声器，确保超声频段响应良好。
+2. 检查并加固左扬声器与主板的连接。
+3. 优化手机结构设计，减少对超声频段信号的衰减。
+4. 修正CQA指令参数配置。
+5. 更新音频处理模块固件，改善对超声频段的支持。
+6. 优化测试环境，减少超声反射干扰。
+7. 更新手机系统固件，完善对高采样率音频的支持。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>超声波测试（ACT）</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_96K_ALERT_RIGHT_AMP_30000</SpecialTestItems>
+    <TestDetailInformation>30K频点扬声器频响测试</TestDetailInformation>
+    <Dependency>手机内部左右扬器件超声频率测试</Dependency>
+    <Principle>通过CQA指令使左右扬器件发出超声频率测试</Principle>
+    <Impact>指标测试失败，说明手机左右扬器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 右扬声器本身超声频段响应不良。
+2. 右扬声器与主板连接不良。
+3. 超声频段信号被手机结构衰减。
+4. CQA指令参数配置错误。
+5. 音频处理模块对超声频段支持不佳。
+6. 测试环境存在超声反射干扰。
+7. 手机系统对高采样率音频支持不完善。
+
+建议措施：
+1. 更换右扬声器，确保超声频段响应良好。
+2. 检查并加固右扬声器与主板的连接。
+3. 优化手机结构设计，减少对超声频段信号的衰减。
+4. 修正CQA指令参数配置。
+5. 更新音频处理模块固件，改善对超声频段的支持。
+6. 优化测试环境，减少超声反射干扰。
+7. 更新手机系统固件，完善对高采样率音频的支持。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

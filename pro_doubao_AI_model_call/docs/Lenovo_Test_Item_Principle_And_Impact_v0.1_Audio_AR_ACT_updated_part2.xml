@@ -1,0 +1,272 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>SMART PA</TestGroup>
+    <SpecialTestItems>ENABLE_SMARTBOOST</SpecialTestItems>
+    <TestDetailInformation>手机SMART PA 功能开关指令</TestDetailInformation>
+    <Dependency>手机SMART PA 功能开关</Dependency>
+    <Principle>打开或者关闭手机PA功能</Principle>
+    <Impact>测试失败，会对音频扬声器测试值有影响</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. SMART BOOST功能被系统或其他应用程序锁定，无法打开。
+2. PA芯片固件版本过低，不支持SMART BOOST功能。
+3. 指令传输过程中出现错误，导致开关命令未能正确执行。
+4. 手机系统存在故障，影响了PA功能的控制。
+5. 硬件连接问题导致无法接收或执行指令。
+
+建议措施：
+1. 检查手机系统设置，确保没有其他应用程序限制SMART BOOST功能。
+2. 更新PA芯片的固件到支持SMART BOOST功能的版本。
+3. 重新发送开关指令，确保指令传输正常。
+4. 重启手机，清除系统缓存，然后再次尝试打开SMART BOOST功能。
+5. 如果问题仍然存在，尝试恢复手机的出厂设置（注意备份数据）。
+6. 检查PA芯片与主板的连接，确保连接牢固，无松动现象。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>ANDROID_START_ACTIVITY_AUDIO_TONEGEN</SpecialTestItems>
+    <TestDetailInformation>打开扬声器测试动态</TestDetailInformation>
+    <Dependency>CQA工模内的扬声器测试动态</Dependency>
+    <Principle>打开CQA内扬声器测试状态</Principle>
+    <Impact>测试失败，无法正常开始扬声器测试</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. CQA工模应用未正确安装或已损坏。
+2. 手机未授予CQA工模应用必要的权限。
+3. 扬声器硬件连接松动或损坏。
+4. 系统音频服务异常或崩溃。
+5. 测试指令配置错误或版本不兼容。
+
+建议措施：
+1. 确认CQA工模应用已正确安装且版本兼容，尝试卸载并重新安装。
+2. 检查并授予CQA工模应用所有必要的权限，特别是音频和设备管理权限。
+3. 检查扬声器物理连接，确保连接牢固，无松动或损坏。
+4. 重启手机并重新启动CQA工模应用，尝试再次打开扬声器测试。
+5. 检查测试指令配置，确保参数正确且与当前手机型号兼容。
+6. 查看系统日志，检查是否有音频服务相关的错误信息。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_L2AR_EAR_10350_140Hz_TO_7100Hz_MIC1</SpecialTestItems>
+    <TestDetailInformation>听筒测试</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件Low频测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出Low频声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 听筒硬件连接松动或损坏。
+2. 音频驱动程序不兼容或未正确安装。
+3. CQA指令配置错误或发送失败。
+4. 测试环境存在干扰，影响测试结果。
+5. 听筒本身存在质量问题。
+6. 手机系统设置影响了听筒的正常工作。
+
+建议措施：
+1. 检查听筒的物理连接，确保连接牢固，无松动或氧化现象。
+2. 更新或重新安装音频驱动程序，确保与手机系统版本兼容。
+3. 验证CQA指令配置是否正确，包括频率范围、采样率等参数。
+4. 排除测试环境中的干扰源，如电磁干扰、背景噪音等。
+5. 尝试在不同的测试环境中重复测试，确认结果的一致性。
+6. 使用其他音频应用测试听筒功能，判断是否为系统设置问题。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件故障。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_EARPIECE_AMP_07100</SpecialTestItems>
+    <TestDetailInformation>频响</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件Low频测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出Low频声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 听筒硬件性能下降，无法满足频响指标要求。
+2. 音频通道存在阻抗不匹配或信号衰减问题。
+3. CQA指令中的频响参数设置不正确。
+4. 测试设备或环境引入额外的频率响应失真。
+5. 音频驱动或系统设置影响了频响特性。
+
+建议措施：
+1. 检查听筒的物理状态，查看是否有堵塞、损坏等情况。
+2. 清洁听筒开口，确保声音输出通畅，无障碍物。
+3. 验证CQA指令中的频响测试参数，确保与听筒规格匹配。
+4. 检查测试设备的连接和配置，确保测试链路线性。
+5. 更新音频驱动程序，尝试恢复默认音频设置。
+6. 在不同的测试环境中重复测试，排除环境因素影响。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_EARPIECE_HOHD_07100</SpecialTestItems>
+    <TestDetailInformation>高次谐波</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件Low频测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出Low频声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 听筒机械结构松动或损坏，导致非线性失真。
+2. 音频信号过载，产生削波失真。
+3. 电源纹波或电磁干扰导致额外的谐波产生。
+4. CQA指令中的测试电平或频率设置不当。
+5. 音频驱动程序存在算法缺陷，导致谐波增加。
+
+建议措施：
+1. 检查听筒的物理连接和结构，确保无松动或损坏。
+2. 降低测试信号电平，避免音频过载，重新测试。
+3. 检查电源供应稳定性，排除电源纹波干扰。
+4. 验证CQA指令中的测试参数，确保符合听筒测试规范。
+5. 更新音频驱动程序，确保使用最新的算法优化。
+6. 在屏蔽环境中进行测试，排除外部电磁干扰。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_EARPIECE_THD_07100</SpecialTestItems>
+    <TestDetailInformation>谐波</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件Low频测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出Low频声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 听筒振膜存在缺陷或老化，导致谐波失真增加。
+2. 音频放大电路工作点设置不当，产生非线性失真。
+3. 测试信号频率接近听筒共振点，导致谐波增加。
+4. 音频驱动或系统设置影响了谐波特性。
+5. 测试环境的声学反射导致额外的谐波成分。
+
+建议措施：
+1. 检查听筒外观，查看是否有明显的物理损坏或老化迹象。
+2. 调整音频放大电路的工作点，确保其在线性区域工作。
+3. 微调测试信号频率，避开听筒的共振频率点。
+4. 更新音频驱动程序，尝试恢复默认音频设置。
+5. 在消声室或低反射环境中进行测试，减少环境影响。
+6. 使用THD+N分析仪等专业设备进行更精确的测量。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_L2AR_EAR_24500_140Hz_TO_16KHz_MIC1_MILAN5G</SpecialTestItems>
+    <TestDetailInformation>16Khz听筒测试</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件SWB频率测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出SWB声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 听筒高频响应不足，无法达到16kHz的测试要求。
+2. 音频通路中的滤波电路限制了高频信号传输。
+3. CQA指令中的高频测试参数设置不正确。
+4. 测试环境对高频声音吸收严重，影响测试结果。
+5. 麦克风灵敏度不足，无法准确捕捉高频信号。
+
+建议措施：
+1. 检查听筒规格书，确认其频率响应范围是否包含16kHz。
+2. 检查音频通路，特别是滤波电路，确保不限制高频信号。
+3. 验证CQA指令中的高频测试参数，确保设置正确。
+4. 在高频反射较少的环境中进行测试，减少高频吸收。
+5. 检查并校准测试麦克风，确保其在高频段具有足够灵敏度。
+6. 使用专业音频测试设备，如频谱分析仪，验证高频响应。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_EARPIECE_16K_AMP_16000</SpecialTestItems>
+    <TestDetailInformation>频响</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件SWB频率测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出SWB声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 听筒在16kHz频率点的放大能力不足。
+2. 音频放大器的高频特性不佳，导致16kHz信号衰减。
+3. 阻抗匹配问题影响了16kHz信号的传输和放大。
+4. CQA指令中的测试电平或增益设置不当。
+5. 高频信号容易受到电磁干扰，导致测试结果不稳定。
+
+建议措施：
+1. 检查听筒规格书，确认其在16kHz频率点的响应指标。
+2. 检查音频放大器电路，特别是高频补偿网络。
+3. 确保音频通路中的阻抗匹配，特别是在高频段。
+4. 调整CQA指令中的测试电平，确保在安全范围内。
+5. 增加电磁屏蔽措施，减少高频干扰对测试的影响。
+6. 使用频谱分析仪等设备，单独测试16kHz频率点的响应。
+7. 如果问题仍然存在，更换听筒或音频放大器进行测试。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_EARPIECE_16K_HOHD_16000</SpecialTestItems>
+    <TestDetailInformation>高次谐波</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件SWB频率测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出SWB声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 高频振动导致听筒机械结构产生非线性失真。
+2. 16kHz信号接近或超过听筒的工作频率上限。
+3. 音频放大器在高频段的线性度下降。
+4. 测试设备或环境在高频段引入额外的谐波。
+5. CQA指令中的测试参数不适合高频测试。
+
+建议措施：
+1. 检查听筒的最大工作频率规格，确认是否支持16kHz测试。
+2. 降低16kHz测试信号的电平，避免过载和非线性失真。
+3. 优化音频放大器的高频性能，调整高频补偿网络。
+4. 在屏蔽环境中进行测试，减少外部高频干扰。
+5. 验证CQA指令中的高频测试参数，确保设置合理。
+6. 使用专业设备分析高次谐波的具体频率成分。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>喇叭测试</TestGroup>
+    <SpecialTestItems>AUDIO_OUTPUT_EARPIECE_16K_THD_16000</SpecialTestItems>
+    <TestDetailInformation>谐波</TestDetailInformation>
+    <Dependency>手机内部EARPIECE器件SWB频率测试</Dependency>
+    <Principle>通过CQA指令使听筒器件发出SWB声音测试</Principle>
+    <Impact>指标测试失败，说明手机听筒器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 高频信号下，听筒的材料特性导致谐波失真增加。
+2. 16kHz信号的能量分布导致不同阶次谐波产生。
+3. 测试环境对高频谐波的反射和吸收特性不同。
+4. 音频驱动或系统设置对高频信号处理不当。
+5. 测试设备在高频段的测量精度下降。
+
+建议措施：
+1. 检查听筒材料特性，确认是否适合16kHz高频测试。
+2. 分析16kHz信号的能量分布，优化测试信号特性。
+3. 在消声室或可控环境中进行测试，减少环境影响。
+4. 更新音频驱动程序，优化高频信号处理算法。
+5. 校准测试设备，确保在高频段的测量准确性。
+6. 使用FFT分析工具，详细分析谐波成分和分布。
+7. 如果问题仍然存在，更换听筒进行测试，判断是否为硬件问题。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>

@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+<AudioCommonTestItems>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_HOHD_ON</SpecialTestItems>
+    <TestDetailInformation>高次谐波</TestDetailInformation>
+    <Dependency>测试手机震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动信号含有高次谐波成分。
+2. 加速度计非线性失真导致高次谐波测量异常。
+3. 测试环境中存在高次谐波干扰源。
+4. 数据采集系统动态范围不足，无法准确测量高次谐波。
+5. 测试软件对高次谐波的计算方法不准确。
+6. 加速度计安装方式导致机械谐振产生高次谐波。
+7. 震动马达结构松动产生额外的高次谐波。
+
+建议措施：
+1. 净化震动马达驱动信号，减少高次谐波成分。
+2. 更换低非线性失真的加速度计。
+3. 改善测试环境，减少高次谐波干扰源。
+4. 提高数据采集系统动态范围。
+5. 优化测试软件对高次谐波的计算方法。
+6. 改进加速度计安装方式，避免机械谐振。
+7. 检查震动马达结构，加固松动部件。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_SIGNAL_SNR_BENCH_MIC</SpecialTestItems>
+    <TestDetailInformation>频外能量均数</TestDetailInformation>
+    <Dependency>测试手机震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达产生的频外噪声过大。
+2. 加速度计本底噪声过高。
+3. 测试环境中存在频外干扰信号。
+4. 信号调理电路对频外信号抑制不足。
+5. 测试软件对频外能量的计算方法有误。
+6. 数据采集系统采样率设置不合理。
+7. 加速度计频响曲线在频外区域不平坦。
+
+建议措施：
+1. 优化震动马达设计，减少频外噪声。
+2. 选用低噪声的加速度计。
+3. 改善测试环境，屏蔽频外干扰信号。
+4. 改进信号调理电路，增强对频外信号的抑制。
+5. 修正测试软件对频外能量的计算方法。
+6. 调整数据采集系统采样率。
+7. 校准加速度计频响曲线，确保在频外区域平坦。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>震动测试（L2）</TestGroup>
+    <SpecialTestItems>VIBE_THD_ON</SpecialTestItems>
+    <TestDetailInformation>谐波</TestDetailInformation>
+    <Dependency>测试手机震动时，幅值响度等指标</Dependency>
+    <Principle>通过设备加速度计记录手机在震动时各项参数指标值</Principle>
+    <Impact>测试失败，说明手机震动sensor器件不良</Impact>
+    <Risk>Middle</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 震动马达驱动信号本身含有谐波成分。
+2. 加速度计非线性导致谐波失真。
+3. 测试环境中存在谐波干扰。
+4. 数据采集系统动态范围不足。
+5. 测试软件对谐波的计算方法不准确。
+6. 震动马达机械结构共振产生谐波。
+7. 加速度计与震动马达频率不匹配。
+
+建议措施：
+1. 净化震动马达驱动信号，减少谐波成分。
+2. 更换低非线性失真的加速度计。
+3. 改善测试环境，减少谐波干扰。
+4. 提高数据采集系统动态范围。
+5. 优化测试软件对谐波的计算方法。
+6. 修改震动马达机械结构，避免共振。
+7. 匹配加速度计与震动马达频率。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>DISENGAGE_L2_AR_HEADSET</SpecialTestItems>
+    <TestDetailInformation>设备耳机插拔指令</TestDetailInformation>
+    <Dependency>设备动作指令</Dependency>
+    <Principle>通过下发指令控制设备耳机气缸动作</Principle>
+    <Impact>指令失败说明气缸没有到位或者感应sensor位置异常</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 气缸驱动气压不足，导致动作不到位。
+2. 气缸电磁阀控制信号异常。
+3. 感应sensor安装位置偏移。
+4. 感应sensor本身故障。
+5. 气缸机械结构卡死。
+6. 气管连接松动或漏气。
+7. 控制指令参数设置错误。
+
+建议措施：
+1. 检查并调整气缸驱动气压至标准值。
+2. 检测气缸电磁阀控制信号，修复异常。
+3. 校准感应sensor安装位置。
+4. 更换故障的感应sensor。
+5. 清理气缸机械结构，排除卡死问题。
+6. 检查并紧固气管连接，修复漏气点。
+7. 修正控制指令参数设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>ENGAGE_L2AR_HEADSET</SpecialTestItems>
+    <TestDetailInformation>设备耳机插拔指令</TestDetailInformation>
+    <Dependency>设备动作指令</Dependency>
+    <Principle>通过下发指令控制设备耳机气缸动作</Principle>
+    <Impact>指令失败说明气缸没有到位或者感应sensor位置异常</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 气缸驱动气压不足，导致动作不到位。
+2. 气缸电磁阀控制信号异常。
+3. 感应sensor安装位置偏移。
+4. 感应sensor本身故障。
+5. 气缸机械结构卡死。
+6. 气管连接松动或漏气。
+7. 控制指令参数设置错误。
+
+建议措施：
+1. 检查并调整气缸驱动气压至标准值。
+2. 检测气缸电磁阀控制信号，修复异常。
+3. 校准感应sensor安装位置。
+4. 更换故障的感应sensor。
+5. 清理气缸机械结构，排除卡死问题。
+6. 检查并紧固气管连接，修复漏气点。
+7. 修正控制指令参数设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>ANDROID_HEADSET_DETECT_INSERTION_APK_NO_PROMPT</SpecialTestItems>
+    <TestDetailInformation>耳机在位状态检查</TestDetailInformation>
+    <Dependency>判断手机是否为耳机状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否在位</Principle>
+    <Impact>指令失败说明耳机插入识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机插头与手机耳机孔接触不良。
+2. 手机耳机孔内部触点氧化或损坏。
+3. CQA指令参数配置错误。
+4. 耳机在位检测电路故障。
+5. 手机系统固件问题导致检测异常。
+6. 耳机插头尺寸不符合规格。
+7. 设备端耳机插入位置偏移。
+
+建议措施：
+1. 清洁耳机插头和手机耳机孔。
+2. 检查手机耳机孔内部触点，修复或更换。
+3. 修正CQA指令参数配置。
+4. 检测并修复耳机在位检测电路故障。
+5. 更新手机系统固件。
+6. 确保使用符合规格的耳机插头。
+7. 校准设备端耳机插入位置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>HEADSET_DETECT_HAS_MIC_STATUS</SpecialTestItems>
+    <TestDetailInformation>MIC在位状态</TestDetailInformation>
+    <Dependency>判断手机是否为耳机状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否在位</Principle>
+    <Impact>指令失败说明耳机插入识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机MIC触点与手机耳机孔对应触点接触不良。
+2. 手机耳机孔MIC检测电路故障。
+3. CQA指令未正确配置MIC检测参数。
+4. 耳机插头MIC部分损坏。
+5. 手机系统固件对MIC检测支持不完善。
+6. 耳机插头插入深度不足。
+7. 环境电磁干扰影响MIC检测信号。
+
+建议措施：
+1. 清洁耳机插头MIC触点和手机耳机孔对应触点。
+2. 检测并修复手机耳机孔MIC检测电路故障。
+3. 正确配置CQA指令中的MIC检测参数。
+4. 更换损坏的耳机插头。
+5. 更新手机系统固件。
+6. 调整耳机插头插入深度。
+7. 增加电磁屏蔽措施，减少环境干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>HEADSET_DETECT_PLUGGED_STATUS</SpecialTestItems>
+    <TestDetailInformation>耳机插入状态</TestDetailInformation>
+    <Dependency>判断手机是否为耳机状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否在位</Principle>
+    <Impact>指令失败说明耳机插入识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机插头与手机耳机孔接触不良。
+2. 手机耳机孔内部检测触点氧化或损坏。
+3. CQA指令参数配置错误。
+4. 耳机在位检测电路故障。
+5. 手机系统固件问题导致检测异常。
+6. 耳机插头插入不到位。
+7. 检测电路阈值设置不合理。
+
+建议措施：
+1. 清洁耳机插头和手机耳机孔。
+2. 检查手机耳机孔内部检测触点，修复或更换。
+3. 修正CQA指令参数配置。
+4. 检测并修复耳机在位检测电路故障。
+5. 更新手机系统固件。
+6. 确保耳机插头完全插入到位。
+7. 调整检测电路阈值设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>HEADSET_DETECT_TYPE_STATUS</SpecialTestItems>
+    <TestDetailInformation>耳机类型</TestDetailInformation>
+    <Dependency>判断手机是否为耳机状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否在位</Principle>
+    <Impact>指令失败说明耳机插入识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机类型检测电路故障。
+2. CQA指令未正确配置耳机类型检测参数。
+3. 手机系统固件对耳机类型识别不完善。
+4. 耳机插头结构不符合标准。
+5. 耳机插头与手机耳机孔接触不良。
+6. 检测电路灵敏度不足。
+7. 耳机类型判断阈值设置不合理。
+
+建议措施：
+1. 检测并修复耳机类型检测电路故障。
+2. 正确配置CQA指令中的耳机类型检测参数。
+3. 更新手机系统固件。
+4. 确保使用符合标准的耳机插头。
+5. 清洁耳机插头和手机耳机孔，确保良好接触。
+6. 调整检测电路灵敏度。
+7. 优化耳机类型判断阈值设置。
+    </IssuesAndSuggestion>
+  </TestItem>
+  <TestItem>
+    <TestGroup>耳机测试(L2)</TestGroup>
+    <SpecialTestItems>ANDROID_HEADSET_DETECT_REMOVAL_APK_HEADSETTYPE_DONTCARE</SpecialTestItems>
+    <TestDetailInformation>耳机不再位检查</TestDetailInformation>
+    <Dependency>判断手机是否为耳机移除状态</Dependency>
+    <Principle>通过CQA指令检测耳机是否移除</Principle>
+    <Impact>指令失败说明耳机移除识别异常，可能是设备异常或者手机耳机孔触点不良</Impact>
+    <Risk>Low</Risk>
+    <Owner>zhigang</Owner>
+    <IssuesAndSuggestion>
+问题分析：
+1. 耳机拔出后，手机耳机孔内部触点粘连。
+2. 耳机在位检测电路故障，无法正确识别移除状态。
+3. CQA指令参数配置错误。
+4. 手机系统固件问题导致移除检测异常。
+5. 设备端耳机拔出动作不完全。
+6. 检测电路响应延迟。
+7. 环境静电干扰检测电路。
+
+建议措施：
+1. 清洁手机耳机孔内部触点，消除粘连。
+2. 检测并修复耳机在位检测电路故障。
+3. 修正CQA指令参数配置。
+4. 更新手机系统固件。
+5. 确保设备端耳机完全拔出。
+6. 优化检测电路响应时间。
+7. 增加防静电措施，减少环境干扰。
+    </IssuesAndSuggestion>
+  </TestItem>
+</AudioCommonTestItems>
