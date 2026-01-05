@@ -1,0 +1,28 @@
+{
+  "version": "0.4.30",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "佩奇",
+      "text": "",
+      "points": [
+        [
+          438.72340425531917,
+          228.3191489361702
+        ],
+        [
+          544.0425531914893,
+          342.1489361702128
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "1.png",
+  "imageData": null,
+  "imageHeight": 446,
+  "imageWidth": 820,
+  "text": ""
+}
