@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TITANS项目日报表分析</title>
+    <!-- 引用本地的 Font Awesome 6.7.2 all.min.css 文件 -->
+    <link href="../static/css/solid.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 添加 Chart.js 库 -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>-->
+    <!-- 使用cdnjs -->
+    <script src="../download/node_modules/chart.js/dist/chart.umd.js"></script>
+    <!-- 使用unpkg -->
+<!--    <script src="https://unpkg.com/chart.js@4.4.8/dist/chart.umd.min.js"-->
+<!--            onerror="alert('Chart.js加载失败，请检查网络或更换CDN')"></script>-->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36D399',
+                        neutral: '#F9FAFB',
+                        warning: '#FFAA33',
+                        danger: '#FF5252'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .shadow-soft {
+                box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            }
+            .table-hover-effect {
+                @apply transition-all duration-200 hover:shadow-md;
+            }
+            .card-effect {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .suggestions-list {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border-radius: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter text-gray-800 min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-line-chart text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800">TITANS项目日报表分析</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="refreshBtn" class="flex items-center space-x-1 text-sm text-gray-600 hover:text-primary transition-colors">
+                    <i class="fa fa-refresh"></i>
+                    <span>刷新数据</span>
+                </button>
+                <button id="exportBtn" class="flex items-center space-x-1 text-sm text-gray-600 hover:text-primary transition-colors">
+                    <i class="fa fa-download"></i>
+                    <span>导出结果</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 文件选择区域 -->
+        <section class="bg-white rounded-xl shadow-soft p-6 mb-8 transform hover:shadow-md transition-shadow duration-300">
+            <h2 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fa fa-file-text-o text-primary mr-2"></i>
+                选择数据文件
+            </h2>
+
+            <div id="fileCheckboxesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="flex items-center text-red-500">
+                    <i class="fa fa-spinner fa-spin mr-2"></i>
+                    <span>正在加载文件列表...</span>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button id="loadBtn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                    <i class="fa fa-database mr-1"></i> 加载选中文件
+                </button>
+            </div>
+        </section>
+
+        <!-- 筛选区域 -->
+        <section class="bg-white rounded-xl shadow-soft p-6 mb-8 transform hover:shadow-md transition-shadow duration-300">
+            <h2 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fa fa-filter text-primary mr-2"></i>
+                数据筛选
+            </h2>
+
+            <div id="filterConditionsContainer">
+                <div class="filter-group grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">筛选字段</label>
+                        <select class="filter-field w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20 transition-all">
+                            <option value="日期">日期</option>
+                            <option value="站点">站点</option>
+                            <option value="问题描述">问题描述</option>
+                            <option value="阶段">阶段</option>
+                            <option value="严重等级">严重等级</option>
+                            <option value="SN">SN</option>
+                            <option value="不良数">不良数</option>
+                            <option value="投入数">投入数</option>
+                            <option value="不良率">不良率</option>
+                            <option value="责任人">责任人</option>
+                            <option value="状态">状态</option>
+                            <option value="类别">类别</option>
+                            <option value="根本原因">根本原因</option>
+                            <option value="改善措施">改善措施</option>
+                            <option value="截止日期">截止日期</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">筛选条件</label>
+                        <select class="filter-condition w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20 transition-all">
+                            <option value="contains">包含</option>
+                            <option value="equals">等于</option>
+                            <option value="startsWith">以...开始</option>
+                            <option value="endsWith">以...结束</option>
+                            <option value="greater">大于</option>
+                            <option value="less">小于</option>
+                        </select>
+                    </div>
+
+                    <div class="relative"> <!-- 相对定位容器 -->
+                        <label class="block text-sm font-medium text-gray-700 mb-1">筛选值</label>
+                        <input type="text" class="filter-value w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20 transition-all" placeholder="输入筛选值">
+                    </div>
+
+                    <div class="flex items-end">
+                        <button class="add-filter-btn px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                            <i class="fa fa-plus mr-1"></i> 添加条件
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button id="resetBtn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fa fa-eraser mr-1"></i> 重置
+                </button>
+                <button id="filterBtn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                    <i class="fa fa-search mr-1"></i> 筛选
+                </button>
+            </div>
+        </section>
+
+        <!-- 数据统计卡片 -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-xl p-5 shadow-soft card-effect">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">总记录数</p>
+                        <h3 class="text-2xl font-bold mt-1" id="totalRecords">0</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary">
+                        <i class="fa fa-list-alt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-5 shadow-soft card-effect">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">待解决问题</p>
+                        <h3 class="text-2xl font-bold mt-1" id="pendingIssues">0</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-warning/10 flex items-center justify-center text-warning">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-5 shadow-soft card-effect">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">严重问题</p>
+                        <h3 class="text-2xl font-bold mt-1" id="severeIssues">0</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+                        <i class="fa fa-bolt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-5 shadow-soft card-effect">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">平均不良率</p>
+                        <h3 class="text-2xl font-bold mt-1" id="avgDefectRate">0%</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                        <i class="fa fa-percent"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据表格 -->
+        <section class="bg-white rounded-xl shadow-soft overflow-hidden transform hover:shadow-md transition-shadow duration-300">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">日期</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">站点</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">问题描述</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">阶段</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">严重等级</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SN</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">不良数</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">投入数</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">不良率</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">责任人</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类别</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">根本原因</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">改善措施</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="dataTableBody">
+                        <!-- 数据将通过JavaScript动态填充 -->
+                        <tr>
+                            <td colspan="14" class="px-6 py-10 text-center text-gray-500">
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-folder-open-o text-3xl mb-2"></i>
+                                    <p>请选择并加载数据文件</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            <div class="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" id="pagination">
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            显示 <span class="font-medium" id="currentPageRange">0-0</span> 条，共 <span class="font-medium" id="totalPages">0</span> 页
+                        </p>
+                        <label for="recordsPerPage" class="ml-4 text-sm text-gray-700">每页记录数:</label>
+                        <select id="recordsPerPage" class="ml-2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20 transition-all">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+                    <div class="flex space-x-1">
+                        <button id="prevPage" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa fa-chevron-left text-xs"></i>
+                        </button>
+                        <div id="pageNumbers" class="flex space-x-1">
+                            <!-- 页码将通过JavaScript动态填充 -->
+                        </div>
+                        <button id="nextPage" class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 统计图表区域 -->
+        <section class="bg-white rounded-xl shadow-soft p-6 mb-8 transform hover:shadow-md transition-shadow duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold flex items-center">
+                    <i class="fa fa-bar-chart text-primary mr-2"></i>
+                    问题统计分析
+                </h2>
+                <button id="analysisBtn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                    <i class="fa fa-search mr-1"></i> 统计分析
+                </button>
+            </div>
+
+            <!-- 新增线性动态图表容器 -->
+            <div id="dateIssueChartContainer" class="bg-gray-50 p-4 rounded-lg h-[350px] overflow-hidden">
+                <h3 class="text-sm font-medium text-gray-700 mb-4">问题描述与日期关系</h3>
+                <canvas id="dateIssueChart" class="w-full h-[300px]"></canvas>
+
+                <!-- 根本原因显示区域 -->
+                <div id="rootCauseContainer" class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-lg hidden">
+                    <h4 class="text-xs font-medium text-blue-700 mb-2">根本原因分析</h4>
+                    <p id="rootCauseText" class="text-xs text-gray-600"></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <p class="text-center text-gray-500 text-sm">
+                © 2025 TITANS项目日报表分析系统 | 最后更新: <span id="lastUpdated">加载中...</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- 详情模态框 -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">问题详情</h3>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6" id="modalContent">
+                <!-- 详情内容将通过JavaScript动态填充 -->
+            </div>
+            <div class="p-6 border-t border-gray-200 flex justify-end">
+                <button id="closeModalBtn" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引用外部 JavaScript 文件 -->
+    <script src="../scripts/index_script.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "chart.js": "file:chart.js-4.4.8.tgz"
+  }
+}
