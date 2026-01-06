@@ -128,3 +128,6 @@ tools/
 # 本地测试文件
 test_output/
 results/
+
+# OT+测试日志（如果你不想共享）
+*.log_zip
