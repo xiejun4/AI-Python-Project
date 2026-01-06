@@ -1,0 +1,60 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -73.7
+Measure Process	SIGNAL_LEVEL Reading 2: -76.9
+Measure Process	SIGNAL_LEVEL Reading 3: -76.2
+Measure Process	SIGNAL_LEVEL Reading 4: -75
+Measure Process	SIGNAL_LEVEL Reading 5: -77.7
+Measure Process	SIGNAL_LEVEL Reading 6: -73.9
+Measure Process	SIGNAL_LEVEL Reading 7: -78.1
+Measure Process	SIGNAL_LEVEL Reading 8: -73.5
+Measure Process	SIGNAL_LEVEL Reading 9: -78.1
+Measure Process	SIGNAL_LEVEL Reading 10: -74.5
+Measure Process	SIGNAL_LEVEL Reading 11: -76.3
+Measure Process	SIGNAL_LEVEL Reading 12: -74.1
+Measure Process	SIGNAL_LEVEL Reading 13: -77
+Measure Process	SIGNAL_LEVEL Reading 14: -78.2
+Measure Process	SIGNAL_LEVEL Reading 15: -77.5
+Measure Process	SIGNAL_LEVEL Reading 16: -76
+Measure Process	SIGNAL_LEVEL Reading 17: -76
+Measure Process	SIGNAL_LEVEL Reading 18: -76.1
+Measure Process	SIGNAL_LEVEL Reading 19: -74.5
+Measure Process	SIGNAL_LEVEL Reading 20: -76
+Measure Process	SIGNAL_LEVEL Reading 21: -73.6
+Measure Process	SIGNAL_LEVEL Reading 22: -74.2
+Measure Process	SIGNAL_LEVEL Reading 23: -73.8
+Measure Process	SIGNAL_LEVEL Reading 24: -73.5
+Measure Process	SIGNAL_LEVEL Reading 25: -73.5
+Measure Process	SIGNAL_LEVEL Reading 26: -74.3
+Measure Process	SIGNAL_LEVEL Reading 27: -74.6
+Measure Process	SIGNAL_LEVEL Reading 28: -76.4
+Measure Process	SIGNAL_LEVEL Reading 29: -76.7
+Measure Process	SIGNAL_LEVEL Reading 30: -78.5
+Measure Process	SIGNAL_LEVEL Reading 31: -77.7
+Measure Process	SIGNAL_LEVEL Reading 32: -73.4
+Measure Process	SIGNAL_LEVEL Reading 33: -78.1
+Measure Process	SIGNAL_LEVEL Reading 34: -78.4
+Measure Process	SIGNAL_LEVEL Reading 35: -75.1
+Measure Process	SIGNAL_LEVEL Reading 36: -73.9
+Measure Process	SIGNAL_LEVEL Reading 37: -78.5
+Measure Process	SIGNAL_LEVEL Reading 38: -77.4
+Measure Process	SIGNAL_LEVEL Reading 39: -74.3
+Measure Process	SIGNAL_LEVEL Reading 40: -75.1
+Measure Process	SIGNAL_LEVEL Reading 41: -76
+Measure Process	SIGNAL_LEVEL Reading 42: -74.9
+Measure Process	SIGNAL_LEVEL Reading 43: -77.4
+Measure Process	SIGNAL_LEVEL Reading 44: -74.8
+Measure Process	SIGNAL_LEVEL Reading 45: -77.6
+Measure Process	SIGNAL_LEVEL Reading 46: -73.5
+Measure Process	SIGNAL_LEVEL Reading 47: -78.7
+Measure Process	SIGNAL_LEVEL Reading 48: -75.8
+Measure Process	SIGNAL_LEVEL Reading 49: -76.2
+Measure Process	SIGNAL_LEVEL Reading 50: -76.2
+Measure Process	SIGNAL_LEVEL Reading 51: -76.2
+Measure Process	SIGNAL_LEVEL Reading 52: -76.3
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = -76.14
+# test_result
+EvalAndLogResults	418	1028	QC_NS_N78_RX_RSSI_C3_MCH_636667_ANT_CW	-67	-53	-76.14	dBm	1344	87332	* FAILED *		#<---------|-------------------------|---------->	Off	False	True	QN78R3M1
+EvalAndLogResults	418	1029	QC_NS_N78_RX_RSSI_C3_STATUS	0	0	1	P/F	15	87347	* FAILED *	Error code: 1
+EvalAndLogResults
+EvalAndLogResults	Details:
+EvalAndLogResults	FAILED_LIMITS_CHECK	<-----------------------|#---------------------->	Off	False	False	QN78R3MS

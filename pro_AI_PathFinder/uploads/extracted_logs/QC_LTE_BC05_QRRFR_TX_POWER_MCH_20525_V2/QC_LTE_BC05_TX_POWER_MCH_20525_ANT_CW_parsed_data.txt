@@ -1,0 +1,22 @@
+title_name: test_process
+Measure Process	TX_POWER Reading 1: 20.80302
+Measure Process	TX_POWER Reading 2: 20.82861
+Measure Process	TX_POWER Reading 3: 20.87147
+Measure Process	TX_POWER Reading 4: 20.81712
+Measure Process	TX_POWER Reading 5: 20.88095
+Measure Process	End TX_POWER measure process: 20.840234
+
+title_name: test_result
+test_item: QC_LTE_BC05_TX_POWER_MCH_20525_ANT_CW
+low_limit: 15.0
+up_limit: 25.0
+test_data: 20.84
+unit: dB
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

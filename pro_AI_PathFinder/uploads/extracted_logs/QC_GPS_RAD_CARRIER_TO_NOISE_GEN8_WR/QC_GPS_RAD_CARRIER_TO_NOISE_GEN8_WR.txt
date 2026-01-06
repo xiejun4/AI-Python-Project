@@ -1,0 +1,13 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: 63.1
+Measure Process	SIGNAL_LEVEL Reading 2: 61.7
+Measure Process	SIGNAL_LEVEL Reading 3: 60.3
+Measure Process	End RX_FREQUENCY_OFFSET measure process: Final measurement = 99.9793333333333
+Measure Process	SIGNAL_LEVEL Reading 4: 61.1
+Measure Process	SIGNAL_LEVEL Reading 5: 61.6
+Measure Process	SIGNAL_LEVEL Reading 6: 62
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = 61.5666666666667
+# test_result
+EvalAndLogResults	244	420	QC_GPS_CARRIER_TO_NOISE_ANT_CW	55	65	61.5666666666667	dB	7375	61804	PASSED		<----------|----------------#--------|---------->	Off	False	False	GPS_CTWR
+EvalAndLogResults	244	421	QC_GPS_FREQ_OFFSET_ANT_CW	94	106	99.987	kHz	0	61804	PASSED		<----------|------------#------------|---------->	Off	False	False	GPFQOFWR
+EvalAndLogResults	244	422	GPS_OVERALL_STATUS	0	0	0	P/F	1	61805	PASSED		<-----------------------|#|--------------------->	Off	False	False	GPSSTATS

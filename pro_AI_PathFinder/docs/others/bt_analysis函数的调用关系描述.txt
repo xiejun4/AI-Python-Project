@@ -1,0 +1,54 @@
+以下是 `bt_analysis.py` 中9个函数的调用关系描述，按核心流程和层级梳理如下：
+
+
+### **核心调用链（主流程）**
+`process_log_file` 是整个逻辑的入口函数，串联起其他核心函数，形成以下主要调用链：
+`process_log_file` → `log_file_name_parse` → `check_station` → `analysis_nextest_log` → `read_universal_file` → `analysis_main_procedure` → `boardtest_basic_analysis`
+同时，`process_log_file` 还会调用文件操作相关函数 `save_json_string` 和 `read_json_file`。
+
+
+### **详细调用关系**
+1. **`process_log_file`（主函数）**
+   - 调用 `log_file_name_parse`：解析日志文件名，获取基础信息（产品、状态、时间等）。
+   - 调用 `check_station`：根据解析的 `process` 字段判断是否为BT测试，非BT测试则直接返回空。
+   - 调用 `analysis_nextest_log`：分析测试日志文件，提取失败详情。
+   - 调用 `save_json_string`：将分析结果（JSON字符串）保存到文件。
+   - 调用 `read_json_file`：读取保存的JSON文件内容并返回。
+
+
+2. **`analysis_nextest_log`**
+   - 调用 `read_universal_file`：读取测试日志文件（`nextest_log`）内容，返回行列表。
+   - 调用 `analysis_main_procedure`：根据提取的测量代码（`meascode`）和平台信息，执行核心分析逻辑。
+
+
+3. **`analysis_main_procedure`**
+   - 调用 `boardtest_basic_analysis`：当 `meascode` 长度为8时，分析基础板级测试失败原因。
+   - （隐含）可能调用 `plat_mtk_library_callback_analysis`（代码未完全展示）：当 `meascode` 长度为10且平台为MTK时执行。
+
+
+4. **其他函数的调用关系**
+   - `read_universal_file`：仅被 `analysis_nextest_log` 调用，用于读取日志文件内容（兼容多种编码）。
+   - `log_file_name_parse`：仅被 `process_log_file` 调用，解析文件名信息。
+   - `check_station`：仅被 `process_log_file` 调用，判断测试类型是否为BT。
+   - `save_json_string` 与 `read_json_file`：仅被 `process_log_file` 调用，用于JSON文件的保存和读取。
+   - `boardtest_basic_analysis`：仅被 `analysis_main_procedure` 调用，处理基础板级测试的失败分析。
+
+
+### **调用关系图（简化）**
+```
+process_log_file
+├─ log_file_name_parse
+├─ check_station
+├─ analysis_nextest_log
+│  ├─ read_universal_file
+│  └─ analysis_main_procedure
+│     └─ boardtest_basic_analysis
+├─ save_json_string
+└─ read_json_file
+```
+
+
+### **总结**
+- 所有函数围绕 `process_log_file` 展开，形成“解析文件名→判断测试类型→读取日志→分析失败→生成报告”的完整流程。
+- 底层工具函数（`read_universal_file`、`save_json_string` 等）被上层逻辑函数调用，提供文件读写、编码处理等基础能力。
+- 分析逻辑通过 `analysis_nextest_log` 和 `analysis_main_procedure` 分层处理，最终由 `boardtest_basic_analysis` 实现具体失败项的解析。

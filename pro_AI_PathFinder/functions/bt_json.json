@@ -1,0 +1,42 @@
+{
+  "Report_Theme": "Interpretation of ZY22LC4HHC MTK_WLAN_5G_C0_TX_POWER_MCH100_ANT_CW Report",
+  "Global_Overview": {
+    "Status_Indicators": {
+      "WiFi_2_4G_TX": "PASSED",
+      "WiFi_2_4G_RX": "",
+      "WiFi_5G_TX": "",
+      "WiFi_5G_RX": "",
+      "Bluetooth_TX": "",
+      "GPS_RX": "",
+      "LTE_TX": "",
+      "LTE_RX": ""
+    },
+    "Key_Conclusion_Summary": {
+      "WCN_Status": "The RX RSSI",
+      "LTE_status": "The RX RS"
+    }
+  },
+  "Modular_Test_Results_Display": {
+    "Test_Analysis": {
+      "Test_Project_Results": [
+        {
+          "Test_Project": "T181_N78_UlF3750M_CID8_RUT393727_CKG3_CP-QPSK_BW100_30K_RB273@0_PwrS0_FE138_FEL8_TxPower",
+          "Meaning": "T181_N78_UlF3750M_CID8_RUT393727_CKG3_CP-QPSK_BW100_30K_RB273@0_PwrS0_FE138_FEL8_TxPower",
+          "Indicator": "T181_N78_UlF3750M_CID8_RUT393727_CKG3_CP-QPSK_BW100_30K_RB273@0_PwrS0_FE138_FEL8_TxPower",
+          "Test_Value": "18.899",
+          "Range": "19,21",
+          "Test_Result": "FAILED",
+          "Trend_Analysis": "None",
+          "Implied_Problem_Possibility": "Please retest,if still fail, maybe it's PCBA defect (SMT defect/IC defect) and need repair.",
+          "Chart_Name": "None",
+          "Chart_Content": "None"
+        }
+      ],
+      "Analysis_Logic_Chain": "RSSI below the lower limit: Insufficient antenna gain or non - compliant transmission power."
+    }
+  },
+  "Optimization_Suggestions_or_Solutions": {
+    "Emergency_Plan": "Use a golden unit to determine whether the whole device is defective or mis - tested. Recalibrate the line loss, compensate for the line loss offset, and then retest.",
+    "Radical_Solution": "Disassemble the device to determine whether the materials are defective or the soldering is poor. Optimize the incoming materials to ensure good products, or optimize the assembly process (see Appendix A - Hardware Modification Guide)."
+  }
+}

@@ -1,0 +1,431 @@
+一、函数列表
+
+序号：000
+文件：test5.py
+说明：
+    （0）log文件是CAVA_WIFI-ONLY_综测_BT站点_log，MTK_META_ver：2440；
+    （0）目标文件是OT+的工具log；
+    （1）提取包含[*REPORT*]的记录行；
+    （2）按照[test_item, test_value, lower_limit, upper_limit, test_result]格式输出；
+    调用：
+    输入：目标文件
+    输出：过滤后的log文件。
+
+
+序号：001
+文件：test7.py
+说明：查询过滤后的log文件，输出分组数据，图表，base64数据
+    （0）log文件是CAVA_WIFI-ONLY_综测_BT站点_log，MTK_META_ver：2440；
+    （0）log文件是过滤后的；
+    （1）用户输入查询log文件路径，分组关键字，测试项关键字；
+    （2）查询数据、分组数据、
+    （3）绘图数据
+    （4）转换绘图为base64数据并输出
+    调用：
+    输入：
+        success, image_base64 = ShowWiFiTestInfo(
+            file_path='C:/Users/xiaoxiang3/Desktop/test/Wifi-2_4G_SP_META_WiFi_HQA_AntSwapSet_r的测试数据_extracted.csv',
+            group_key="RX",
+            test_item_key="RSSI"
+    输出：
+        分组之后的数据集；
+        将数据集绘制成数据表；
+        将数据表转为base64数据并输出；
+
+
+序号：002
+文件：test003.py
+说明：过滤Cava电流站的测试log，输出数据，绘制图表，输出base64数据
+    （0）过滤说明
+        父：测试项
+        |- 子：2级测试项
+            |- 孙：3级测试项
+
+        main_identifier = "MEASURE_CURRENT_BRD_DEEPSLEEP_RID_NOLOAD"
+        |- sub_identifiers = r"(Measure Process|BattPowerSupply|Write|Read)"
+            |- sub_filter2 = "CURRENT Reading"
+
+
+序号：003
+文件：GSM_ARB_Failed_helper2.py
+说明：GSM的校准过程中加载ARB文件的异常处理。
+    （0）加载GSM的校准log。
+    （1）设置查询锚点行内容。
+    （2）如果查询log范围内第二次出现 .wv 文件，表示ARB文件加载异常，记录当前的行号和行内容。
+    （3）输出错误分析。
+    （4）转换错误分析为jason格式。
+
+
+序号：004
+文件：unzip_otplus_helper4.py
+说明：L2AR的解压xx.zip_log，获取需要解析的log文件。
+
+    （0）解压文件
+        success, msg = unzip_otplus_helper_unzip_file(**config)
+        # 1.如果目标目录存在，先删除目录下的文件，然后删除目录
+        # 2.解压文件
+
+    （1）过滤log文件
+        keywords = {"_startup", "resourceHistory.xml.txt"}
+        filter_results = unzip_otplus_helper_filter_files2(config["dest_path"], keywords)
+        # 1. 过滤含有关键字的文件（跳过删除）
+        # 2. 检查并重命名.log扩展名
+
+
+序号：005
+文件：remove_timestamp2log_level_helper.py
+说明：过滤L2AR的log文件，保留测试模块、测试模块数据。
+    （0）函数：def remove_timestamp2log_level_2(input_file, output_file):
+
+# ------------------------------------------------------------------------------------------------
+# 说明：以下函数用来解析MTK WLAN测试参数，生成中英文测试说明。
+# ------------------------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------------------------
+# mtk_wlan_tx_test_power_24g_description_helper.py
+# ------------------------------------------------------------------------------------------------
+序号：006
+文件：mtk_wlan_tx_test_power_24g_description_helper.py
+说明：解析MTK WLAN测试参数，生成中英文测试说明。（测试的项目，测试项是什么）
+    (0)
+    def mtk_wlan_tx_24g_helper_test_purpose_test_items(param: str) -> dict:
+        """
+        解析MTK WLAN测试参数，生成中英文测试说明
+
+        参数:
+            param: MTK WLAN测试参数（如：MTK_WLAN_2.4G_C0_TX_POWER_MCH07_ANT_CW）
+
+        返回:
+            dict: 包含中英文测试目的和测试项的结构化说明
+        """
+
+    (1)
+    def mtk_wlan_tx_24g_helper_parse_test_result(test_result_container):
+        """
+        格式化测试结果数据
+
+        参数:
+        test_result_container (list): 测试结果容器
+
+        返回:
+        dict: 包含 parsed_test_result_container
+        """
+
+    (2)
+    def mtk_wlan_tx_24g_helper_parse_test_process_new(test_process_container,
+     parsed_eval_and_log_results_container, folder_path):
+        """
+        格式化测试过程数据
+
+        参数:
+        test_process_container (list): 测试过程容器
+        parsed_eval_and_log_results_container (list): 测试结果容器
+        folder_path（str）：文件夹目录
+
+        返回:
+        parsed_test_process_container（dict）：测试过程字典
+        parsed_eval_and_log_results_container（dict）：测试结果字典
+        """
+
+    (3)
+    def mtk_wlan_tx_24g_helper_judge_value_range3(values, low_limit, up_limit, top_percentage_limit=0.5, language='zh'):
+        """
+        代码说明：
+        mtk_wlan_tx_24g_helper_judge_value_range3 函数：
+        首先，按照原逻辑对每个值进行判定，得到判定结果列表 results。
+        接着，统计每种判定结果的数量，存储在 counts 字典中。
+        然后，对 counts 字典按数量降序排序。
+        若占比最高的判定结果占比超过 50%，则返回该判定结果；否则，返回所有非 “无效数据” 且数量大于 0 的判定结果，用逗号连接。
+        主程序部分：调用 judge_value_range 函数得到数据方位并打印。
+        """
+
+    （4）
+    def mtk_wlan_tx_24g_helper_check_stability(satisifed_container, language='zh'):
+        """
+        代码说明：
+        mtk_wlan_tx_24g_helper_check_stability 函数：
+        该函数接收 satisifed_container 列表和 language 参数（默认值为 'zh' 表示中文）作为输入。
+        遍历 satisifed_container 列表中的每个元素，使用 lower() 方法将元素转换为小写，然后检查是否包含 complete 或 satisifed。
+        如果找到匹配项，则将状态设置为 "稳定" 并跳出循环；如果遍历完整个列表都没有找到匹配项，则将状态设置为 "不稳定"。
+        根据 language 参数的值，若为 'en' 则使用 translation_dict 字典将状态描述转换为英文，否则直接返回中文描述。
+        """
+
+    （5）
+    def mtk_wlan_tx_24g_helper_generate_and_save_chart2(parsed_eval_and_log_results_container,
+                                                        parsed_test_process_container,
+                                                        folder_path,
+                                                        test_index=1):
+        """
+        根据解析后的评估和日志结果容器、解析后的测试过程容器生成图表，并将图表保存为图片文件和 Base64 编码文件。
+
+        参数:
+        parsed_eval_and_log_results_container (dict): 解析后的评估和日志结果容器，包含测试数据、状态、测试项、上下限等信息。
+        parsed_test_process_container (dict): 解析后的测试过程容器，包含测试过程中的各种数据。
+        folder_path (str): 图表和 Base64 编码文件保存的文件夹路径。
+        test_index (int, 可选): 测试索引，用于生成图表的名称，默认为 1。
+
+        返回:
+        dict: 包含图表名称和 Base64 编码文件路径的字典。如果没有有效数值数据可绘制图表，返回空字典。
+        """
+
+    (6)
+    def mtk_wlan_tx_24g_helper_group_log_file_content(file_path):
+        """
+        此函数用于读取指定文件中的日志内容，
+        使用预定义的正则表达式匹配符合条件的行，
+        并将匹配到的行按照正则表达式和每行的键进行分组。
+
+        参数:
+        file_path (str): 要读取的日志文件的路径
+
+        返回:
+        dict: 分组后的字典，键为正则表达式，值为按键分组的行
+        """
+
+    (6)
+    def mtk_wlan_tx_24g_helper_filter_test_process_test_result(grouped_dict, target_pattern):
+        """
+        从分组后的数据中，过滤出测试过程数据和测试结果数据
+
+        参数:
+        grouped_dict (dict): 分组后的字典，键为正则表达式，值为按键分组的行
+        target_pattern (str): 目标正则表达式
+
+        返回:
+        tuple: 包含 test_process_container、eval_and_log_results_container 和 satisifed_container 的元组
+        """
+
+# ------------------------------------------------------------------------------------------------
+# mtk_wlan_rx_test_rssi_24g_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：007
+def mtk_wlan_rx_test_description(param: str) -> dict:
+    """
+    解析MTK WLAN接收测试参数（仅支持RX场景），生成中英文测试说明
+
+    参数:
+        param: MTK WLAN接收测试参数（如：MTK_WLAN2.4G_RX_C0_HQA_RSSI_MCH7）
+               标准格式：MTK_WLAN[2.4G/5G]_RX_C[0-14]_[HQA/LQA/BEAM]_RSSI_MCH[1-16]
+
+    返回:
+        dict: 包含中英文测试目的、测试项及技术细节的结构化说明
+    """
+
+def mtk_wlan_rx_test_description2(param: str) -> dict:
+    """
+    解析MTK WLAN接收测试参数（仅支持RX场景），生成中英文测试说明
+
+    参数:
+        param: MTK WLAN接收测试参数（如：MTK_WLAN_2.4G_C0_CH07_RSSI_ANT_CW）
+               标准格式：MTK_WLAN_[2.4G/5G]_C[0-14]_CH[1-16]_RSSI_ANT_CW
+
+    返回:
+        dict: 包含中英文测试目的、测试项及技术细节的结构化说明
+    """
+
+def mtk_wlan_rx_test_description3(param: str) -> dict:
+    """
+    解析MTK WLAN接收测试参数（仅支持RX场景），生成中英文测试说明
+
+    参数:
+        param: MTK WLAN接收测试参数（如：MTK_WLAN_2.4G_C0_CH07_RSSI_ANT_CW）
+               标准格式：MTK_WLAN_[2.4G/5.0G]_C[0-14]_CH[1-16]_RSSI_ANT_CW
+
+    返回:
+        dict: 包含中英文测试目的、测试项及技术细节的结构化说明
+    """
+
+def mtk_wlan_rx_test_description_select(param: str) -> dict:
+    """
+    根据输入的param选择合适的解析函数
+
+    参数:
+        param: MTK WLAN接收测试参数
+
+    返回:
+        dict: 包含中英文测试目的、测试项及技术细节的结构化说明
+    """
+    if re.match(r"MTK_WLAN_2.4G_C\d+_CH\d+_RSSI_ANT_CW", param.upper()):
+        return mtk_wlan_rx_test_description2(param)
+    elif re.match(r"MTK_WLAN2.4G_RX_C\d+_[HQA|LQA|BEAM]_RSSI_MCH\d+", param.upper()):
+        return mtk_wlan_rx_test_description(param)
+    elif re.match(r"MTK_WLAN_(?P<band>\d+\.?\d*G)_C(?P<channel>\d+)_CH(?P<ch_num>\d+)_RSSI_ANT", param.upper()):
+        return mtk_wlan_rx_test_description3(param)
+    else:
+        raise ValueError(f"无效的MTK WLAN接收参数: {param}，请提供符合格式的参数")
+
+
+# ------------------------------------------------------------------------------------------------
+# mtk_wlan_tx_test_power_5g_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：008
+文件：mtk_wlan_tx_test_power_5g_description_helper.py
+说明：解析MTK WLAN发射测试参数（仅支持TX场景），生成中英文测试说明。（测试的项目，测试项是什么）
+    （0）
+    函数：def mtk_wlan_test_tx_power_5g_description(param: str) -> dict:
+    参数:
+        MTK WLAN发射测试参数（如：MTK_WLAN5G_TX_HQA_C0_15DB_CH100）
+        标准格式：MTK_WLAN[5G/2.4G]_TX_[HQA/LQA/BEAM]_C[0-3]_[0-30]DB_CH[1-256]
+    返回:
+        dict: 包含中英文测试目的、测试项及MTK标准的结构化说明
+
+# ------------------------------------------------------------------------------------------------
+# mtk_wlan_rx_test_rssi_5g_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：009
+文件：mtk_wlan_rx_test_rssi_5g_description_helper.py
+说明：解析MTK 5G WLAN接收测试参数（仅RX场景），生成中英文技术说明。（测试的项目，测试项是什么）
+    （0）
+    函数：def mtk_wlan_test_rx_rssi_5g_description(param: str) -> dict:
+    参数:
+        param: MTK 5G接收参数（如：MTK_WLAN5G_RX_C0_HQA_CH100）
+        标准格式：MTK_WLAN5G_RX_C[0-3]_[HQA/LQA/BEAM]_CH[1-256]
+    返回:
+        dict: 包含测试目的、测试项（带MTK标准值）的双语说明
+
+# ------------------------------------------------------------------------------------------------
+# mtk_bt_tx_test_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：010
+文件：mtk_bt_tx_test_description_helper.py
+说明：解析MTK蓝牙发射测试参数（仅TX场景），生成双语技术说明。（测试的项目，测试项是什么）
+    （0）
+    函数：def mtk_bluetooth_tx_test_description(param: str) -> dict:
+    参数:
+        param: MTK蓝牙发射参数（如：MTK_BLUETOOTH_TX_POWER_V2_CH39）
+               标准格式：MTK_BLUETOOTH_TX_POWER_V[1-3]_(CH\d{1,2})
+               注：CH0-39（0-36数据信道，37-39广播信道，CH39=2480MHz）
+    返回:
+        dict: 含测试目的、测试项（带蓝牙5.3标准）的双语说明
+
+# ------------------------------------------------------------------------------------------------
+# mtk_gps_rx_test_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：011
+文件：mtk_gps_rx_test_description_helper.py
+说明：解析MTK GPS接收测试参数（仅RX场景），生成双语技术说明。（测试的项目，测试项是什么）
+    （0）
+    函数：def mtk_gps_rx_test_description(param: str) -> dict:
+    参数:
+        param: MTK GPS接收参数（如：MTK_GPS_RX_V3_L1_-100DB）
+               标准格式：MTK_GPS_RX_V[1-4]_(L1|L2|L5)_(?P<rssi>-?\d+)DB
+               注：L1=1575.42MHz（C/A码），L2=1227.60MHz（P码），L5=1176.45MHz（新信号）
+    返回:
+        dict: 含测试目的、测试项（带MTK标准值）的双语说明
+
+# ------------------------------------------------------------------------------------------------
+# mtk_lte_tx_test_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：012
+文件：mtk_lte_tx_test_description_helper.py
+说明：解析MTK LTE/NR发射测试参数（BC42专属），生成双语技术说明。（测试的项目，测试项是什么）
+    （0）
+    函数：def mtk_lte_tx_test_description(param: str) -> dict:
+    参数:
+        param: MTK LTE发射参数（如：MTK_MMRF_LTE_BC42_TX_20DB_V7_MCH42590）
+               标准格式：MTK_MMRF_LTE_BC(?P<band>\d+)_TX_(?P<power>\d+)DB_V(?P<version>\d+)_MCH(?P<freq>\d+\.?\d*)
+               注：BC42=3500-3600MHz（n42，5G NR扩展频段）
+    返回:
+        dict: 含测试目的、测试项（带3GPP/MTK双标准）的双语说明
+
+# ------------------------------------------------------------------------------------------------
+# mtk_lte_rx_test_description_helper.py
+# ------------------------------------------------------------------------------------------------
+
+序号：013
+文件：mtk_lte_rx_test_description_helper.py
+说明：解析MTK LTE/NR接收测试参数（BC42专属），生成双语技术说明。（测试的项目，测试项是什么）
+    （0）
+    函数：def mtk_lte_tx_test_description(param: str) -> dict:
+    参数:
+        param: MTK LTE接收参数（如：MTK_MMRF_LTE_BC42_RX_C0_RSSI_V9_MCH42590_EP）
+               标准格式：MTK_MMRF_LTE_BC42_RX_(C\d+)_RSSI_(?P<rssi>-?\d+)DB_V(?P<version>\d+)_MCH(?P<freq>\d+\.?\d*)_EP
+               注：C0-C3为n42频点，EP=误包率测试（Enhanced Packet）
+    返回:
+        dict: 含测试目的、测试项（带3GPP/MTK双标准）的双语说明
+
+序号：014
+文件：mtk_lte_rx_test_description_helper.py
+说明：
+        """
+        代码说明：
+        judge_value_range3 函数：
+        首先，按照原逻辑对每个值进行判定，得到判定结果列表 results。
+        接着，统计每种判定结果的数量，存储在 counts 字典中。
+        然后，对 counts 字典按数量降序排序。
+        若占比最高的判定结果占比超过 50%，则返回该判定结果；否则，返回所有非 “无效数据” 且数量大于 0 的判定结果，用逗号连接。
+        主程序部分：调用 judge_value_range 函数得到数据方位并打印。
+        """
+（0）
+函数：
+    def judge_value_range3(values, low_limit, up_limit, top_percentage_limit=0.5, language='zh'):
+
+
+序号：014
+文件：mtk_lte_rx_test_description_helper.py
+说明：
+        """
+        代码说明：
+        check_stability 函数：
+        该函数接收 satisifed_container 列表和 language 参数（默认值为 'zh' 表示中文）作为输入。
+        遍历 satisifed_container 列表中的每个元素，使用 lower() 方法将元素转换为小写，然后检查是否包含 complete 或 satisifed。
+        如果找到匹配项，则将状态设置为 "稳定" 并跳出循环；如果遍历完整个列表都没有找到匹配项，则将状态设置为 "不稳定"。
+        根据 language 参数的值，若为 'en' 则使用 translation_dict 字典将状态描述转换为英文，否则直接返回中文描述。
+        """
+（0）
+函数：
+    def check_stability(satisifed_container, language='zh'):
+
+# ------------------------------------------------------------------------------------------------
+说明：json文件操作函数
+# ------------------------------------------------------------------------------------------------
+
+序号：015
+文件：json_report_helper.py
+说明：
+    （1）report类定义：将json文件结构序列化为report类。
+
+    （2）def json_helper_json_to_report(file_path: str) -> Report:
+        将json文件转换为report类对象。
+
+    （3）def json_helper_add_process_test_project_result(report, parsed_eval_and_log_results_container):
+        使用report类对象 新增process_test_project_result节点。
+
+    （4）def json_helper_add_process_test_project_result2(report, parsed_eval_and_log_results_container, is_clear=True):
+            """
+            该函数用于向报告中添加新的测试项目结果。
+
+            参数:
+            report (Report): 报告对象，包含各种测试结果和分析信息。
+            parsed_eval_and_log_results_container (dict): 包含新测试项目结果信息的字典。
+            is_clear (bool)：是否清空原有的 test_project_results 数据的标志。
+            返回:
+            Report: 更新后的报告对象。
+            """
+
+    （5）def json_helper_update_status_indicators(report, value, is_clear=True):
+        使用report对象对象 更新Status_Indicators节点。
+
+    （6）def json_helper_update_status_indicators2(report, test_name, test_value, is_clear=True):
+            """
+            该函数用于清空StatusIndicators中指定字段内容，然后根据test_name更新相应字段。
+
+            参数:
+            report (Report): 报告对象，包含各种测试结果和分析信息。
+            test_name (str): 测试名称，用于判断更新哪个字段。
+            test_value (str): 测试值，用于更新相应字段。
+            is_clear (bool)：是否清空原有的 status_indicators 数据的标志。
+            返回:
+            Report: 更新后的报告对象。
+            """
+
+
+    （7）def json_helper_save_json_report(report,file_path):
+        将report对象保存为json文件。
+

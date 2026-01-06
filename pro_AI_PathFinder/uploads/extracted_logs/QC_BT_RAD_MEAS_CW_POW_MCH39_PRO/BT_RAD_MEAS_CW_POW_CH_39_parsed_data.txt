@@ -1,0 +1,20 @@
+title_name: test_process
+Measure Process	TX_POWER Reading 1: 0.688446
+Measure Process	TX_POWER Reading 2: 0.6199341
+Measure Process	TX_POWER Reading 3: 0.6500549
+Measure Process	End TX_POWER measure process: 0.652811666666667
+
+title_name: test_result
+test_item: BT_RAD_MEAS_CW_POW_CH_39
+low_limit: -5.0
+up_limit: 5.0
+test_data: 0.65
+unit: dB
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

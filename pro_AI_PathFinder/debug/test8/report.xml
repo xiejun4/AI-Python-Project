@@ -1,0 +1,451 @@
+<source>
+    <TestCollection>
+        <Name>QDART Test Station</Name>
+        <Time>
+            <Start>
+                <HH>09</HH>
+                <MM>58</MM>
+                <SS>21</SS>
+            </Start>
+            <Stop>
+                <HH>10</HH>
+                <MM>00</MM>
+                <SS>21</SS>
+            </Stop>
+            <Duration>
+                <MS>589</MS>
+                <SS>59</SS>
+                <MM>01</MM>
+                <HH>00</HH>
+            </Duration>
+        </Time>
+        <Date>
+            <MM>08</MM>
+            <DD>27</DD>
+            <YYYY>2025</YYYY>
+        </Date>
+        <Tester>
+            <Name>QDART</Name>
+            <Type>QDART Test Station</Type>
+            <SWConfigInfo>
+                <Versions>
+                    <DI>
+                        <N>SubSysRFCal_NET.dll</N>
+                        <V>1,0,475,1</V>
+                    </DI>
+                </Versions>
+            </SWConfigInfo>
+            <EquipmentConfig>
+                <DI>
+                    <N>CALL_PROCESSOR1</N>
+                    <V>CMW500</V>
+                </DI>
+                <DI>
+                    <N>SIGNAL_GENERATOR4</N>
+                    <V>CMW</V>
+                </DI>
+                <DI>
+                    <N>CALL_PROCESSOR1</N>
+                    <V>CMW500</V>
+                    <F>Rohde&amp;Schwarz,CMW,1201.0002k50/112114,3.7.172</F>
+                </DI>
+                <DI>
+                    <N>SIGNAL_GENERATOR4</N>
+                    <V>CMW</V>
+                    <F>Rohde&amp;Schwarz,CMW,1201.0002k50/112114,3.7.172</F>
+                </DI>
+            </EquipmentConfig>
+            <PCConfig>
+                <DI>
+                    <N>HOSTNAME</N>
+                    <V>TENPITS06-4GEBT</V>
+                </DI>
+                <DI>
+                    <N>QLIB Lib Mode</N>
+                    <V>QUTS.External ver 1.67.2.31</V>
+                </DI>
+                <DI>
+                    <N>QC USB ver</N>
+                    <V>2,0,9,1</V>
+                </DI>
+                <DI>
+                    <N>DLL Type</N>
+                    <V>SubSysRFCalibration NR5G</V>
+                </DI>
+                <DI>
+                    <N>stationconfig</N>
+                    <V>C:\Qualcomm\QDART\Databases\DUT_1\StationConfig.xml</V>
+                </DI>
+                <DI>
+                    <N>equipconfig</N>
+                    <V>C:\Qualcomm\QDART\Databases\DUT_1\EquipConfig.xml</V>
+                </DI>
+                <DI>
+                    <N>CalDBNETconfig</N>
+                    <V>C:\Qualcomm\QDART\Databases\DUT_1\CalDB_NET.xml</V>
+                </DI>
+                <DI>
+                    <N>MMType</N>
+                    <V>splitter</V>
+                </DI>
+            </PCConfig>
+        </Tester>
+        <Test S="0">
+            <Name>InitializeDataLogging</Name>
+            <ExtendedName>InitializeDataLogging</ExtendedName>
+            <NodeName>NULL</NodeName>
+            <Time>
+                <Start>
+                    <HH>09</HH>
+                    <MM>58</MM>
+                    <SS>21</SS>
+                </Start>
+                <Stop>
+                    <HH>09</HH>
+                    <MM>58</MM>
+                    <SS>21</SS>
+                </Stop>
+                <Duration>
+                    <MS>000</MS>
+                    <SS>00</SS>
+                    <MM>00</MM>
+                    <HH>00</HH>
+                </Duration>
+            </Time>
+            <Date>
+                <MM>08</MM>
+                <DD>27</DD>
+                <YYYY>2025</YYYY>
+            </Date>
+            <DataSetCollection>
+                <DataSet id="3" ts="2">
+                    <Inputs>
+                        <DI>
+                            <N>XML Append Mode Flag</N>
+                            <V>0</V>
+                        </DI>
+                        <DI>
+                            <N>HDF Logging Flag</N>
+                            <V>0</V>
+                        </DI>
+                        <DI>
+                            <N>Save HDF only Failed Flag</N>
+                            <V>0</V>
+                        </DI>
+                    </Inputs>
+                    <Outputs/>
+                </DataSet>
+            </DataSetCollection>
+            <PassFail>
+                <DI>
+                    <N>Status</N>
+                    <V>PASS</V>
+                </DI>
+            </PassFail>
+            <ErrorCode>
+                <DI>
+                    <N>SYSTEM__COMMON__NO_ERROR</N>
+                    <V>0000</V>
+                </DI>
+            </ErrorCode>
+        </Test>
+        <Test I="3095" S="0">
+            <Name>CheckPhoneCommAndPhoneMode</Name>
+            <ExtendedName>CheckPhoneCommAndPhoneMode</ExtendedName>
+            <NodeName>Check_Phone_Communication</NodeName>
+            <Time>
+                <Start>
+                    <HH>09</HH>
+                    <MM>58</MM>
+                    <SS>21</SS>
+                </Start>
+                <Stop>
+                    <HH>09</HH>
+                    <MM>58</MM>
+                    <SS>22</SS>
+                </Stop>
+                <Duration>
+                    <MS>572</MS>
+                    <SS>00</SS>
+                    <MM>00</MM>
+                    <HH>00</HH>
+                </Duration>
+            </Time>
+            <Date>
+                <MM>08</MM>
+                <DD>27</DD>
+                <YYYY>2025</YYYY>
+            </Date>
+            <DataSetCollection>
+                <DataSet id="4" ts="589" dur="562">
+                    <Inputs>
+                        <DI>
+                            <N>Mode Change Options</N>
+                            <V>Streaming not supported</V>
+                        </DI>
+                        <DI>
+                            <N>Desired Phone Mode</N>
+                            <V>DO_NOT_SET</V>
+                        </DI>
+                        <DI>
+                            <N>JustWaitDesiredPhoneMode</N>
+                            <V>0</V>
+                        </DI>
+                        <DI>
+                            <N>WaitTimeDesiredPhoneMode</N>
+                            <V>60000</V>
+                        </DI>
+                        <DI>
+                            <N>WaitedDesiredPhoneMode</N>
+                            <V>4</V>
+                        </DI>
+                        <DI>
+                            <N>ComPortWait</N>
+                            <V>200</V>
+                            <U>seconds</U>
+                        </DI>
+                        <DI>
+                            <N>SingleNodeTestTotalTime</N>
+                            <V>1800000</V>
+                            <U>seconds</U>
+                        </DI>
+                        <DI>
+                            <N>Num Attemtps</N>
+                            <V>3</V>
+                        </DI>
+                        <DI>
+                            <N>Force Phone Mode?</N>
+                            <V>No</V>
+                        </DI>
+                        <DI>
+                            <N>Change Boot Mode</N>
+                            <V>No</V>
+                        </DI>
+                        <DI>
+                            <N>Send Keypress?</N>
+                            <V>Yes</V>
+                        </DI>
+                        <DI>
+                            <N>Keypress ID</N>
+                            <V>81</V>
+                        </DI>
+                        <DI>
+                            <N>Delay before Keypress</N>
+                            <V>0</V>
+                            <U>millisecs</U>
+                        </DI>
+                        <DI>
+                            <N>Delay after Keypress</N>
+                            <V>0</V>
+                            <U>millisecs</U>
+                        </DI>
+                        <DI>
+                            <N>Num of Times to Send the Keypress</N>
+                            <V>1</V>
+                        </DI>
+                        <DI>
+                            <N>Need Build Loader?</N>
+                            <V>No</V>
+                        </DI>
+                        <DI>
+                            <N>Phone Reset Method</N>
+                            <V>Soft Reset</V>
+                        </DI>
+                        <DI>
+                            <N>Delay before Set Phone Mode</N>
+                            <V>0</V>
+                            <U>seconds</U>
+                        </DI>
+                    </Inputs>
+                    <Outputs>
+                        <Result>
+                            <DI>
+                                <N>SUITE Global Configuration Has Run</N>
+                                <V>No</V>
+                            </DI>
+                        </Result>
+                        <Result>
+                            <DI>
+                                <N>Success</N>
+                                <V>1</V>
+                            </DI>
+                            <Limits>
+                                <Min>1</Min>
+                                <PassFail>
+                                    <DI>
+                                        <N>Status</N>
+                                        <V>PASS</V>
+                                    </DI>
+                                </PassFail>
+                            </Limits>
+                        </Result>
+                    </Outputs>
+                </DataSet>
+            </DataSetCollection>
+            <PassFail>
+                <DI>
+                    <N>Status</N>
+                    <V>PASS</V>
+                </DI>
+            </PassFail>
+            <ErrorCode>
+                <DI>
+                    <N>SYSTEM__COMMON__NO_ERROR</N>
+                    <V>0000</V>
+                </DI>
+            </ErrorCode>
+        </Test>
+        <Test I="3095" S="0">
+            <Name>CheckPhoneCommAndPhoneMode</Name>
+            <ExtendedName>CheckPhoneCommAndPhoneMode</ExtendedName>
+            <NodeName>Check_Phone_Communication</NodeName>
+            <Time>
+                <Start>
+                    <HH>09</HH>
+                    <MM>58</MM>
+                    <SS>23</SS>
+                </Start>
+                <Stop>
+                    <HH>09</HH>
+                    <MM>58</MM>
+                    <SS>23</SS>
+                </Stop>
+                <Duration>
+                    <MS>037</MS>
+                    <SS>00</SS>
+                    <MM>00</MM>
+                    <HH>00</HH>
+                </Duration>
+            </Time>
+            <Date>
+                <MM>08</MM>
+                <DD>27</DD>
+                <YYYY>2025</YYYY>
+            </Date>
+            <DataSetCollection>
+                <DataSet id="26" ts="1976" dur="31">
+                    <Inputs>
+                        <DI>
+                            <N>Mode Change Options</N>
+                            <V>Streaming not supported</V>
+                        </DI>
+                        <DI>
+                            <N>Desired Phone Mode</N>
+                            <V>DO_NOT_SET</V>
+                        </DI>
+                        <DI>
+                            <N>JustWaitDesiredPhoneMode</N>
+                            <V>0</V>
+                        </DI>
+                        <DI>
+                            <N>WaitTimeDesiredPhoneMode</N>
+                            <V>60000</V>
+                        </DI>
+                        <DI>
+                            <N>WaitedDesiredPhoneMode</N>
+                            <V>3</V>
+                        </DI>
+                        <DI>
+                            <N>ComPortWait</N>
+                            <V>200</V>
+                            <U>seconds</U>
+                        </DI>
+                        <DI>
+                            <N>SingleNodeTestTotalTime</N>
+                            <V>1800000</V>
+                            <U>seconds</U>
+                        </DI>
+                        <DI>
+                            <N>Num Attemtps</N>
+                            <V>3</V>
+                        </DI>
+                        <DI>
+                            <N>Force Phone Mode?</N>
+                            <V>No</V>
+                        </DI>
+                        <DI>
+                            <N>Change Boot Mode</N>
+                            <V>No</V>
+                        </DI>
+                        <DI>
+                            <N>Send Keypress?</N>
+                            <V>Yes</V>
+                        </DI>
+                        <DI>
+                            <N>Keypress ID</N>
+                            <V>81</V>
+                        </DI>
+                        <DI>
+                            <N>Delay before Keypress</N>
+                            <V>0</V>
+                            <U>millisecs</U>
+                        </DI>
+                        <DI>
+                            <N>Delay after Keypress</N>
+                            <V>0</V>
+                            <U>millisecs</U>
+                        </DI>
+                        <DI>
+                            <N>Num of Times to Send the Keypress</N>
+                            <V>1</V>
+                        </DI>
+                        <DI>
+                            <N>Need Build Loader?</N>
+                            <V>No</V>
+                        </DI>
+                        <DI>
+                            <N>Phone Reset Method</N>
+                            <V>Soft Reset</V>
+                        </DI>
+                        <DI>
+                            <N>Delay before Set Phone Mode</N>
+                            <V>0</V>
+                            <U>seconds</U>
+                        </DI>
+                    </Inputs>
+                    <Outputs>
+                        <Result>
+                            <DI>
+                                <N>SUITE Global Configuration Has Run</N>
+                                <V>No</V>
+                            </DI>
+                        </Result>
+                        <Result>
+                            <DI>
+                                <N>Success</N>
+                                <V>1</V>
+                            </DI>
+                            <Limits>
+                                <Min>1</Min>
+                                <PassFail>
+                                    <DI>
+                                        <N>Status</N>
+                                        <V>PASS</V>
+                                    </DI>
+                                </PassFail>
+                            </Limits>
+                        </Result>
+                    </Outputs>
+                </DataSet>
+            </DataSetCollection>
+            <PassFail>
+                <DI>
+                    <N>Status</N>
+                    <V>PASS</V>
+                </DI>
+            </PassFail>
+            <ErrorCode>
+                <DI>
+                    <N>SYSTEM__COMMON__NO_ERROR</N>
+                    <V>0000</V>
+                </DI>
+            </ErrorCode>
+        </Test>	
+	</TestCollection>
+    <ReportProperties>
+        <GUID>{E5CAD062-54B8-4151-9BE9-B8DDF03490B6}</GUID>
+        <DerivedSource>external</DerivedSource>
+    </ReportProperties>
+    <Transformed/>	
+</source>
+    		

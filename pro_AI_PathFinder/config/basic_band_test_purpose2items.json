@@ -1,0 +1,779 @@
+{
+  "pattern_configs": [
+    {
+      "pattern": "^SPK_INFO_PROGAMMING$",
+      "test_purpose_zh": "验证{product}的扬声器信息编程基础功能，确保相关信息准确无误，重点验证基础功能完整性",
+      "test_purpose_en": "Verify the basic speaker information programming function of {product}, ensure relevant information is accurate, with focus on basic function integrity",
+      "base_test_items_zh": [
+        "1. 扬声器基本信息读取准确性（制造商、型号、规格）",
+        "2. 编程数据写入成功率验证（连续10次写入无失败）",
+        "3. 编程后信息保存稳定性（断电重启后验证）",
+        "4. 编程接口通信可靠性（无数据传输错误）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of speaker basic information reading (manufacturer, model, specifications)",
+        "2. Verification of programming data writing success rate (10 consecutive writes without failure)",
+        "3. Stability of information after programming (verify after power cycle)",
+        "4. Reliability of programming interface communication (no data transmission errors)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 默认参数集编程完整性验证"],
+        "en": ["1.1 Verification of default parameter set programming integrity"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^SPK_INFO_PROGAMMING_TYPE_(?P<subtype>\\w+)$",
+      "test_purpose_zh": "验证{product}的扬声器信息编程功能在{subtype}类型下的工作状态，确保相关信息准确无误，重点验证类型适配性",
+      "test_purpose_en": "Verify the speaker information programming function of {product} under {subtype} type, ensure relevant information is accurate, with focus on type compatibility",
+      "base_test_items_zh": [
+        "1. 扬声器基本信息读取准确性（制造商、型号、规格）",
+        "2. 编程数据写入成功率验证（连续10次写入无失败）",
+        "3. 编程后信息保存稳定性（断电重启后验证）",
+        "4. 编程接口通信可靠性（无数据传输错误）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of speaker basic information reading (manufacturer, model, specifications)",
+        "2. Verification of programming data writing success rate (10 consecutive writes without failure)",
+        "3. Stability of information after programming (verify after power cycle)",
+        "4. Reliability of programming interface communication (no data transmission errors)"
+      ],
+      "additional_items": {
+        "zh": ["2.1 {subtype}类型专属参数验证"],
+        "en": ["2.1 {subtype} type specific parameter verification"],
+        "insert_pos": 2
+      }
+    },
+    {
+      "pattern": "^SPK_INFO_PROGAMMING_POWER_(?P<spec_value>\\d+)W$",
+      "test_purpose_zh": "验证{product}的扬声器信息编程功能在{spec_value}{spec_unit}功率规格下的工作状态，确保相关信息准确无误，重点验证功率匹配性",
+      "test_purpose_en": "Verify the speaker information programming function of {product} under {spec_value}{spec_unit} power specification, ensure relevant information is accurate, with focus on power matching",
+      "base_test_items_zh": [
+        "1. 扬声器基本信息读取准确性（制造商、型号、规格）",
+        "2. 编程数据写入成功率验证（连续10次写入无失败）",
+        "3. 编程后信息保存稳定性（断电重启后验证）",
+        "4. 编程接口通信可靠性（无数据传输错误）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of speaker basic information reading (manufacturer, model, specifications)",
+        "2. Verification of programming data writing success rate (10 consecutive writes without failure)",
+        "3. Stability of information after programming (verify after power cycle)",
+        "4. Reliability of programming interface communication (no data transmission errors)"
+      ],
+      "additional_items": {
+        "zh": ["2.1 {spec_value}{spec_unit}功率参数精准度验证"],
+        "en": ["2.1 {spec_value}{spec_unit} power parameter accuracy verification"],
+        "insert_pos": 2
+      },
+      "power_based_items": {
+        "high": {
+          "zh": [
+            "5. 高功率扬声器保护参数编程验证",
+            "6. 散热控制相关参数配置准确性"
+          ],
+          "en": [
+            "5. Programming verification of high-power speaker protection parameters",
+            "6. Accuracy of thermal control related parameter configuration"
+          ]
+        },
+        "low": {
+          "zh": [
+            "5. 微型扬声器灵敏度参数校准",
+            "6. 低功耗模式下的参数优化验证"
+          ],
+          "en": [
+            "5. Sensitivity parameter calibration for micro speakers",
+            "6. Parameter optimization verification in low-power mode"
+          ]
+        }
+      }
+    },
+    {
+      "pattern": "^KEY_PART_MATCH_SPEC$",
+      "test_purpose_zh": "验证{product}的关键部件匹配规格基础功能，确保相关信息准确无误，重点验证基础匹配逻辑正确性",
+      "test_purpose_en": "Verify the basic key part matching specification function of {product}, ensure relevant information is accurate, with focus on basic matching logic correctness",
+      "base_test_items_zh": [
+        "1. 关键部件型号匹配准确性（与设计规格比对）",
+        "2. 部件参数一致性验证（连续5次检测无偏差）",
+        "3. 匹配结果存储可靠性（系统重启后验证）",
+        "4. 部件识别接口通信稳定性（无识别超时）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of key part model matching (compared with design specifications)",
+        "2. Verification of component parameter consistency (5 consecutive detections without deviation)",
+        "3. Reliability of matching result storage (verify after system restart)",
+        "4. Stability of component recognition interface communication (no recognition timeout)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 基础规格匹配库完整性验证"],
+        "en": ["1.1 Verification of basic specification matching library integrity"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^KEY_PART_MATCH_SPEC_TYPE_(?P<subtype>\\w+)$",
+      "test_purpose_zh": "验证{product}的关键部件匹配规格功能在{subtype}类型下的工作状态，确保相关信息准确无误，重点验证类型适配性",
+      "test_purpose_en": "Verify the key part matching specification function of {product} under {subtype} type, ensure relevant information is accurate, with focus on type compatibility",
+      "base_test_items_zh": [
+        "1. 关键部件型号匹配准确性（与设计规格比对）",
+        "2. 部件参数一致性验证（连续5次检测无偏差）",
+        "3. 匹配结果存储可靠性（系统重启后验证）",
+        "4. 部件识别接口通信稳定性（无识别超时）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of key part model matching (compared with design specifications)",
+        "2. Verification of component parameter consistency (5 consecutive detections without deviation)",
+        "3. Reliability of matching result storage (verify after system restart)",
+        "4. Stability of component recognition interface communication (no recognition timeout)"
+      ],
+      "additional_items": {
+        "zh": ["2.1 {subtype}类型专属参数验证"],
+        "en": ["2.1 {subtype} type specific parameter verification"],
+        "insert_pos": 2
+      }
+    },
+    {
+      "pattern": "^KEY_PART_MATCH_SPEC_SPEC_(?P<spec_value>HIGH|LOW|STANDARD)$",
+      "test_purpose_zh": "验证{product}的关键部件匹配规格功能在{spec_value}规格下的工作状态，确保相关信息准确无误，重点验证规格一致性",
+      "test_purpose_en": "Verify the key part matching specification function of {product} under {spec_value} specification, ensure relevant information is accurate, with focus on specification consistency",
+      "base_test_items_zh": [
+        "1. 关键部件型号匹配准确性（与设计规格比对）",
+        "2. 部件参数一致性验证（连续5次检测无偏差）",
+        "3. 匹配结果存储可靠性（系统重启后验证）",
+        "4. 部件识别接口通信稳定性（无识别超时）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of key part model matching (compared with design specifications)",
+        "2. Verification of component parameter consistency (5 consecutive detections without deviation)",
+        "3. Reliability of matching result storage (verify after system restart)",
+        "4. Stability of component recognition interface communication (no recognition timeout)"
+      ],
+      "additional_items": {
+        "zh": ["2.1 {spec_value}规格匹配精度验证"],
+        "en": ["2.1 {spec_value} specification matching accuracy verification"],
+        "insert_pos": 2
+      },
+      "spec_based_items": {
+        "high": {
+          "zh": [
+            "5. 高精度部件容差范围验证",
+            "6. 高规格模式下性能衰减测试"
+          ],
+          "en": [
+            "5. Verification of high-precision component tolerance range",
+            "6. Performance degradation test under high specification mode"
+          ]
+        },
+        "low": {
+          "zh": [
+            "5. 基础规格兼容性验证",
+            "6. 低规格模式下稳定性测试"
+          ],
+          "en": [
+            "5. Verification of basic specification compatibility",
+            "6. Stability test under low specification mode"
+          ]
+        }
+      }
+    },
+    {
+      "pattern": "^QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW_[0-9A-Z]{2}_[0-9A-Z]{4}$",
+      "test_purpose_zh": "验证{device}的USIM机械开关移除原始数据检测基础功能的工作状态，确保开关状态信息准确可靠，重点验证原始数据采集的准确性和稳定性",
+      "test_purpose_en": "Verify the basic function of USIM mechanical switch removal raw data detection for {device}, ensure switch state information is accurate and reliable, with focus on accuracy and stability of raw data collection",
+      "base_test_items_zh": [
+        "1. 开关移除状态原始数据读取准确性（与实际状态对比）",
+        "2. 原始数据获取响应时间验证（单次获取耗时≤100ms）",
+        "3. 连续数据采集稳定性测试（连续100次无数据丢失）",
+        "4. 原始数据传输完整性验证（无传输错误）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of switch removal status raw data reading (compared with actual status)",
+        "2. Verification of raw data retrieval response time (single retrieval time ≤ 100ms)",
+        "3. Stability test for continuous data collection (100 consecutive times without data loss)",
+        "4. Verification of raw data transmission integrity (no transmission errors)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 原始数据噪声水平检测（噪声值≤5mV）"],
+        "en": ["1.1 Raw data noise level detection (noise value ≤ 5mV)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^MECH_SWITCH_STATE_SIM_REMOVED$",
+      "test_purpose_zh": "验证{device}的USIM机械开关状态识别与上报基础功能，确保开关状态信息准确可靠，重点验证状态识别的准确性和及时性",
+      "test_purpose_en": "Verify the basic function of USIM mechanical switch state recognition and reporting for {device}, ensure switch state information is accurate and reliable, with focus on accuracy and timeliness of state recognition",
+      "base_test_items_zh": [
+        "1. 开关状态（插入/移除）识别准确性",
+        "2. 状态变化识别响应时间验证（状态变化后≤200ms识别）",
+        "3. 开关状态连续监测稳定性（连续30分钟无错误上报）",
+        "4. 状态识别算法容错能力测试（抗电磁干扰能力）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of switch state (inserted/removed) recognition",
+        "2. Verification of state change recognition response time (≤200ms after state change)",
+        "3. Stability of continuous switch state monitoring (no false reports for 30 consecutive minutes)",
+        "4. Fault tolerance test of state recognition algorithm (anti-electromagnetic interference capability)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 边缘状态识别准确性（半插入状态识别）"],
+        "en": ["1.1 Accuracy of edge state recognition (half-inserted state recognition)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_SWITCH_TURBO_CHARGER_FIRST_VATT$",
+      "test_purpose_zh": "验证{product}的电容开关Turbo充电功能在{wattage}{wattage_unit}下的工作状态，确保充电过程中电容和开关协同工作正常，重点验证电压特性",
+      "test_purpose_en": "Verify the operation status of capacitor switch Turbo charging function for {product} under {wattage}{wattage_unit}, ensure proper coordination between capacitor and switch during charging, with focus on voltage characteristics",
+      "base_test_items_zh": [
+        "1. Turbo模式下电容开关的切换响应时间（目标≤50ms）",
+        "2. 充电过程中电容电压稳定性（波动范围≤5%）",
+        "3. 开关切换时的电流冲击抑制效果（峰值≤额定值1.2倍）",
+        "4. 持续充电状态下的温度控制（≤45℃）"
+      ],
+      "base_test_items_en": [
+        "1. Switching response time of capacitor switch in Turbo mode (target ≤50ms)",
+        "2. Capacitor voltage stability during charging (fluctuation range ≤5%)",
+        "3. Current surge suppression effect during switch transition (peak ≤1.2x rated value)",
+        "4. Temperature control during continuous charging (≤45℃)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 初始电压校准准确性（偏差≤2%）"],
+        "en": ["1.1 Initial voltage calibration accuracy (deviation ≤2%)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_SWITCH_TURBO_CAP_SWITCH_CHG_CURR_(?P<wattage>\\d+)W$",
+      "test_purpose_zh": "验证{product}的电容开关Turbo充电功能在{wattage}{wattage_unit}下的工作状态，确保充电过程中电容和开关协同工作正常，重点验证电流特性",
+      "test_purpose_en": "Verify the operation status of capacitor switch Turbo charging function for {product} under {wattage}{wattage_unit}, ensure proper coordination between capacitor and switch during charging, with focus on current characteristics",
+      "base_test_items_zh": [
+        "1. Turbo模式下电容开关的切换响应时间（目标≤50ms）",
+        "2. 充电过程中电容电压稳定性（波动范围≤5%）",
+        "3. 开关切换时的电流冲击抑制效果（峰值≤额定值1.2倍）",
+        "4. 持续充电状态下的温度控制（≤45℃）"
+      ],
+      "base_test_items_en": [
+        "1. Switching response time of capacitor switch in Turbo mode (target ≤50ms)",
+        "2. Capacitor voltage stability during charging (fluctuation range ≤5%)",
+        "3. Current surge suppression effect during switch transition (peak ≤1.2x rated value)",
+        "4. Temperature control during continuous charging (≤45℃)"
+      ],
+      "additional_items": {
+        "zh": ["2.1 充电电流调节范围验证（符合设计规格）"],
+        "en": ["2.1 Charging current adjustment range verification (meets design specs)"],
+        "insert_pos": 2
+      },
+      "wattage_based_items": {
+        "high": {
+          "zh": [
+            "5. {wattage}{wattage_unit}高功率模式下的散热系统有效性",
+            "6. 长时间高功率充电对电容寿命的影响评估"
+          ],
+          "en": [
+            "5. Effectiveness of heat dissipation system under {wattage}{wattage_unit} high-power mode",
+            "6. Impact assessment of long-term high-power charging on capacitor life"
+          ]
+        },
+        "low": {
+          "zh": [
+            "5. 低功率模式下的能量转换效率（目标≥90%）",
+            "6. 待机状态下的电容漏电电流检测（≤10μA）"
+          ],
+          "en": [
+            "5. Energy conversion efficiency in low-power mode (target ≥90%)",
+            "6. Capacitor leakage current detection in standby state (≤10μA)"
+          ]
+        }
+      }
+    },
+    {
+      "pattern": "^CAP_SWITCH_TURBO_CHARGER_TEST_OVERALL_STATUS$",
+      "test_purpose_zh": "全面验证{product}的电容开关Turbo充电功能的整体工作状态，确保在各种条件下的稳定性和可靠性",
+      "test_purpose_en": "Comprehensively verify the overall operating status of the capacitor switch Turbo charging function for {product}, ensuring stability and reliability under various conditions",
+      "base_test_items_zh": [
+        "1. Turbo模式下电容开关的切换响应时间（目标≤50ms）",
+        "2. 充电过程中电容电压稳定性（波动范围≤5%）",
+        "3. 开关切换时的电流冲击抑制效果（峰值≤额定值1.2倍）",
+        "4. 持续充电状态下的温度控制（≤45℃）"
+      ],
+      "base_test_items_en": [
+        "1. Switching response time of capacitor switch in Turbo mode (target ≤50ms)",
+        "2. Capacitor voltage stability during charging (fluctuation range ≤5%)",
+        "3. Current surge suppression effect during switch transition (peak ≤1.2x rated value)",
+        "4. Temperature control during continuous charging (≤45℃)"
+      ],
+      "additional_items": {
+        "zh": [
+          "5. 全功率范围内的模式切换可靠性（1000次循环测试）",
+          "6. 异常条件下的保护机制有效性（过压、过流、过温）",
+          "7. 长期使用后的性能衰减评估（等效1000次充电循环）",
+          "8. 与不同充电器型号的兼容性验证"
+        ],
+        "en": [
+          "5. Mode switching reliability across full power range (1000 cycle test)",
+          "6. Effectiveness of protection mechanisms under abnormal conditions (overvoltage, overcurrent, overtemperature)",
+          "7. Performance degradation assessment after long-term use (equivalent to 1000 charge cycles)",
+          "8. Compatibility verification with different charger models"
+        ],
+        "insert_pos": -1
+      }
+    },
+    {
+      "pattern": "^ANDROID_GET_BATTERY_LEVEL$",
+      "test_purpose_zh": "验证{device}的电池电量获取基础功能的工作状态，确保电量信息准确可靠，重点验证基础功能可用性",
+      "test_purpose_en": "Verify the basic battery level retrieval function of {device}, ensure battery level information is accurate and reliable, with focus on basic function availability",
+      "base_test_items_zh": [
+        "1. 电池电量百分比读取准确性（与实际电量对比）",
+        "2. 电量数据获取响应时间验证（单次获取耗时≤100ms）",
+        "3. 连续获取稳定性测试（连续100次无数据丢失）",
+        "4. 系统API调用成功率验证（无调用失败）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of battery level percentage reading (compared with actual level)",
+        "2. Verification of data retrieval response time (single retrieval time ≤ 100ms)",
+        "3. Stability test for continuous retrieval (100 consecutive times without data loss)",
+        "4. Verification of system API call success rate (no call failures)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 基础电量状态（满电/低电）识别准确性"],
+        "en": ["1.1 Accuracy of basic battery status (full/low) recognition"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^BATTERY_CHARGE_LEVEL$",
+      "test_purpose_zh": "验证{device}的电池充电电量监测基础功能的工作状态，确保电量信息准确可靠，重点验证充电状态下的基础功能可用性",
+      "test_purpose_en": "Verify the basic battery charge level monitoring function of {device}, ensure battery level information is accurate and reliable, with focus on basic function availability in charging state",
+      "base_test_items_zh": [
+        "1. 充电电量百分比读取准确性（与实际充电量对比）",
+        "2. 充电电量数据获取响应时间验证（单次获取耗时≤100ms）",
+        "3. 充电过程中连续监测稳定性测试（全程无数据丢失）",
+        "4. 充电状态下API调用成功率验证（无调用失败）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of charge level percentage reading (compared with actual charge amount)",
+        "2. Verification of charge level data retrieval response time (single retrieval time ≤ 100ms)",
+        "3. Stability test for continuous monitoring during charging (no data loss throughout the process)",
+        "4. Verification of API call success rate in charging state (no call failures)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 充电状态（快充/慢充/涓流充）识别准确性"],
+        "en": ["1.1 Accuracy of charging state (fast/slow/trickle charge) recognition"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^GET_BATTERY_CHARGE_LEVEL_STATUS$",
+      "test_purpose_zh": "验证{device}的电池充电状态识别与上报基础功能的工作状态，确保电量信息准确可靠，重点验证状态识别的准确性和及时性",
+      "test_purpose_en": "Verify the basic function of battery charge status recognition and reporting for {device}, ensure battery level information is accurate and reliable, with focus on accuracy and timeliness of status recognition",
+      "base_test_items_zh": [
+        "1. 充电状态（充电中/未充电）识别准确性",
+        "2. 充电类型（有线/无线）识别准确性",
+        "3. 充电状态切换响应时间验证（状态变化后≤200ms识别）",
+        "4. 充电状态持续监测稳定性（连续30分钟无错误上报）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of charging status (charging/not charging) recognition",
+        "2. Accuracy of charging type (wired/wireless) recognition",
+        "3. Verification of charging status switch response time (≤200ms after status change)",
+        "4. Stability of continuous charging status monitoring (no false reports for 30 consecutive minutes)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 充电阶段（预充/快充/满充）识别准确性"],
+        "en": ["1.1 Accuracy of charging phase (pre-charge/fast-charge/full-charge) recognition"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^ANDROID_MAGNETOMETER$",
+      "test_purpose_zh": "验证{device}的磁力计数据获取基础功能的工作状态，确保磁力计信息准确可靠，重点验证基础数据采集功能可用性",
+      "test_purpose_en": "Verify the basic magnetometer data retrieval function of {device}, ensure magnetometer information is accurate and reliable, with focus on basic data collection function availability",
+      "base_test_items_zh": [
+        "1. 磁力计三轴数据（X/Y/Z）读取准确性（与标准磁场对比）",
+        "2. 磁力计数据获取响应时间验证（单次获取耗时≤100ms）",
+        "3. 连续数据采集稳定性测试（连续100次无数据丢失）",
+        "4. 磁力计系统API调用成功率验证（无调用失败）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of magnetometer 3-axis data (X/Y/Z) reading (compared with standard magnetic field)",
+        "2. Verification of data retrieval response time (single retrieval time ≤ 100ms)",
+        "3. Stability test for continuous data collection (100 consecutive times without data loss)",
+        "4. Verification of magnetometer system API call success rate (no call failures)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 磁力计数据单位转换准确性（微特斯拉）"],
+        "en": ["1.1 Accuracy of magnetometer data unit conversion (microtesla)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^MAGNETOMETER_PRESENSE_APK_STATUS$",
+      "test_purpose_zh": "验证{device}的磁力计硬件存在性及驱动状态识别基础功能，确保磁力计信息准确可靠，重点验证硬件存在性识别的准确性",
+      "test_purpose_en": "Verify the basic function of magnetometer hardware presence and driver status recognition for {device}, ensure magnetometer information is accurate and reliable, with focus on accuracy of hardware presence recognition",
+      "base_test_items_zh": [
+        "1. 磁力计硬件存在性检测准确性",
+        "2. 磁力计驱动加载状态识别准确性",
+        "3. 磁力计使能/禁用状态切换响应时间验证（状态变化后≤200ms识别）",
+        "4. 磁力计状态持续监测稳定性（连续30分钟无错误上报）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of magnetometer hardware presence detection",
+        "2. Accuracy of magnetometer driver loading status recognition",
+        "3. Verification of magnetometer enable/disable status switch response time (≤200ms after status change)",
+        "4. Stability of continuous magnetometer status monitoring (no false reports for 30 consecutive minutes)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 磁力计硬件ID识别准确性"],
+        "en": ["1.1 Accuracy of magnetometer hardware ID recognition"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^MAGNETOMETER_X_AXIS_ABSOLUTE_MAG_FIELD_APK$",
+      "test_purpose_zh": "验证{device}的磁力计X轴绝对磁场强度检测基础功能，确保磁力计信息准确可靠，重点验证X轴绝对磁场测量精度",
+      "test_purpose_en": "Verify the basic function of magnetometer X-axis absolute magnetic field strength detection for {device}, ensure magnetometer information is accurate and reliable, with focus on X-axis absolute magnetic field measurement accuracy",
+      "base_test_items_zh": [
+        "1. X轴绝对磁场强度测量准确性（与标准磁场源对比）",
+        "2. X轴磁场强度零漂测试（常温下≤5微特斯拉/小时）",
+        "3. X轴磁场数据温度稳定性（-10℃~60℃范围内误差≤3%）",
+        "4. 长期测量重复性验证（连续24小时测试偏差≤2%）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of X-axis absolute magnetic field strength measurement (compared with standard magnetic field source)",
+        "2. X-axis magnetic field zero drift test (≤5μT/h at room temperature)",
+        "3. X-axis magnetic field data temperature stability (error ≤3% within -10℃~60℃)",
+        "4. Long-term measurement repeatability verification (continuous 24-hour test deviation ≤2%)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 X轴磁场强度校准后误差验证（≤1微特斯拉）"],
+        "en": ["1.1 X-axis magnetic field strength error verification after calibration (≤1μT)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^MAGNETOMETER_Y_AXIS_ABSOLUTE_MAG_FIELD_APK$",
+      "test_purpose_zh": "验证{device}的磁力计Y轴绝对磁场强度检测基础功能，确保磁力计信息准确可靠，重点验证Y轴绝对磁场测量精度",
+      "test_purpose_en": "Verify the basic function of magnetometer Y-axis absolute magnetic field strength detection for {device}, ensure magnetometer information is accurate and reliable, with focus on Y-axis absolute magnetic field measurement accuracy",
+      "base_test_items_zh": [
+        "1. Y轴绝对磁场强度测量准确性（与标准磁场源对比）",
+        "2. Y轴磁场强度零漂测试（常温下≤5微特斯拉/小时）",
+        "3. Y轴磁场数据温度稳定性（-10℃~60℃范围内误差≤3%）",
+        "4. 长期测量重复性验证（连续24小时测试偏差≤2%）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of Y-axis absolute magnetic field strength measurement (compared with standard magnetic field source)",
+        "2. Y-axis magnetic field zero drift test (≤5μT/h at room temperature)",
+        "3. Y-axis magnetic field data temperature stability (error ≤3% within -10℃~60℃)",
+        "4. Long-term measurement repeatability verification (continuous 24-hour test deviation ≤2%)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 Y轴磁场强度校准后误差验证（≤1微特斯拉）"],
+        "en": ["1.1 Y-axis magnetic field strength error verification after calibration (≤1μT)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^MAGNETOMETER_Z_AXIS_ABSOLUTE_MAG_FIELD_APK$",
+      "test_purpose_zh": "验证{device}的磁力计Z轴绝对磁场强度检测基础功能，确保磁力计信息准确可靠，重点验证Z轴绝对磁场测量精度",
+      "test_purpose_en": "Verify the basic function of magnetometer Z-axis absolute magnetic field strength detection for {device}, ensure magnetometer information is accurate and reliable, with focus on Z-axis absolute magnetic field measurement accuracy",
+      "base_test_items_zh": [
+        "1. Z轴绝对磁场强度测量准确性（与标准磁场源对比）",
+        "2. Z轴磁场强度零漂测试（常温下≤5微特斯拉/小时）",
+        "3. Z轴磁场数据温度稳定性（-10℃~60℃范围内误差≤3%）",
+        "4. 长期测量重复性验证（连续24小时测试偏差≤2%）"
+      ],
+      "base_test_items_en": [
+        "1. Accuracy of Z-axis absolute magnetic field strength measurement (compared with standard magnetic field source)",
+        "2. Z-axis magnetic field zero drift test (≤5μT/h at room temperature)",
+        "3. Z-axis magnetic field data temperature stability (error ≤3% within -10℃~60℃)",
+        "4. Long-term measurement repeatability verification (continuous 24-hour test deviation ≤2%)"
+      ],
+      "additional_items": {
+        "zh": ["1.1 Z轴磁场强度校准后误差验证（≤1微特斯拉）"],
+        "en": ["1.1 Z-axis magnetic field strength error verification after calibration (≤1μT)"],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_SENSOR_DETECT_STATUS$",
+      "test_purpose_zh": "验证{product}的电容传感器检测状态功能的准确性和可靠性，确保在各种工况下能正确识别和报告传感器状态",
+      "test_purpose_en": "Verify the accuracy and reliability of the capacitance sensor detection status function for {product}, ensuring correct identification and reporting of sensor status under various operating conditions",
+      "base_test_items_zh": [
+        "1. 传感器正常状态检测响应时间（目标≤100ms）",
+        "2. 传感器异常状态识别准确率（目标≥99.5%）",
+        "3. 连续检测模式下的稳定性（24小时无误报）",
+        "4. 不同温度环境下的检测一致性（-10℃至60℃）"
+      ],
+      "base_test_items_en": [
+        "1. Sensor normal status detection response time (target ≤100ms)",
+        "2. Sensor abnormal status recognition accuracy rate (target ≥99.5%)",
+        "3. Stability in continuous detection mode (no false alarms for 24 hours)",
+        "4. Detection consistency under different temperature environments (-10℃ to 60℃)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 传感器初始化状态检测准确性",
+          "3.1 高湿度环境下（相对湿度≥90%）的检测稳定性"
+        ],
+        "en": [
+          "1.1 Accuracy of sensor initialization status detection",
+          "3.1 Detection stability in high humidity environment (relative humidity ≥90%)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_COMP_ASM_VALUE_[0-9A-Z]{2}$",
+      "test_purpose_zh": "验证{product}的电容组件装配值的准确性和一致性，确保{code}型号组件的装配参数符合设计规格要求",
+      "test_purpose_en": "Verify the accuracy and consistency of capacitance component assembly values for {product}, ensuring that the assembly parameters of {code} type components meet design specification requirements",
+      "base_test_items_zh": [
+        "1. 组件装配值与设计值的偏差检测（目标≤±2%）",
+        "2. 同批次组件装配值的一致性（极差≤3%）",
+        "3. 装配值检测的重复性（连续10次测量偏差≤1%）",
+        "4. 不同工作电压下的装配值稳定性（3.3V/5V/12V）"
+      ],
+      "base_test_items_en": [
+        "1. Deviation detection between component assembly value and design value (target ≤±2%)",
+        "2. Consistency of assembly values for components in the same batch (range ≤3%)",
+        "3. Repeatability of assembly value detection (deviation ≤1% for 10 consecutive measurements)",
+        "4. Stability of assembly values under different operating voltages (3.3V/5V/12V)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 高低温环境下的装配值偏差（-40℃至85℃）",
+          "3.1 长时间存放后的装配值保持性（存放30天后偏差≤2%）"
+        ],
+        "en": [
+          "1.1 Assembly value deviation in high and low temperature environments (-40℃ to 85℃)",
+          "3.1 Retention of assembly values after long-term storage (deviation ≤2% after 30 days of storage)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_COMP_BRD_VS_ASM_VALUE_[0-9A-Z]{2}$",
+      "test_purpose_zh": "验证{product}的电容组件板载值与装配值的一致性和偏差范围，确保{code}型号组件的实际装配值与电路板设计值匹配",
+      "test_purpose_en": "Verify the consistency and deviation range between onboard values and assembly values of capacitance components for {product}, ensuring that the actual assembly values of {code} type components match the circuit board design values",
+      "base_test_items_zh": [
+        "1. 板载值与装配值的偏差检测（目标≤±3%）",
+        "2. 同批次组件的板载/装配值一致性（极差≤4%）",
+        "3. 不同测试点的对比值重复性（连续10次测量偏差≤1.5%）",
+        "4. 工作电压变化时的对比稳定性（3.3V/5V/12V）"
+      ],
+      "base_test_items_en": [
+        "1. Deviation detection between onboard values and assembly values (target ≤±3%)",
+        "2. Consistency of onboard/assembly values for components in the same batch (range ≤4%)",
+        "3. Repeatability of comparison values at different test points (deviation ≤1.5% for 10 consecutive measurements)",
+        "4. Comparison stability when operating voltage changes (3.3V/5V/12V)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 高低温环境下的板载/装配值偏差（-40℃至85℃）",
+          "3.1 长期运行后的对比值保持性（运行500小时后偏差≤3%）"
+        ],
+        "en": [
+          "1.1 Onboard/assembly value deviation in high and low temperature environments (-40℃ to 85℃)",
+          "3.1 Retention of comparison values after long-term operation (deviation ≤3% after 500 hours of operation)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_COMP_BRD_VALUE_[0-9A-Z]{2}$",
+      "test_purpose_zh": "验证{product}的电容组件板载值的准确性和稳定性，确保{code}型号组件的电路板设计值符合规格要求并保持长期可靠",
+      "test_purpose_en": "Verify the accuracy and stability of onboard values of capacitance components for {product}, ensuring that the circuit board design values of {code} type components meet specification requirements and remain reliable over time",
+      "base_test_items_zh": [
+        "1. 板载值与设计规格的偏差检测（目标≤±2%）",
+        "2. 同批次组件板载值的一致性（极差≤3%）",
+        "3. 板载值测量的重复性（连续10次测量偏差≤1%）",
+        "4. 工作电压变化时的板载值稳定性（3.3V/5V/12V）"
+      ],
+      "base_test_items_en": [
+        "1. Deviation detection between onboard values and design specifications (target ≤±2%)",
+        "2. Consistency of onboard values for components in the same batch (range ≤3%)",
+        "3. Repeatability of onboard value measurements (deviation ≤1% for 10 consecutive measurements)",
+        "4. Stability of onboard values when operating voltage changes (3.3V/5V/12V)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 高低温环境下的板载值稳定性（-40℃至85℃）",
+          "3.1 长期运行后的板载值保持性（运行500小时后偏差≤2%）"
+        ],
+        "en": [
+          "1.1 Onboard value stability in high and low temperature environments (-40℃ to 85℃)",
+          "3.1 Retention of onboard values after long-term operation (deviation ≤2% after 500 hours of operation)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^CAP_COMP_DIFF_IDAC_VALUE_[0-9A-Z]{2}$",
+      "test_purpose_zh": "验证{product}的电容组件差分IDAC值的准确性和线性度，确保{code}型号组件的电流输出特性符合设计规格",
+      "test_purpose_en": "Verify the accuracy and linearity of differential IDAC values of capacitance components for {product}, ensuring that the current output characteristics of {code} type components meet design specifications",
+      "base_test_items_zh": [
+        "1. 差分IDAC值与设计规格的偏差检测（目标≤±2.5%）",
+        "2. 同批次组件的差分IDAC值一致性（极差≤3.5%）",
+        "3. 不同输出档位下的测量重复性（连续10次测量偏差≤1.2%）",
+        "4. 工作电压变化时的输出稳定性（3.3V/5V/12V）"
+      ],
+      "base_test_items_en": [
+        "1. Deviation detection between differential IDAC values and design specifications (target ≤±2.5%)",
+        "2. Consistency of differential IDAC values for components in the same batch (range ≤3.5%)",
+        "3. Measurement repeatability under different output levels (deviation ≤1.2% for 10 consecutive measurements)",
+        "4. Output stability when operating voltage changes (3.3V/5V/12V)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 高低温环境下的差分IDAC值稳定性（-40℃至85℃）",
+          "3.1 长期运行后的输出保持性（运行500小时后偏差≤2.5%）"
+        ],
+        "en": [
+          "1.1 Differential IDAC value stability in high and low temperature environments (-40℃ to 85℃)",
+          "3.1 Output retention after long-term operation (deviation ≤2.5% after 500 hours of operation)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^ANT_CAP_SENSOR_SAM_RESULT_STATUS_[0-9A-Z]{1}CH$",
+      "test_purpose_zh": "验证{product}的天线电容传感器采样结果状态的准确性和可靠性，确保{code}通道的传感器检测参数符合设计规格要求",
+      "test_purpose_en": "Verify the accuracy and reliability of the antenna capacitance sensor sampling result status for {product}, ensuring that the sensor detection parameters of {code} channel meet design specification requirements",
+      "base_test_items_zh": [
+        "1. 采样结果与标准值的偏差检测（目标≤±3%）",
+        "2. 多通道采样结果的一致性（通道间偏差≤4%）",
+        "3. 采样结果的重复性（连续20次测量偏差≤2%）",
+        "4. 不同环境湿度下的采样稳定性（20%-90%RH）"
+      ],
+      "base_test_items_en": [
+        "1. Deviation detection between sampling result and standard value (target ≤±3%)",
+        "2. Consistency of sampling results across multiple channels (inter-channel deviation ≤4%)",
+        "3. Repeatability of sampling results (deviation ≤2% for 20 consecutive measurements)",
+        "4. Stability of sampling results under different environmental humidity (20%-90%RH)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 宽温环境下的采样值偏差（-30℃至70℃）",
+          "3.1 长期运行后的采样精度保持性（连续运行1000小时后偏差≤3%）"
+        ],
+        "en": [
+          "1.1 Sampling value deviation in wide temperature environment (-30℃ to 70℃)",
+          "3.1 Retention of sampling accuracy after long-term operation (deviation ≤3% after 1000 hours of continuous operation)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^ONLINE_MODE_[0-9A-Z]{1,2}$",
+      "test_purpose_zh": "验证 {product} 在线模式的运行稳定性、功能有效性及环境适应性，确保 {code} 对应的在线模式在各类场景下均能满足系统设计标准与实际应用需求",
+      "test_purpose_en": "Verify the operational stability, functional effectiveness and environmental adaptability of the online mode for {product}, ensuring that the online mode corresponding to {code} meets system design standards and practical application requirements in various scenarios",
+      "base_test_items_zh": [
+        "1. 在线模式持续运行稳定性（连续 72 小时无死机、无功能异常）",
+        "2. 数据交互准确性（发送与接收数据一致性≥99.99%）",
+        "3. 外部指令响应效率（指令下发至执行完成耗时≤300ms）",
+        "4. 与配套设备兼容性（兼容≥3 个主流品牌的配套终端设备）"
+      ],
+      "base_test_items_en": [
+        "1. Continuous operation stability of online mode (no crash, no functional abnormality for 72 consecutive hours)",
+        "2. Data interaction accuracy (consistency between sent and received data ≥99.99%)",
+        "3. External command response efficiency (time from command issuance to execution completion ≤300ms)",
+        "4. Compatibility with supporting equipment (compatible with ≥3 mainstream brands of supporting terminal equipment)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 高负载场景下运行稳定性（同时处理≥50 个并发任务时无性能下降）",
+          "4.1 跨版本兼容性（兼容≥2 个历史版本的系统固件）"
+        ],
+        "en": [
+          "1.1 Operational stability under high-load scenarios (no performance degradation when processing ≥50 concurrent tasks simultaneously)",
+          "4.1 Cross-version compatibility (compatible with ≥2 historical versions of system firmware)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^INCLINOMETERREADINGACC(X|Y|Z)$",
+      "test_purpose_zh": "验证 {product} 倾角计X/Y/Z轴加速度读数功能的准确性、运行稳定性、响应及时性及设备兼容性，确保 {code} 对应的加速度读数功能在各类应用场景下均能满足系统设计标准与实际使用需求",
+      "test_purpose_en": "Verify the accuracy, operational stability, response timeliness and device compatibility of the inclinometer's X/Y/Z-axis acceleration reading function for {product}, ensuring that the acceleration reading function corresponding to {code} meets system design standards and practical application requirements in various scenarios",
+      "base_test_items_zh": [
+        "1. 读数准确性（与标准加速度校准值的偏差≤±0.03m/s²）",
+        "2. 持续运行稳定性（连续72小时无读数中断、无异常跳变，累计漂移≤±0.02m/s²）",
+        "3. 动态响应效率（外部加速度变化至读数更新完成耗时≤15ms）",
+        "4. 与采集设备兼容性（兼容≥3个主流品牌的加速度数据采集终端）"
+      ],
+      "base_test_items_en": [
+        "1. Reading accuracy (deviation from standard acceleration calibration value ≤±0.03m/s²)",
+        "2. Continuous operation stability (no reading interruption, no abnormal jump for 72 consecutive hours, cumulative drift ≤±0.02m/s²)",
+        "3. Dynamic response efficiency (time from external acceleration change to completion of reading update ≤15ms)",
+        "4. Compatibility with acquisition equipment (compatible with ≥3 mainstream brands of acceleration data acquisition terminals)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 全量程准确性（在0~50m/s²量程内，各测试点偏差均≤±0.03m/s²）",
+          "4.1 与系统软件兼容性（兼容≥2个历史版本的倾角数据处理软件）"
+        ],
+        "en": [
+          "1.1 Full-range accuracy (within the range of 0~50m/s², the deviation of each test point is ≤±0.03m/s²)",
+          "4.1 Compatibility with system software (compatible with ≥2 historical versions of inclinometer data processing software)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^INCLINOMETER_MEASURE_A\\+G_SENSOR_RESULT$",
+      "test_purpose_zh": "验证 {product} 倾角计X/Y/Z轴加速度读数功能的准确性、运行稳定性、响应及时性及设备兼容性，确保 {code} 对应的加速度读数功能在各类应用场景下均能满足系统设计标准与实际使用需求",
+      "test_purpose_en": "Verify the accuracy, operational stability, response timeliness and device compatibility of the inclinometer's X/Y/Z-axis acceleration reading function for {product}, ensuring that the acceleration reading function corresponding to {code} meets system design standards and practical application requirements in various scenarios",
+      "base_test_items_zh": [
+        "1. 读数准确性（与标准加速度校准值的偏差≤±0.03m/s²）",
+        "2. 持续运行稳定性（连续72小时无读数中断、无异常跳变，累计漂移≤±0.02m/s²）",
+        "3. 动态响应效率（外部加速度变化至读数更新完成耗时≤15ms）",
+        "4. 与采集设备兼容性（兼容≥3个主流品牌的加速度数据采集终端）"
+      ],
+      "base_test_items_en": [
+        "1. Reading accuracy (deviation from standard acceleration calibration value ≤±0.03m/s²)",
+        "2. Continuous operation stability (no reading interruption, no abnormal jump for 72 consecutive hours, cumulative drift ≤±0.02m/s²)",
+        "3. Dynamic response efficiency (time from external acceleration change to completion of reading update ≤15ms)",
+        "4. Compatibility with acquisition equipment (compatible with ≥3 mainstream brands of acceleration data acquisition terminals)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 全量程准确性（在0~50m/s²量程内，各测试点偏差均≤±0.03m/s²）",
+          "4.1 与系统软件兼容性（兼容≥2个历史版本的倾角数据处理软件）"
+        ],
+        "en": [
+          "1.1 Full-range accuracy (within the range of 0~50m/s², the deviation of each test point is ≤±0.03m/s²)",
+          "4.1 Compatibility with system software (compatible with ≥2 historical versions of inclinometer data processing software)"
+        ],
+        "insert_pos": 1
+      }
+    },
+    {
+      "pattern": "^APK_GET_DATABASE_STATUS$",
+      "test_purpose_zh": "验证 {product} 中APK获取数据库状态功能的准确性、实时性、异常处理能力及系统兼容性，确保 {code} 对应的数据库状态获取功能在各类运行场景下均能满足系统设计标准与实际使用需求",
+      "test_purpose_en": "Verify the accuracy, real-time performance, exception handling capability and system compatibility of the APK's database status retrieval function in {product}, ensuring that the database status retrieval function corresponding to {code} meets system design standards and practical application requirements in various operating scenarios",
+      "base_test_items_zh": [
+        "1. 状态获取准确性（返回的数据库连接状态、读写状态与实际状态一致率≥99.9%）",
+        "2. 实时响应性能（从请求发出到获取状态结果的耗时≤200ms）",
+        "3. 异常处理能力（在数据库连接中断、权限不足等异常场景下，能返回明确错误码并记录日志）",
+        "4. 多版本兼容性（兼容≥5个主流数据库版本的状态获取协议）"
+      ],
+      "base_test_items_en": [
+        "1. Status retrieval accuracy (consistency rate between returned database connection status, read-write status and actual status ≥99.9%)",
+        "2. Real-time response performance (time from request initiation to status result acquisition ≤200ms)",
+        "3. Exception handling capability (can return clear error codes and record logs in abnormal scenarios such as database connection interruption and insufficient permissions)",
+        "4. Multi-version compatibility (compatible with status retrieval protocols of ≥5 mainstream database versions)"
+      ],
+      "additional_items": {
+        "zh": [
+          "1.1 高并发准确性（≥100个并发请求时，状态返回准确率仍保持≥99.9%）",
+          "2.1 资源占用控制（获取状态过程中CPU占用率≤5%，内存占用增量≤1MB）"
+        ],
+        "en": [
+          "1.1 High concurrency accuracy (when there are ≥100 concurrent requests, the status return accuracy remains ≥99.9%)",
+          "2.1 Resource usage control (CPU usage ≤5% and memory usage increment ≤1MB during status retrieval)"
+        ],
+        "insert_pos": 1
+      }
+    }
+
+  ]
+}

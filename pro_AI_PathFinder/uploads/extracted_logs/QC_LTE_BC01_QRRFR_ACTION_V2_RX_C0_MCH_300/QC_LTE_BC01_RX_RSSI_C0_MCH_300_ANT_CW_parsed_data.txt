@@ -1,0 +1,22 @@
+title_name: test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -59.6
+Measure Process	SIGNAL_LEVEL Reading 2: -59.6
+Measure Process	SIGNAL_LEVEL Reading 3: -59.6
+Measure Process	SIGNAL_LEVEL Reading 4: -59.6
+Measure Process	SIGNAL_LEVEL Reading 5: -59.6
+Measure Process	End SIGNAL_LEVEL measure process: -59.6
+
+title_name: test_result
+test_item: QC_LTE_BC01_RX_RSSI_C0_MCH_300_ANT_CW
+low_limit: -65.0
+up_limit: -55.0
+test_data: -59.6
+unit: dBm
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

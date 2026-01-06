@@ -1,0 +1,29 @@
+# test_process
+Measure Process	TX_POWER Reading 1: 13.3111
+Measure Process	TX_POWER Reading 2: 12.79758
+Measure Process	TX_POWER Reading 3: 12.66989
+Measure Process	TX_POWER Reading 4: 12.51373
+Measure Process	TX_POWER Reading 5: 12.65619
+Measure Process	TX_POWER Reading 6: 12.46387
+Measure Process	End TX_POWER measure process: Final measurement = 12.620252
+Measure Process	TX_POWER Reading 1: 13.30789
+Measure Process	TX_POWER Reading 2: 12.83743
+Measure Process	TX_POWER Reading 3: 12.72379
+Measure Process	TX_POWER Reading 4: 12.53906
+Measure Process	TX_POWER Reading 5: 12.56201
+Measure Process	TX_POWER Reading 6: 12.83151
+Measure Process	End TX_POWER measure process: Final measurement = 12.69876
+Measure Process	TX_POWER Reading 1: 13.39682
+Measure Process	TX_POWER Reading 2: 12.91455
+Measure Process	TX_POWER Reading 3: 12.69165
+Measure Process	TX_POWER Reading 4: 12.63123
+Measure Process	TX_POWER Reading 5: 12.70154
+Measure Process	TX_POWER Reading 6: 12.47754
+Measure Process	End TX_POWER measure process: Final measurement = 12.683302
+# test_result
+EvalAndLogResults	268	1495	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_MCH_CW	7	23	12.62	dB	332	112698	PASSED		<----------|--------#----------------|---------->	Off	False	True	RC1M1qW5
+EvalAndLogResults	268	1496	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_STATUS	0	0	0	P/F	0	112698	PASSED		<-----------------------|#|--------------------->	Off	False	False	RC1M1qWS
+EvalAndLogResults	268	1499	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_MCH_CW	7	23	12.7	dB	305	128935	PASSED		<----------|--------#----------------|---------->	Off	False	True	RC1M1qW5
+EvalAndLogResults	268	1500	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_STATUS	0	0	0	P/F	0	128935	PASSED		<-----------------------|#|--------------------->	Off	False	False	RC1M1qWS
+EvalAndLogResults	268	1505	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_MCH_CW	7	23	12.68	dB	330	133242	PASSED		<----------|--------#----------------|---------->	Off	False	True	RC1M1qW5
+EvalAndLogResults	268	1506	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_STATUS	0	0	0	P/F	0	133242	PASSED		<-----------------------|#|--------------------->	Off	False	False	RC1M1qWS

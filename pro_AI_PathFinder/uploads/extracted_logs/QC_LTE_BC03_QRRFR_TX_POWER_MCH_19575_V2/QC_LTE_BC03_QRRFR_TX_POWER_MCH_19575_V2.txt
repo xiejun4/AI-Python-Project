@@ -1,0 +1,10 @@
+# test_process
+Measure Process	TX_POWER Reading 1: 19.23149
+Measure Process	TX_POWER Reading 2: 19.2404
+Measure Process	TX_POWER Reading 3: 19.31042
+Measure Process	TX_POWER Reading 4: 19.25331
+Measure Process	TX_POWER Reading 5: 19.21244
+Measure Process	End TX_POWER measure process: Final measurement = 19.249612
+# test_result
+EvalAndLogResults	294	627	QC_LTE_BC03_TX_POWER_MCH_19575_ANT_CW	15	25	19.25	dB	136	69373	PASSED		<----------|----------#--------------|---------->	Off	False	False	QL03T0M1
+EvalAndLogResults	294	628	QC_LTE_BC03_TX_POWER_MCH_STATUS	0	0	0	P/F	0	69373	PASSED		<-----------------------|#|--------------------->	Off	False	False	QL03T0MS

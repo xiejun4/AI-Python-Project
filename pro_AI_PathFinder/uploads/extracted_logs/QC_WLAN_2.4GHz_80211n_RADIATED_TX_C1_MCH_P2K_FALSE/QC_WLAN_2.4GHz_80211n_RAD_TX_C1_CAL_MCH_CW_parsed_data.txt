@@ -1,0 +1,25 @@
+title_name: test_process
+Measure Process	TX_POWER Reading 1: 15.15725
+Measure Process	TX_POWER Reading 2: 14.70056
+Measure Process	TX_POWER Reading 3: 14.4817
+Measure Process	TX_POWER Reading 4: 14.21467
+Measure Process	TX_POWER Reading 5: 14.14946
+Measure Process	TX_POWER Reading 6: 14.01931
+Measure Process	TX_POWER Reading 7: 13.86415
+Measure Process	TX_POWER Reading 8: 13.85695
+Measure Process	End TX_POWER measure process: 14.020908
+
+title_name: test_result
+test_item: QC_WLAN_2.4GHz_80211n_RAD_TX_C1_CAL_MCH_CW
+low_limit: 10.0
+up_limit: 20.0
+test_data: 14.02
+unit: dB
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

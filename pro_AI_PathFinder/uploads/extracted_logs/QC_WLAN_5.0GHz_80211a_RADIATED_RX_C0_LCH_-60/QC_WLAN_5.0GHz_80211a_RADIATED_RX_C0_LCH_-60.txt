@@ -1,0 +1,8 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -65
+Measure Process	SIGNAL_LEVEL Reading 2: -65
+Measure Process	SIGNAL_LEVEL Reading 3: -65
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = -65
+# test_result
+EvalAndLogResults	261	1486	QC_WLAN_5.0GHz_80211a_RAD_RX_C0_CAL_LCH_ANT_CW	-70	-60	-65	dBm	431	111721	PASSED		<----------|------------#------------|---------->	Off	False	False	RCDLZW5
+EvalAndLogResults	261	1487	QC_WLAN_5.0GHz_80211a_RAD_RX_C0_CAL_LCH_STATUS	0	0	0	P/F	1	111722	PASSED		<-----------------------|#|--------------------->	Off	False	False	RCBLZW5

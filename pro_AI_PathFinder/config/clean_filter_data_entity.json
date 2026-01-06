@@ -1,0 +1,200 @@
+{
+  "TestSites": {
+    "L2AR": "L2AR"
+  },
+  "Platforms": {
+    "MTK": ["MTK", "MediaTek 联发科芯片平台"],
+    "Qualcomm": ["Qualcomm", "Qualcomm 高通芯片平台"],
+    "GENERIC": ["Generic", "通用平台，不特定于任何芯片厂商"],
+    "GENERIC_Basic_Band": ["Generic_Basic_Band", "通用平台，不特定于任何芯片厂商的基带"]
+  },
+  "TestTypes": {
+    "COMPREHENSIVE_TEST": "Comprehensive Test",
+    "CALIBRATION": "Calibration",
+    "SPEAKER": "Speaker",
+    "MIC": "Mic",
+    "EAR": "EAR",
+    "CAP_SWITCH_TURBO_CHARGER": "CAP_SWITCH_TURBO_CHARGER",
+    "CAPSWTICH_TURBORCHARGE": "CAPSWTICH_TURBORCHARGE",
+    "SPK_INFO_PROGAMMING": "SPK_INFO_PROGAMMING",
+    "BATTERY_LEVELS": "BATTERY_LEVELS",
+    "ANDROID_MAGNETOMETER": "ANDROID_MAGNETOMETER",
+    "QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW": "QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW",
+    "ANT_CAP_SENSOR_ASM_RESULT_SX9375_8CH_YWQ": "ANT_CAP_SENSOR_ASM_RESULT_SX9375_8CH_YWQ",
+    "ONLINE_MODE": "ONLINE_MODE",
+    "INCLINOMETER_MEASURE_A+G": "INCLINOMETER_MEASURE_A+G",
+    "ANDROID_CQATEST_CFG_MA_DATABASE_RESULTS": "ANDROID_CQATEST_CFG_MA_DATABASE_RESULTS"
+
+  },
+  "Patterns": {
+    "MTKPatterns": {
+      "COMPREHENSIVE_TEST": [
+        "^MTK_WLAN\\d+\\.\\d+G_TX_C\\d+_HQA_\\d+DB_(H|M|L)CH\\d+",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_C\\d+_HQA_RSSI_(H|M|L)CH\\d+",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_C\\d+_HQA_CH\\d+.*",
+        "^MTK_WLAN\\d+G_TX_HQA_C\\d+_\\d+DB_CH\\d+.*",
+        "^MTK_WLAN\\d+G_TX_HQA_C\\d+_\\d+DB_(H|M|L)CH\\d+.*",
+        "^MTK_WLAN\\d+G_RX_C\\d+_HQA_CH\\d+",
+        "^MTK_WLAN\\d+G_RX_C\\d+_HQA_(H|M|L)CH\\d+",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_V\\d+_RSSI_CH\\d+.*",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_V\\d+_RSSI_(H|M|L)CH\\d+.*",
+        "^MTK_WLAN\\d+G_RX_V\\d+_RSSI_CH\\d+.*",
+        "^MTK_WLAN\\d+G_RX_V\\d+_RSSI_(H|M|L)CH\\d+.*",
+        "^MTK_GPS_RX_V\\d+_L\\d+_-\\d+DB",
+        "^MTK_BLUETOOTH_TX_POWER_V\\d+_CH\\d+.*",
+        "^MTK_BLUETOOTH_TX_POWER_V\\d+_(H|M|L)CH\\d+.*",
+        "^MTK_MMRF_LTE_BC\\d+_TX_\\d+DB_V\\d+_(H|M|L)CH\\d+",
+        "^MTK_MMRF_LTE_BC\\d+_TX_\\d+DB_V\\d+_(H|M|L)CH\\d+_ANT_CW",
+        "^MTK_MMRF_LTE_BC\\d+_RX_C\\d+_RSSI_V\\d+_(H|M|L)CH\\d+",
+        "^MTK_MMRF_LTE_BC\\d+_RX_C\\d+_RSSI_V\\d+_(H|M|L)CH\\d+_(EP|ROW)",
+        "^MTK_MMRF_NR\\d+G_NS\\d+_RX_C\\d+_V\\d+_RSSI_(H|M|L)CH\\d+",
+        "^MTK_MMRF_NR\\d+G_NS\\d+_RX_C\\d+_V\\d+_RSSI_(H|M|L)CH\\d+_ANT_CW",
+        "^MTK_META_TRACKID_READ_FROM_MD_NVRAM"
+      ],
+      "CALIBRATION": [
+        "^MTK_WLAN\\d+\\.\\d+G_TX_C\\d+_HQA_\\d+DB_(H|M|L)CH\\d+_CAL",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_C\\d+_HQA_RSSI_(H|M|L)CH\\d+_CAL",
+        "^MTK_WLAN\\d+G_TX_HQA_C\\d+_\\d+DB_CH\\d+_CAL",
+        "^MTK_WLAN\\d+G_RX_C\\d+_HQA_CH\\d+_CAL",
+        "^MTK_GPS_RX_V\\d+_L\\d+_-\\d+DB_CAL",
+        "^MTK_BLUETOOTH_TX_POWER_V\\d+_CH\\d+_CAL",
+        "^MTK_MMRF_LTE_BC\\d+_TX_\\d+DB_V\\d+_(H|M|L)CH\\d+_CAL",
+        "^MTK_MMRF_LTE_BC\\d+_RX_C\\d+_RSSI_V\\d+_(H|M|L)CH\\d+_CAL",
+        "^MTK_MMRF_LTE_BC\\d+_RX_C\\d+_RSSI_V\\d+_(H|M|L)CH\\d+_(EP|ROW)_CAL",
+        "^MTK_META_TRACKID_READ_FROM_MD_NVRAM"
+      ]
+    },
+    "QualcommPatterns": {
+      "COMPREHENSIVE_TEST": [
+        "^QC_BT_RAD_MEAS_CW_POW_(H|M|L)CH\\d+_PRO",
+        "^QC_GPS_RAD_CARRIER_TO_NOISE_GEN\\d+_(WR|L\\d+_EQ)",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_TX_C\\d+_(H|M|L)CH(\\d*?)_P2K_(TRUE|FALSE)",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_RX_C\\d+_(H|M|L)CH(\\d*?)_-?\\d+",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_TX_C\\d+_(H|M|L)CH_P2K_(TRUE|FALSE)",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_RX_C\\d+_(H|M|L)CH_EQ",
+        "^QC_LTE_BC\\d+_QRRFR_TX_POWER_(H|M|L)CH_\\d+_V\\d+",
+        "^QC_LTE_BC\\d+_QRRFR_ACTION_V\\d+_RX_C\\d+_(H|M|L)CH_\\d+",
+        "^QC_NS_N\\d+_.+?_V\\d+_RX_C\\d+_(H|M|L)CH_\\d+"
+      ],
+      "CALIBRATION": [
+        "^QC_BT_RAD_MEAS_CW_POW_(H|M|L)CH\\d+_PRO_CAL",
+        "^QC_GPS_RAD_CARRIER_TO_NOISE_GEN\\d+_(WR|L\\d+_EQ)_CAL",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_TX_C\\d+_(H|M|L)CH(\\d*?)_P2K_(TRUE|FALSE)_CAL",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_RX_C\\d+_(H|M|L)CH(\\d*?)_-?\\d+_CAL",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_TX_C\\d+_(H|M|L)CH_P2K_(TRUE|FALSE)_CAL",
+        "^QC_WLAN_\\d+\\.\\d+GHz_80211[na]_RADIATED_RX_C\\d+_(H|M|L)CH_EQ_CAL",
+        "^QC_LTE_BC\\d+_QRRFR_TX_POWER_(H|M|L)CH_\\d+_V\\d+_CAL",
+        "^QC_LTE_BC\\d+_QRRFR_ACTION_V\\d+_RX_C\\d+_(H|M|L)CH_\\d+_CAL"
+      ]
+    },
+    "GenericPatterns": {
+      "SPEAKER_TEST": [
+        "^AUDIO_L2AR_ALERT_[A-Za-z]+\\d?_\\d+_(?:\\d+K?Hz|\\d+)_TO_\\d+Hz_MIC[\\w-]+(?:_[\\w-]+)?(?:_ASYNC_(?:START|WAIT))?",
+        "^AUDIO_L2AR_ALERT_[A-Za-z]+_\\d+_\\d+(?:KHz)?_TO_\\d+(?:KHz)?_MIC[\\w_]+(?:_ASYNC_(?:START|WAIT))?"
+      ],
+      "SPEAKER_TEST_GROUP": [
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Za-z]+)\\d?_(?P<id>\\d+)_(?P<start_freq>\\d+K?HZ|\\d+)_TO_(?P<end_freq>\\d+HZ)_MIC(?P<mic_id>[\\w-]+)(?:_(?P<product>[\\w-]+))?(?:_ASYNC_(?P<async_mode>START|WAIT))?$",
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Z]+)_(?P<id>\\d+)_(?P<start_freq>\\d+KHZ)_TO_(?P<end_freq>\\d+KHZ)_MIC(?P<mic_id>\\d+)_(?P<product>[A-Z]+)$",
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Z]+)_(?P<id>\\d+)_(?P<start_freq>\\d+KHZ)_TO_(?P<end_freq>\\d+KHZ)_MIC(?P<mic_id>\\d+[A-Z]+)_(?P<version>V\\d+)_(?P<product>[A-Z]+)$",
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Z]+)_(?P<id>\\d+)_(?P<start_freq>\\d+KHZ)_TO_(?P<end_freq>\\d+KHZ)_MIC(?P<mic_id>\\d+)_(?P<product>[A-Z]+)_EQ$",
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Z]+)_(?P<id>\\d+)_(?P<start_freq>\\d+KHZ)_TO_(?P<end_freq>\\d+KHZ)_MIC(?P<mic_id>\\d+)_(?P<product>[A-Z]+)_EQ_(?P<version>\\w+)$",
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Z]+)_(?P<id>\\d+)_(?P<start_freq>\\d+KHZ)_TO_(?P<end_freq>\\d+KHZ)_MIC(?P<mic_id>[\\dA-Za-z]+)_(?P<product>[A-Z]+)_EQ$",
+        "^AUDIO_L2AR_ALERT_(?P<direction>[A-Z]+)_(?P<id>\\d+)_(?P<start_freq>\\d+KHZ)_TO_(?P<end_freq>\\d+KHZ)_MIC(?P<mic_id>[\\dA-Za-z]+)_(?P<product>[A-Z]+)_EQ_(?P<version>\\w+)$"
+      ],
+      "SPEAKER_TEST_GROUP2" : [
+        "^AUDIO_L2AR_ALERT_([A-Za-z0-9]+)_\\d+_(\\d+K?Hz|\\d+)_TO_(\\d+Hz)_MIC(\\d+)_([A-Za-z0-9]+)_([A-Za-z0-9]+)_FAILED",
+        "^AUDIO_L2AR_ALERT_([A-Za-z0-9]+)_\\d+_(\\d+K?Hz|\\d+)_TO_(\\d+Hz)_MIC([\\w-]+)",
+        "^AUDIO_L2AR_ALERT_([A-Za-z]+\\d?)_\\d+_(?:(\\d+K?Hz|\\d+))_TO_(\\d+Hz)_MIC([\\w-]+(?:_[\\w-]+)?)(?:_ASYNC_(?:START|WAIT))?",
+        "^AUDIO_L2AR_ALERT_([A-Za-z]+)_\\d+_(\\d+(?:KHz)?)\\_TO\\_(\\d+(?:KHz)?)_MIC([\\w_]+)(?:_ASYNC_(?:START|WAIT))?",
+        "^AUDIO_SAMPLE_MIC_(\\d+)_FFT_(\\d+)_([\\dK-]+)_([\\w]+)_.+_FAILED"
+      ],
+      "MIC_TEST": [
+        "^AUDIO_SAMPLE_MIC_\\d+_CONTIGUOUS_SPKR\\d+_\\d+-\\d+(?:_ASYNC_(START|WAIT))?",
+        "^AUDIO_SAMPLE_MIC_\\d+_(FFT|DFT)_\\d+_\\d+K-\\d+K_SPKR\\d+(?:_[A-Za-z0-9-]+)?(?:_ASYNC_(START|WAIT))?",
+        "^AUDIO_SAMPLE_MIC_\\d+_(FFT|DFT)_\\d+KHZ_\\d+_\\d+_(L|R|M)\\d+SPK\\d+_BLOCK_[A-Za-z]+",
+        "^AUDIO_MIC\\d+_SPKR\\d+_\\d+-\\d+K\\d+Hz_VS_SEAL_.+"
+
+      ],
+      "MIC_TEST_GROUP":[
+        "^AUDIO_SAMPLE_MIC_(?P<mic_id>\\d+)_CONTIGUOUS_SPKR(?P<spkr_id>\\d+)_(?P<freq_range>\\d+-\\d+)(?:_ASYNC_(?P<async_mode>START|WAIT))?$",
+        "^AUDIO_SAMPLE_MIC_(?P<mic_id>\\d+)_FFT_(?P<fft_id>\\d+)_(?P<freq_low>\\d+)K-(?P<freq_high>\\d+)K_SPKR(?P<spkr_id>\\d+)_MILOS(?:_ASYNC_(?P<async_mode>START|WAIT))?$",
+        "^AUDIO_SAMPLE_MIC_(?P<mic_id>\\d+)_FFT_(?P<fft_id>\\d+)_(?P<freq_low>\\d+)K-(?P<freq_high>\\d+)K_SPKR(?P<spkr_id>\\d+)_(?P<suffix>[A-Za-z]+)$",
+        "^AUDIO_SAMPLE_MIC_(?P<mic_id>\\d+)_DFT_(?P<freq_khz>\\d+)KHZ_(?P<dft_id>\\d+)_(?P<dft_param>\\d+)_L2SPK(?P<spkr_id>\\d+)_MILOS(?:_ASYNC_(?P<async_mode>START|WAIT))?$",
+        "^AUDIO_MIC(?P<mic_id>\\d+)_SPKR(?P<spkr_id>\\d+)_(?P<param1>\\d+)-(?P<param2>\\d+)K(?P<param3>\\d+)HZ_VS_SEAL_(?P<suffix>.+)$",
+        "^AUDIO_SAMPLE_MIC_(?P<mic_id>\\d+)_CONTIGUOUS_SPKR(?P<spkr_id>\\d+)_(?P<freq_range>\\d+-\\d+)_EQ$",
+        "^AUDIO_SAMPLE_MIC_(?P<mic_id>\\d+)_(?P<transform_type>FFT|DFT)_(?P<freq_khz>\\d+)KHZ_(?P<param1>\\d+)_(?P<param2>\\d+)_(?P<position>L|R|M)(?P<pos_num>\\d+)SPK(?P<spkr_id>\\d+)_BLOCK_(?P<block_type>[A-Z]+)$"
+      ],
+      "MIC_TEST_GROUP2":[
+        "^AUDIO_SAMPLE_MIC_(\\d+)_(FFT|DFT)_(\\d+)KHZ_(\\d+)_(\\d+)_(L|R|M)\\d+SPK(\\d+)_BLOCK_[a-z]+",
+        "^AUDIO_SAMPLE_MIC_(\\d+)_FFT_(\\d+)_([\\dK-]+)_([A-Z0-9]+)",
+        "^AUDIO_SAMPLE_MIC_(\\d+)_DFT_(\\d+K?HZ?)_(\\d+)_(\\d+)_([A-Z0-9]+)",
+        "^AUDIO_SAMPLE_MIC_(\\d+)_CONTIGUOUS_([A-Z0-9]+)_([\\d-]+)",
+        "^AUDIO_MIC(\\d+)_SPKR(\\d+)_([\\d-]+)K(\\d+)Hz_VS_SEAL_([A-Z0-9_]+)"
+      ],
+      "EAR_TEST": [
+        "^AUDIO_L2AR_EAR_(\\d+)_(\\d+K?Hz)_TO_(\\d+K?Hz)_MIC(\\d+)_([A-Za-z]+)_ASYNC_(START|WAIT)",
+        "^AUDIO_L2AR_EAR_(\\d+)_(\\d+K?Hz)_TO_(\\d+K?Hz)_MIC(\\d+)_([A-Za-z]+)"
+      ],
+      "EAR_TEST_GROUP":[
+        "^AUDIO_L2AR_EAR_(?P<ear_id>\\d+)_(?P<low_freq>\\d+)HZ_TO_(?P<high_freq>\\d+)HZ_MIC(?P<mic_num>\\d+)(?:_(?P<product>\\w+))?(?:_ASYNC_(?P<async_mode>START|WAIT))?$",
+        "^AUDIO_L2AR_EAR_(?P<ear_id>\\d+)_(?P<start_freq>\\d+K?HZ)_TO_(?P<end_freq>\\d+K?HZ)_MIC(?P<mic_id>\\d+)_(?P<product>[A-Za-z]+)_ASYNC_(?P<async_mode>START|WAIT)$",
+        "^AUDIO_L2AR_EAR_(?P<ear_id>\\d+)_(?P<start_freq>\\d+K?HZ)_TO_(?P<end_freq>\\d+K?HZ)_MIC(?P<mic_id>\\d+)_(?P<product>[A-Za-z]+)$",
+        "^AUDIO_L2AR_EAR_(?P<ear_id>\\d+)_(?P<start_freq>\\d+K?HZ)_TO_(?P<end_freq>\\d+K?HZ)_MIC(?P<mic_id>\\d+)_(?P<product>[A-Za-z]+)_EQ$",
+        "^AUDIO_L2AR_EAR_(?P<ear_id>\\d+)_(?P<start_freq>\\d+K?HZ)_TO_(?P<end_freq>\\d+K?HZ)_MIC(?P<mic_id>\\d+)$"
+      ],
+      "EAR_TEST_GROUP2":[
+        "^AUDIO_L2AR_EAR_\\d+_(\\d+)Hz_TO_(\\d+)Hz_([A-Z0-9_]+)",
+        "^AUDIO_L2AR_EAR_(\\d+)_(\\d+K?Hz)_TO_(\\d+K?Hz)_MIC(\\d+)_([A-Za-z]+)"
+      ]
+    },
+    "BasicBandPatterns": {
+        "CAP_SWITCH_TURBO_CHARGER": [
+          "^CAPSWTICH_TURBORCHARGE_[0-9A-Z]{4}_[0-9A-Z]{2}W",
+          "^CAP_SWITCH_TURBO_CHARGER_FIRST_VATT",
+          "^CAP_SWITCH_TURBO_CAP_SWITCH_CHG_CURR_(\\d+)W",
+          "^CAP_SWITCH_TURBO_CHARGER_TEST_OVERALL_STATUS"
+        ],
+        "CAPSWTICH_TURBORCHARGE": [
+          "^CAPSWTICH_TURBORCHARGE_[0-9A-Z]{4}_[0-9A-Z]{2}W",
+          "^CAP_SWITCH_TURBO_CHARGER_FIRST_VATT",
+          "^CAP_SWITCH_TURBO_CAP_SWITCH_CHG_CURR_(\\d+)W",
+          "^CAP_SWITCH_TURBO_CHARGER_TEST_OVERALL_STATUS"
+        ],
+        "SPK_INFO_PROGAMMING": [
+          "^SPKINFOPROGRAMMING_READ",
+          "^SPKinfoprogramming_READ",
+          "^SPK_INFO_PROGAMMING"
+        ],
+        "BATTERY_LEVELS": [
+          "^GET_BATTERY_CHARGE_LEVEL_STATUS",
+          "^ANDROID_GET_BATTERY_LEVEL"
+        ],
+        "ANDROID_MAGNETOMETER": [
+          "^ANDROID_MAGNETOMETER",
+          "^MAGNETOMETER_PRESENSE_APK_STATUS",
+          "^MAGNETOMETER_X_AXIS_ABSOLUTE_MAG_FIELD_APK",
+          "^MAGNETOMETER_Y_AXIS_ABSOLUTE_MAG_FIELD_APK",
+          "^MAGNETOMETER_Z_AXIS_ABSOLUTE_MAG_FIELD_APK"
+        ],
+        "QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW": [
+          "^QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW_[0-9A-Z]{2}_[0-9A-Z]{4}",
+          "^MECH_SWITCH_STATE_SIM_REMOVED"
+        ],
+        "ANT_CAP_SENSOR_ASM_RESULT_SX9375_8CH_YWQ": [
+          "^ANT_CAP_SENSOR_ASM_RESULT_SX(\\d+)_(\\d+)CH_[0-9A-Z]{3}",
+          "^CAP_SENSOR_DETECT_STATUS"
+        ],
+        "ONLINE_MODE": [
+          "^ONLINE_MODE_[0-9A-Z]{2}",
+          "^ONLINE_MODE_[0-9A-Z]{1}",
+          "^ONLINE_MODE_VERIFY_[0-9A-Z]{1}"
+        ],
+        "INCLINOMETER_MEASURE_A+G": [
+          "^INCLINOMETER_MEASURE_A\\+G"
+        ],
+        "ANDROID_CQATEST_CFG_MA_DATABASE_RESULTS": [
+          "^ANDROID_CQATEST_CFG_MA_DATABASE_RESULTS"
+        ]
+    }
+  }
+}

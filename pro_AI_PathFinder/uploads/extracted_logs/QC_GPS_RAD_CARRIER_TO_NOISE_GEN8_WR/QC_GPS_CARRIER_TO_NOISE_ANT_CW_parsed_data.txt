@@ -1,0 +1,24 @@
+title_name: test_process
+Measure Process	SIGNAL_LEVEL Reading 1: 63.1
+Measure Process	SIGNAL_LEVEL Reading 2: 61.7
+Measure Process	SIGNAL_LEVEL Reading 3: 60.3
+Measure Process	End RX_FREQUENCY_OFFSET measure process: Final measurement = 99.9793333333333
+Measure Process	SIGNAL_LEVEL Reading 4: 61.1
+Measure Process	SIGNAL_LEVEL Reading 5: 61.6
+Measure Process	SIGNAL_LEVEL Reading 6: 62
+Measure Process	End SIGNAL_LEVEL measure process: 61.5666666666667
+
+title_name: test_result
+test_item: QC_GPS_CARRIER_TO_NOISE_ANT_CW
+low_limit: 55.0
+up_limit: 65.0
+test_data: 61.5666666666667
+unit: dB
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

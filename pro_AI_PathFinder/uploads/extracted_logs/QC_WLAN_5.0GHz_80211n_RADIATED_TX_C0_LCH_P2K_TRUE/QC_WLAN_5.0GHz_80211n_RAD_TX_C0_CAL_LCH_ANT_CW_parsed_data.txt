@@ -1,0 +1,22 @@
+title_name: test_process
+Measure Process	TX_POWER Reading 1: 16.4902
+Measure Process	TX_POWER Reading 2: 16.40683
+Measure Process	TX_POWER Reading 3: 16.30185
+Measure Process	TX_POWER Reading 4: 16.28558
+Measure Process	TX_POWER Reading 5: 16.30838
+Measure Process	End TX_POWER measure process: 16.358568
+
+title_name: test_result
+test_item: QC_WLAN_5.0GHz_80211n_RAD_TX_C0_CAL_LCH_ANT_CW
+low_limit: 10.0
+up_limit: 20.0
+test_data: 16.36
+unit: dB
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

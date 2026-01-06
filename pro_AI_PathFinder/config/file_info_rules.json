@@ -1,0 +1,67 @@
+{
+    "site_rules": {
+        "L2AR Site": ["_L2_AR_", "_L2AR", "_L2AR_", "_LAR"],
+        "default": "Non-L2AR Site"
+    },
+    "platform_rules": {
+        "_QC_": "Qualcomm Platform",
+        "_MTK_": "MTK Platform",
+        "default": "Generic Platform"
+    },
+    "test_item_rules": [
+        {
+            "name": "CAPSWTICH_TURBORCHARGE",
+            "keywords": ["CAP", "SWTICH", "TURBO", "CHARGE"],
+            "all_required": true
+        },
+        {
+            "name": "CAP_SWITCH_TURBO_CHARGER",
+            "keywords": ["CAP", "SWITCH", "TURBO", "CHARGE"],
+            "all_required": true
+        },
+        {
+            "name": "ANT_CAP_SENSOR_ASM_RESULT_SX9375_8CH_YWQ",
+            "keywords": ["ANT", "CAP", "SENSOR", "ASM", "RESULT", "SX9375", "8CH", "YWQ"],
+            "all_required": true
+        },
+        {
+            "name": "ONLINE_MODE",
+            "keywords": ["ONLINE", "MODE"],
+            "all_required": true
+        },
+        {
+            "name": "SPK_INFO_PROGAMMING",
+            "keywords": ["SPK", "info", "programming_READ"],
+            "all_required": true
+        },
+        {
+            "name": "BATTERY_LEVELS",
+            "keywords": ["ANDROID_GET_BATTERY_LEVEL"],
+            "all_required": true
+        },
+        {
+            "name": "ANDROID_MAGNETOMETER",
+            "keywords": ["ANDROID_MAGNETOMETER"],
+            "all_required": true
+        },
+        {
+            "name": "QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW",
+            "keywords": ["QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW_01_4B00"],
+            "all_required": true,
+            "platform_override": "Generic Platform"
+        },
+        {
+            "name": "INCLINOMETER_MEASURE_A+G",
+            "keywords": ["INCLINOMETER_MEASURE_A+G"],
+            "all_required": true,
+            "platform_override": "Generic Platform"
+        },
+        {
+            "name": "ANDROID_CQATEST_CFG_MA_DATABASE_RESULTS",
+            "keywords": ["ANDROID_CQATEST_CFG_MA_DATABASE_RESULTS"],
+            "all_required": true,
+            "platform_override": "Generic Platform"
+        }
+    ],
+    "default_test_item": "Other Test Type"
+}

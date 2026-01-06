@@ -1,0 +1,74 @@
+0.完成情况
+                        wifi_tx | wifi_rx | bluetooth | gps | lte_tx | lte_rx
+1-1.综测的数据检查成功          √       √           √      √       √        √
+1-2.综测的数据检查失败          √       √           √      √       √        √
+1-3.校准的数据检查成功          √       √           √      √       √        √
+1-4.校准的数据检查失败                                                      √
+
+2025-5-8
+1.整理当前代码，将函数分门别类。 ----- continue
+2.将wifi_tx|rx的部分代码合并。 ----- continue
+（1）
+# L2AR的清理和过滤数据的功能函数
+CleanFilterDataUtil_L2AR.py
+
+（2）
+# L2AR的清理和过滤数据的数据实体
+CleanFilterDataEntity_L2AR.py
+
+（3）
+# Json的功能函数
+JsonUtil_L2AR.py
+
+（4）
+# Json的数据实体
+JsonDataEntity_L2AR.py
+
+3.将json转成html。 ----- None
+
+2025-5-9
+0.更新函数
+def chart_generate_and_save3
+（1）添加代码：avg_value
+    说明：之前是从test_data中获取，不对，更改为从valid_values计算平均值获取。
+（2）添加函数：filter_data_by_deviation
+    说明：lte的rx校准数据异常之后，他的测试数据量>=200之后，图片上显示的很混乱，
+    编写一个函数用来筛选出波动较大的一批数据，目前设置为30个，保留波动最大的前30%数据，但至少保留10个。
+
+1.优化代码：
+JsonDataEntity_L2AR.py
+（1）格式化，移动代码：
+    说明：将获取、设置Status_Indicators的正则表达式格式化后从main_test.py移动
+    到JsonDataEntity_L2AR.py
+    # 汇总所有正则表达式模式
+    REGEX_PATTERNS_For_Status_Indicators
+
+# 3.过滤 test_process_container, eval_and_log_results_container, satisifed_container, route_container
+（1）将异常信息和校准信息添加到 wifi_tx | wifi_rx | bluetooth | gps | lte_tx | lte_rx
+
+2025-07-02
+1.process_patterns 改为 get_patterns_grouped_dic
+2.Mic的异常数据解析，数据趋势分析，测试项描述，chart数据已完成，还剩下异常与建议，和json文件生成。
+
+2025-07-03
+2.Mic的异常数据解析，异常与建议，和json文件生成已完成，目前只有多层字典表里，子字典表只有一个，如果有多个需要新增report和json文件。
+
+
+2025-7-15
+说明：之间王冠提供给我的一个公司服务器，用来在DataShark上调试Smart Debug。
+地址：https://whp-js.lenovo.com/ui/#/workbench/assets
+用户：gte
+密码：dfzx-2408
+
+2025-7-17
+修改一下异常分析与建议文件内容和函数。
+修改一下AR 音频循环测试后的json文件写入与返回。
+
+
+
+
+
+
+
+
+

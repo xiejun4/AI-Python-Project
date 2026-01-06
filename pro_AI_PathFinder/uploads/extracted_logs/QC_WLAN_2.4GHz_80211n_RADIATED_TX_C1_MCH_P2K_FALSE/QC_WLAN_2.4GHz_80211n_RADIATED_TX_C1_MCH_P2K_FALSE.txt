@@ -1,0 +1,13 @@
+# test_process
+Measure Process	TX_POWER Reading 1: 15.15725
+Measure Process	TX_POWER Reading 2: 14.70056
+Measure Process	TX_POWER Reading 3: 14.4817
+Measure Process	TX_POWER Reading 4: 14.21467
+Measure Process	TX_POWER Reading 5: 14.14946
+Measure Process	TX_POWER Reading 6: 14.01931
+Measure Process	TX_POWER Reading 7: 13.86415
+Measure Process	TX_POWER Reading 8: 13.85695
+Measure Process	End TX_POWER measure process: Final measurement = 14.020908
+# test_result
+EvalAndLogResults	165	286	QC_WLAN_2.4GHz_80211n_RAD_TX_C1_CAL_MCH_CW	10	20	14.02	dB	117	49055	PASSED		<----------|----------#--------------|---------->	Off	False	False	RC1M1uW2
+EvalAndLogResults	165	287	QC_WLAN_2.4GHz_80211n_RAD_TX_C1_CAL_MCH_STATUS	0	0	0	P/F	0	49055	PASSED		<-----------------------|#|--------------------->	Off	False	False	RC1M1uWS

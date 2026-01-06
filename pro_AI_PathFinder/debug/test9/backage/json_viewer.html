@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON数据查看器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="../css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="../js/chart.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --border-color: #dee2e6;
+            --hover-color: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 100vw;
+            height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-width: none;
+            overflow: hidden;
+            min-height: 100vh;
+            min-width: 100vw;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 20px;
+            max-width: none;
+        }
+        
+        #dataContainer {
+            flex: 1;
+            padding: 15px;
+            overflow: auto;
+            min-height: 0;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: white;
+            max-width: none;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .search-box input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .search-box input::placeholder {
+            color: #999;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .data-table {
+            width: 100%;
+            min-width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            table-layout: fixed;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            white-space: normal;
+            word-wrap: break-word;
+            min-width: 120px;
+            font-size: 14px;
+        }
+        
+        .data-table th:nth-child(1), .data-table td:nth-child(1),
+        .data-table th:nth-child(2), .data-table td:nth-child(2),
+        .data-table th:nth-child(3), .data-table td:nth-child(3) {
+            min-width: 220px;
+        }
+        
+        .data-table th {
+            background: linear-gradient(to bottom, #4361ee, #3a56d4);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 600;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .data-table tr:hover {
+            background-color: #e9f0ff;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons button {
+            margin: 0;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border: none;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: modalopen 0.3s ease;
+        }
+        
+        #detailModal .modal-content {
+            max-width: 800px;
+        }
+        
+        #detailModalContent {
+            margin-top: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            background-color: var(--light-bg);
+            padding: 10px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .detail-value.empty {
+            color: #999;
+            font-style: italic;
+        }
+        
+        /* 超链接样式 */
+        .detail-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: rgba(67, 97, 238, 0.1);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .detail-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* 空值样式 */
+        .empty {
+            color: #999;
+            font-style: italic;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: var(--warning-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* 调整模态框宽度以适应更长的内容 */
+        #dataModal .modal-content {
+            width: 80%;
+            max-width: 800px;
+        }
+        
+        .form-actions {
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .chart-header h2 {
+            color: var(--secondary-color);
+            margin: 0;
+        }
+        
+        .chart-wrapper {
+            flex: 1;
+            min-height: 0;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box input {
+                min-width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fa fa-database"></i> JSON数据查看器</h1>
+        </div>
+        
+        <input type="file" id="fileInput" accept=".json" style="display: none;">
+        
+        <div class="content-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索测试组、关键参数、测试项等...">
+                <button class="btn btn-primary" onclick="searchData()"><i class="fa fa-search"></i> 搜索</button>
+                <button class="btn btn-secondary" onclick="resetSearch()"><i class="fa fa-refresh"></i> 重置</button>            
+                <button class="btn btn-success" onclick="openAddModal()"><i class="fa fa-plus"></i> 添加数据</button>
+                <button class="btn btn-warning" onclick="document.getElementById('fileInput').click()"><i class="fa fa-folder-open"></i> 选择文件</button>
+                <button class="btn btn-primary" onclick="showJsonChart()"><i class="fa fa-bar-chart"></i> 显示图表</button>
+            </div>
+            
+            <div id="dataContainer"></div>
+        </div>
+    </div>
+
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">添加/编辑数据</h2>
+            <form id="dataForm">
+                <input type="hidden" id="editIndex">
+                
+                <div class="form-group">
+                    <label for="testGroup">测试组:</label>
+                    <input type="text" id="testGroup" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="keyParts">关键参数:</label>
+                    <input type="text" id="keyParts" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="testItems">测试项:</label>
+                    <input type="text" id="testItems" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="method">方法:</label>
+                    <input type="text" id="method">
+                </div>
+                
+                <div class="form-group">
+                    <label for="testDetail">测试详细信息:</label>
+                    <textarea id="testDetail" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dependency">依赖:</label>
+                    <input type="text" id="dependency">
+                </div>
+                
+                <div class="form-group">
+                    <label for="principle">原理:</label>
+                    <textarea id="principle" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="impact">影响:</label>
+                    <textarea id="impact" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="risk">风险:</label>
+                    <textarea id="risk" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="owner">负责人:</label>
+                    <input type="text" id="owner">
+                </div>
+                
+                <div class="form-group">
+                    <label for="regexList">正则表达式列表:</label>
+                    <textarea id="regexList" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="aiPromptExplanation">AI提示词-测试项解释:</label>
+                    <textarea id="aiPromptExplanation" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="aiPromptAnalysis">AI提示词-异常日志分析与建议:</label>
+                    <textarea id="aiPromptAnalysis" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="analysisAndSuggestion">异常分析与建议:</label>
+                    <textarea id="analysisAndSuggestion" rows="6" placeholder="请输入异常分析与建议，格式如下：
+可能失败原因:
+1. ...
+2. ...
+
+建议解决方案:
+1. ...
+2. ...
+
+预防措施:
+1. ...
+2. ..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存到内存</button>
+                    <button type="button" class="btn btn-success" onclick="saveToFile()">保存到文件</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 详细信息模态框 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDetailModal()">&times;</span>
+            <h2 id="detailModalTitle">详细信息</h2>
+            <div id="detailModalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let jsonData = {};
+        let currentData = [];
+        let editingIndex = -1;
+        let selectedFile = null; // 用于跟踪用户选择的文件
+        let selectedFileName = ''; // 用于跟踪用户选择的文件名
+
+        window.onload = function() {
+            const fileInput = document.getElementById('fileInput');
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            const savedData = localStorage.getItem('jsonData');
+            if (savedData) {
+                try {
+                    jsonData = JSON.parse(savedData);
+                    flattenData();
+                    renderTable();
+                } catch (e) {
+                    console.error('解析保存的数据出错:', e);
+                }
+            }
+        };
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // 保存文件引用和文件名
+            selectedFile = file;
+            selectedFileName = file.name;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    jsonData = data;
+                    flattenData();
+                    localStorage.setItem('jsonData', JSON.stringify(data));
+                    renderTable();
+                } catch (error) {
+                    console.error('加载数据出错:', error);
+                    alert('文件格式错误: ' + error.message);
+                }
+            };
+            reader.onerror = function(error) {
+                console.error('读取文件出错:', error);
+                alert('读取文件失败: ' + error.message);
+            };
+            reader.readAsText(file);
+        }
+        
+        function flattenData() {
+            currentData = [];
+            for (const testGroup in jsonData) {
+                for (const keyParts in jsonData[testGroup]) {
+                    const items = jsonData[testGroup][keyParts];
+                    for (const item of items) {
+                        currentData.push({
+                            ...item,
+                            "Test Group": testGroup,
+                            "Key parts": keyParts
+                        });
+                    }
+                }
+            }
+        }
+        
+        function renderTable(data = currentData) {
+            const container = document.getElementById('dataContainer');
+            
+            if (data.length === 0) {
+                container.innerHTML = '<div class="no-data"><i class="fa fa-info-circle"></i> 没有找到匹配的数据</div>';
+                return;
+            }
+            
+            let tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>测试组</th>
+                            <th>关键参数</th>
+                            <th>测试项</th>
+                            <th>方法</th>
+                            <th>测试详细信息</th>
+                            <th>依赖</th>
+                            <th>原理</th>
+                            <th>影响</th>
+                            <th>风险</th>
+                            <th>负责人</th>
+                            <th>正则表达式</th>
+                            <th>AI提示词-测试项解释</th>
+                            <th>AI提示词-异常分析</th>
+                            <th>异常分析与建议</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            data.forEach((item, index) => {
+                // 获取AI Prompt和analysis_suggest字段
+                const aiPrompt = item['AI Prompt'] || {};
+                const analysisSuggest = item['analysis_suggest'] || {};
+                
+                // 处理需要显示为超链接的字段
+                const regexValue = Array.isArray(item['List of Regular Expressions']) ? item['List of Regular Expressions'].join('\n') : '';
+                const aiPromptExplanationValue = aiPrompt['测试项解释'] || '';
+                const aiPromptAnalysisValue = aiPrompt['异常日志分析与建议'] || '';
+                const failureReasonsValue = Array.isArray(analysisSuggest['可能的失败原因']) ? analysisSuggest['可能的失败原因'].join('\n') : '';
+                const solutionsValue = Array.isArray(analysisSuggest['建议的解决方案']) ? analysisSuggest['建议的解决方案'].join('\n') : '';
+                const preventionsValue = Array.isArray(analysisSuggest['预防措施']) ? analysisSuggest['预防措施'].join('\n') : '';
+                
+                // 合并三个字段为一个"异常分析与建议"字段
+                let analysisAndSuggestionValue = '';
+                if (failureReasonsValue || solutionsValue || preventionsValue) {
+                    analysisAndSuggestionValue = 
+                        (failureReasonsValue ? '可能失败原因:\n' + failureReasonsValue + '\n\n' : '') +
+                        (solutionsValue ? '建议解决方案:\n' + solutionsValue + '\n\n' : '') +
+                        (preventionsValue ? '预防措施:\n' + preventionsValue : '');
+                }
+                
+                // 生成超链接或显示内容
+                const regexLink = regexValue ? `<a href="#" onclick="showDetail('正则表达式', ${JSON.stringify(escapeHtml(regexValue)).replace(/"/g, '&quot;')}); return false;" class="detail-link">查看详细</a>` : '<span class="empty">无</span>';
+                const aiPromptExplanationLink = aiPromptExplanationValue ? `<a href="#" onclick="showDetail('AI提示词-测试项解释', ${JSON.stringify(escapeHtml(aiPromptExplanationValue)).replace(/"/g, '&quot;')}); return false;" class="detail-link">查看详细</a>` : '<span class="empty">无</span>';
+                const aiPromptAnalysisLink = aiPromptAnalysisValue ? `<a href="#" onclick="showDetail('AI提示词-异常分析', ${JSON.stringify(escapeHtml(aiPromptAnalysisValue)).replace(/"/g, '&quot;')}); return false;" class="detail-link">查看详细</a>` : '<span class="empty">无</span>';
+                const analysisAndSuggestionLink = analysisAndSuggestionValue ? `<a href="#" onclick="showDetail('异常分析与建议', ${JSON.stringify(escapeHtml(analysisAndSuggestionValue)).replace(/"/g, '&quot;')}); return false;" class="detail-link">查看详细</a>` : '<span class="empty">无</span>';
+                
+                tableHTML += `
+                    <tr>
+                        <td>${escapeHtml(item['Test Group'] || '')}</td>
+                        <td>${escapeHtml(item['Key parts'] || '')}</td>
+                        <td>${escapeHtml(item['TEST ITEMS'] || '')}</td>
+                        <td>${escapeHtml(item['Method'] || '')}</td>
+                        <td>${escapeHtml(item['Test detail information'] || '')}</td>
+                        <td>${escapeHtml(item['Dependency'] || '')}</td>
+                        <td>${escapeHtml(item['Principle'] || '')}</td>
+                        <td>${escapeHtml(item['Impact'] || '')}</td>
+                        <td>${escapeHtml(item['Risk'] || '')}</td>
+                        <td>${escapeHtml(item['Owner'] || '')}</td>
+                        <td>${regexLink}</td>
+                        <td>${aiPromptExplanationLink}</td>
+                        <td>${aiPromptAnalysisLink}</td>
+                        <td>${analysisAndSuggestionLink}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-secondary" onclick="editItem(${index})"><i class="fa fa-edit"></i> 编辑</button>
+                            <button class="btn btn-danger" onclick="deleteItem(${index})"><i class="fa fa-trash"></i> 删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        
+        function searchData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderTable();
+                return;
+            }
+            
+            const filteredData = currentData.filter(item => {
+                // 获取AI Prompt和analysis_suggest字段
+                const aiPrompt = item['AI Prompt'] || {};
+                const analysisSuggest = item['analysis_suggest'] || {};
+                
+                return (
+                    (item['Test Group'] && item['Test Group'].toLowerCase().includes(searchTerm)) ||
+                    (item['Key parts'] && item['Key parts'].toLowerCase().includes(searchTerm)) ||
+                    (item['TEST ITEMS'] && item['TEST ITEMS'].toLowerCase().includes(searchTerm)) ||
+                    (item['Method'] && item['Method'].toLowerCase().includes(searchTerm)) ||
+                    (item['Test detail information'] && item['Test detail information'].toLowerCase().includes(searchTerm)) ||
+                    (item['Dependency'] && item['Dependency'].toLowerCase().includes(searchTerm)) ||
+                    (item['Principle'] && item['Principle'].toLowerCase().includes(searchTerm)) ||
+                    (item['Impact'] && item['Impact'].toLowerCase().includes(searchTerm)) ||
+                    (item['Risk'] && item['Risk'].toLowerCase().includes(searchTerm)) ||
+                    (item['Owner'] && item['Owner'].toLowerCase().includes(searchTerm)) ||
+                    (Array.isArray(item['List of Regular Expressions']) && item['List of Regular Expressions'].some(regex => regex.toLowerCase().includes(searchTerm))) ||
+                    (aiPrompt['测试项解释'] && aiPrompt['测试项解释'].toLowerCase().includes(searchTerm)) ||
+                    (aiPrompt['异常日志分析与建议'] && aiPrompt['异常日志分析与建议'].toLowerCase().includes(searchTerm)) ||
+                    // 检查analysis_suggest字段
+                    (function() {
+                        // 创建合并后的搜索文本
+                        let combinedSearchText = '';
+                        
+                        if (analysisSuggest['可能的失败原因']) {
+                            if (Array.isArray(analysisSuggest['可能的失败原因'])) {
+                                combinedSearchText += analysisSuggest['可能的失败原因'].join(' ') + ' ';
+                            } else {
+                                combinedSearchText += analysisSuggest['可能的失败原因'] + ' ';
+                            }
+                        }
+                        
+                        if (analysisSuggest['建议的解决方案']) {
+                            if (Array.isArray(analysisSuggest['建议的解决方案'])) {
+                                combinedSearchText += analysisSuggest['建议的解决方案'].join(' ') + ' ';
+                            } else {
+                                combinedSearchText += analysisSuggest['建议的解决方案'] + ' ';
+                            }
+                        }
+                        
+                        if (analysisSuggest['预防措施']) {
+                            if (Array.isArray(analysisSuggest['预防措施'])) {
+                                combinedSearchText += analysisSuggest['预防措施'].join(' ');
+                            } else {
+                                combinedSearchText += analysisSuggest['预防措施'];
+                            }
+                        }
+                        
+                        return combinedSearchText.toLowerCase().includes(searchTerm);
+                    })()
+                );
+            });
+            
+            renderTable(filteredData);
+        }
+        
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            renderTable();
+        }
+        
+        function openAddModal() {
+            editingIndex = -1;
+            document.getElementById('modalTitle').textContent = '添加新项';
+            document.getElementById('dataForm').reset();
+            
+            // 预加载已有信息
+            document.getElementById('regexList').value = '';
+            document.getElementById('aiPromptExplanation').value = '';
+            document.getElementById('aiPromptAnalysis').value = '';
+            document.getElementById('analysisAndSuggestion').value = '';
+            
+            // 如果有当前数据，则预加载第一条数据的信息作为默认值
+            if (currentData.length > 0) {
+                const firstItem = currentData[0];
+                const aiPrompt = firstItem['AI Prompt'] || {};
+                const analysisSuggest = firstItem['analysis_suggest'] || {};
+                
+                // 填充新增字段
+                document.getElementById('regexList').value = Array.isArray(firstItem['List of Regular Expressions']) ? firstItem['List of Regular Expressions'].join('\n') : '';
+                document.getElementById('aiPromptExplanation').value = aiPrompt['测试项解释'] || '';
+                document.getElementById('aiPromptAnalysis').value = aiPrompt['异常日志分析与建议'] || '';
+                
+                // 合并三个字段为一个"异常分析与建议"字段
+                let analysisAndSuggestionValue = '';
+                if (analysisSuggest) {
+                    const failureReasonsValue = Array.isArray(analysisSuggest['可能的失败原因']) ? analysisSuggest['可能的失败原因'].join('\n') : '';
+                    const solutionsValue = Array.isArray(analysisSuggest['建议的解决方案']) ? analysisSuggest['建议的解决方案'].join('\n') : '';
+                    const preventionsValue = Array.isArray(analysisSuggest['预防措施']) ? analysisSuggest['预防措施'].join('\n') : '';
+                    
+                    if (failureReasonsValue) {
+                        analysisAndSuggestionValue += '可能失败原因:\n' + failureReasonsValue + '\n\n';
+                    }
+                    if (solutionsValue) {
+                        analysisAndSuggestionValue += '建议解决方案:\n' + solutionsValue + '\n\n';
+                    }
+                    if (preventionsValue) {
+                        analysisAndSuggestionValue += '预防措施:\n' + preventionsValue;
+                    }
+                }
+                document.getElementById('analysisAndSuggestion').value = analysisAndSuggestionValue;
+            }
+            
+            document.getElementById('dataModal').style.display = 'block';
+        }
+        
+        function editItem(index) {
+            editingIndex = index;
+            const item = currentData[index];
+            const aiPrompt = item['AI Prompt'] || {};
+            const analysisSuggest = item['analysis_suggest'] || {};
+            
+            document.getElementById('modalTitle').textContent = '编辑项';
+            document.getElementById('editIndex').value = index;
+            document.getElementById('testGroup').value = item['Test Group'] || '';
+            document.getElementById('keyParts').value = item['Key parts'] || '';
+            document.getElementById('testItems').value = item['TEST ITEMS'] || '';
+            document.getElementById('method').value = item['Method'] || '';
+            document.getElementById('testDetail').value = item['Test detail information'] || '';
+            document.getElementById('dependency').value = item['Dependency'] || '';
+            document.getElementById('principle').value = item['Principle'] || '';
+            document.getElementById('impact').value = item['Impact'] || '';
+            document.getElementById('risk').value = item['Risk'] || '';
+            document.getElementById('owner').value = item['Owner'] || '';
+            
+            // 填充新增字段
+            document.getElementById('regexList').value = Array.isArray(item['List of Regular Expressions']) ? item['List of Regular Expressions'].join('\n') : '';
+            document.getElementById('aiPromptExplanation').value = aiPrompt['测试项解释'] || '';
+            document.getElementById('aiPromptAnalysis').value = aiPrompt['异常日志分析与建议'] || '';
+            
+            // 合并三个字段为一个"异常分析与建议"字段
+            let analysisAndSuggestionValue = '';
+            if (analysisSuggest) {
+                const failureReasonsValue = Array.isArray(analysisSuggest['可能的失败原因']) ? analysisSuggest['可能的失败原因'].join('\n') : '';
+                const solutionsValue = Array.isArray(analysisSuggest['建议的解决方案']) ? analysisSuggest['建议的解决方案'].join('\n') : '';
+                const preventionsValue = Array.isArray(analysisSuggest['预防措施']) ? analysisSuggest['预防措施'].join('\n') : '';
+                
+                if (failureReasonsValue) {
+                    analysisAndSuggestionValue += '可能失败原因:\n' + failureReasonsValue + '\n\n';
+                }
+                if (solutionsValue) {
+                    analysisAndSuggestionValue += '建议解决方案:\n' + solutionsValue + '\n\n';
+                }
+                if (preventionsValue) {
+                    analysisAndSuggestionValue += '预防措施:\n' + preventionsValue;
+                }
+            }
+            document.getElementById('analysisAndSuggestion').value = analysisAndSuggestionValue;
+            
+            document.getElementById('dataModal').style.display = 'block';
+        }
+        
+        function deleteItem(index) {
+            if (confirm('确定要删除这项数据吗？')) {
+                const item = currentData[index];
+                jsonData[item['Test Group']][item['Key parts']].splice(
+                    jsonData[item['Test Group']][item['Key parts']].findIndex(i => 
+                        i['TEST ITEMS'] === item['TEST ITEMS']
+                    ), 1
+                );
+                flattenData();
+                renderTable();
+                localStorage.setItem('jsonData', JSON.stringify(jsonData));
+                
+                // 保存到文件
+                if (selectedFile) {
+                    saveToFile();
+                }
+                
+                // 更新页面内容
+                location.reload();
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('dataModal').style.display = 'none';
+        }
+        
+        function saveToFile() {
+            // 检查是否有选择的文件
+            if (!selectedFileName) {
+                alert('请先选择一个文件');
+                return;
+            }
+            
+            // 创建Blob对象
+            const dataStr = JSON.stringify(jsonData, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            
+            // 创建下载链接，使用原始文件名
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = selectedFileName; // 使用用户选择的文件名
+            link.click();
+            
+            // 清理URL对象
+            URL.revokeObjectURL(url);
+        }
+        
+        document.getElementById('dataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 处理新增字段
+            const regexListValue = document.getElementById('regexList').value;
+            const regexList = regexListValue ? regexListValue.split('\n').filter(item => item.trim() !== '') : [];
+            
+            const analysisAndSuggestionValue = document.getElementById('analysisAndSuggestion').value;
+            
+            // 解析合并后的字段
+            let failureReasons = [];
+            let solutions = [];
+            let preventions = [];
+            
+            if (analysisAndSuggestionValue) {
+                // 按照格式解析内容
+                const sections = analysisAndSuggestionValue.split('\n\n');
+                sections.forEach(section => {
+                    if (section.startsWith('可能失败原因:')) {
+                        failureReasons = section.replace('可能失败原因:\n', '').split('\n').filter(item => item.trim() !== '');
+                    } else if (section.startsWith('建议解决方案:')) {
+                        solutions = section.replace('建议解决方案:\n', '').split('\n').filter(item => item.trim() !== '');
+                    } else if (section.startsWith('预防措施:')) {
+                        preventions = section.replace('预防措施:\n', '').split('\n').filter(item => item.trim() !== '');
+                    }
+                });
+            }
+            
+            const newItem = {
+                "TEST ITEMS": document.getElementById('testItems').value,
+                "Method": document.getElementById('method').value,
+                "Test detail information": document.getElementById('testDetail').value,
+                "Dependency": document.getElementById('dependency').value,
+                "Principle": document.getElementById('principle').value,
+                "Impact": document.getElementById('impact').value,
+                "Risk": document.getElementById('risk').value,
+                "Owner": document.getElementById('owner').value,
+                "List of Regular Expressions": regexList,
+                "AI Prompt": {
+                    "测试项解释": document.getElementById('aiPromptExplanation').value,
+                    "异常日志分析与建议": document.getElementById('aiPromptAnalysis').value
+                },
+                "analysis_suggest": {
+                    "可能的失败原因": failureReasons,
+                    "建议的解决方案": solutions,
+                    "预防措施": preventions
+                }
+            };
+            
+            const testGroup = document.getElementById('testGroup').value;
+            const keyParts = document.getElementById('keyParts').value;
+            
+            if (editingIndex === -1) {
+                if (!jsonData[testGroup]) jsonData[testGroup] = {};
+                if (!jsonData[testGroup][keyParts]) jsonData[testGroup][keyParts] = [];
+                jsonData[testGroup][keyParts].push(newItem);
+            } else {
+                const oldItem = currentData[editingIndex];
+                jsonData[oldItem['Test Group']][oldItem['Key parts']].splice(
+                    jsonData[oldItem['Test Group']][oldItem['Key parts']].findIndex(i => 
+                        i['TEST ITEMS'] === oldItem['TEST ITEMS']
+                    ), 1, newItem
+                );
+                if (testGroup !== oldItem['Test Group'] || keyParts !== oldItem['Key parts']) {
+                    deleteItem(editingIndex);
+                    if (!jsonData[testGroup]) jsonData[testGroup] = {};
+                    if (!jsonData[testGroup][keyParts]) jsonData[testGroup][keyParts] = [];
+                    jsonData[testGroup][keyParts].push(newItem);
+                }
+            }
+            
+            flattenData();
+            renderTable();
+            closeModal();
+            localStorage.setItem('jsonData', JSON.stringify(jsonData));
+            
+            // 保存到文件
+            if (selectedFile) {
+                saveToFile();
+            }
+            
+            // 更新页面内容
+            location.reload();
+        });
+        
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('dataModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        function showJsonChart() {
+            localStorage.setItem('chartData', JSON.stringify(jsonData));
+            
+            const dataContainer = document.getElementById('dataContainer');
+            const currentContent = dataContainer.innerHTML;
+            
+            const chartContent = `
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2><i class="fa fa-bar-chart"></i> 测试数据统计图表</h2>
+                        <button id="toggleChartBtn" onclick="toggleChart()" class="btn btn-success">
+                            <i class="fa fa-compress"></i> 收起图表
+                        </button>
+                    </div>
+                    <div id="chartWrapper" class="chart-wrapper">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+            `;
+            
+            dataContainer.innerHTML = chartContent + currentContent + `
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="renderTable()" class="btn btn-primary">
+                        <i class="fa fa-table"></i> 返回数据表格
+                    </button>
+                </div>
+            `;
+            
+            const labels = [];
+            const data = [];
+            for (const testGroup in jsonData) {
+                for (const keyParts in jsonData[testGroup]) {
+                    labels.push(`${testGroup}-${keyParts}`);
+                    data.push(jsonData[testGroup][keyParts].length);
+                }
+            }
+            
+            const ctx = document.getElementById('chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '测试项数量',
+                        data: data,
+                        backgroundColor: 'rgba(67, 97, 238, 0.7)',
+                        borderColor: 'rgba(67, 97, 238, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        hoverBackgroundColor: 'rgba(67, 97, 238, 0.9)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { 
+                                stepSize: 1,
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function toggleChart() {
+            const chartContainer = document.querySelector('.chart-container');
+            const chartWrapper = document.getElementById('chartWrapper');
+            const toggleBtn = document.getElementById('toggleChartBtn');
+            
+            if (chartWrapper.style.display === 'none') {
+                chartWrapper.style.display = 'block';
+                chartContainer.style.height = '400px';
+                toggleBtn.innerHTML = '<i class="fa fa-compress"></i> 收起图表';
+                toggleBtn.className = 'btn btn-success';
+            } else {
+                chartWrapper.style.display = 'none';
+                chartContainer.style.height = 'auto';
+                toggleBtn.innerHTML = '<i class="fa fa-expand"></i> 展开图表';
+                toggleBtn.className = 'btn btn-warning';
+            }
+        }
+        
+        // 显示详细信息
+        function showDetail(title, content) {
+            const modal = document.getElementById('detailModal');
+            const modalContent = document.getElementById('detailModalContent');
+            
+            // 设置标题
+            document.getElementById('detailModalTitle').textContent = title;
+            
+            // 设置内容
+            if (typeof content === 'object' && content !== null) {
+                let html = '<div class="detail-content">';
+                for (const [key, value] of Object.entries(content)) {
+                    // 合并三个字段为一个"异常分析与建议"字段
+                    if (key === 'analysis_suggest' && typeof value === 'object' && value !== null) {
+                        let analysisAndSuggestion = '';
+                        if (value.failure_reasons) {
+                            if (Array.isArray(value.failure_reasons)) {
+                                analysisAndSuggestion += '可能失败原因:\n' + value.failure_reasons.join('\n') + '\n\n';
+                            } else {
+                                analysisAndSuggestion += '可能失败原因:\n' + value.failure_reasons + '\n\n';
+                            }
+                        }
+                        if (value.solutions) {
+                            if (Array.isArray(value.solutions)) {
+                                analysisAndSuggestion += '建议解决方案:\n' + value.solutions.join('\n') + '\n\n';
+                            } else {
+                                analysisAndSuggestion += '建议解决方案:\n' + value.solutions + '\n\n';
+                            }
+                        }
+                        if (value.preventions) {
+                            if (Array.isArray(value.preventions)) {
+                                analysisAndSuggestion += '预防措施:\n' + value.preventions.join('\n');
+                            } else {
+                                analysisAndSuggestion += '预防措施:\n' + value.preventions;
+                            }
+                        }
+                        html += `<div class="detail-item"><strong>异常分析与建议:</strong> <div>${analysisAndSuggestion.replace(/\n/g, '<br>')}</div></div>`;
+                    } else {
+                        html += `<div class="detail-item"><strong>${key}:</strong> `;
+                        if (Array.isArray(value)) {
+                            html += `<div>${value.join('<br>')}</div>`;
+                        } else if (typeof value === 'object' && value !== null) {
+                            html += '<div class="nested-content">';
+                            for (const [subKey, subValue] of Object.entries(value)) {
+                                html += `<div><strong>${subKey}:</strong> `;
+                                if (Array.isArray(subValue)) {
+                                    html += `${subValue.join('<br>')}</div>`;
+                                } else {
+                                    html += `${subValue || ''}</div>`;
+                                }
+                            }
+                            html += '</div>';
+                        } else {
+                            html += `${value || ''}</div>`;
+                        }
+                    }
+                }
+                html += '</div>';
+                modalContent.innerHTML = html;
+            } else {
+                modalContent.innerHTML = content.replace(/\n/g, '<br>');
+            }
+            
+            // 显示模态框
+            modal.style.display = 'block';
+        }
+        
+        // 关闭详细信息模态框
+        function closeDetailModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加ESC键关闭详细信息模态框的功能
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeDetailModal();
+                }
+            });
+            
+            // 点击模态框外部关闭详细信息模态框
+            document.getElementById('detailModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDetailModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

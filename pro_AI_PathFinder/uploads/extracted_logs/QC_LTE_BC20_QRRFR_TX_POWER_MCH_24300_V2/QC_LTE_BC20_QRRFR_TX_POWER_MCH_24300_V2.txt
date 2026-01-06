@@ -1,0 +1,10 @@
+# test_process
+Measure Process	TX_POWER Reading 1: 20.33352
+Measure Process	TX_POWER Reading 2: 20.22404
+Measure Process	TX_POWER Reading 3: 20.25402
+Measure Process	TX_POWER Reading 4: 20.30594
+Measure Process	TX_POWER Reading 5: 20.26553
+Measure Process	End TX_POWER measure process: Final measurement = 20.27661
+# test_result
+EvalAndLogResults	301	638	QC_LTE_BC20_TX_POWER_MCH_24300_ANT_CW	15	25	20.28	dB	132	69986	PASSED		<----------|-------------#-----------|---------->	Off	False	False	QL20T0M1
+EvalAndLogResults	301	639	QC_LTE_BC20_TX_POWER_MCH_STATUS	0	0	0	P/F	0	69986	PASSED		<-----------------------|#|--------------------->	Off	False	False	QL20T0MS

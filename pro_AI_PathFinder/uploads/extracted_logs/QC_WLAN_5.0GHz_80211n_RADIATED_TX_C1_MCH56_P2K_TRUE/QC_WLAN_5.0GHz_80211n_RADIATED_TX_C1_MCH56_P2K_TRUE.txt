@@ -1,0 +1,56 @@
+# test_process
+Measure Process	TX_POWER Reading 1: 9.266724
+Measure Process	TX_POWER Reading 2: 10.35437
+Measure Process	TX_POWER Reading 3: 8.459747
+Measure Process	TX_POWER Reading 4: 8.174622
+Measure Process	TX_POWER Reading 5: 9.331177
+Measure Process	TX_POWER Reading 6: 8.265045
+Measure Process	TX_POWER Reading 7: 8.783203
+Measure Process	TX_POWER Reading 8: 8.818939
+Measure Process	TX_POWER Reading 9: 8.161896
+Measure Process	TX_POWER Reading 10: 8.277374
+Measure Process	TX_POWER Reading 11: 8.337891
+Measure Process	TX_POWER Reading 12: 8.735077
+Measure Process	TX_POWER Reading 13: 8.236877
+Measure Process	End TX_POWER measure process: Final measurement = 8.349823
+Measure Process	TX_POWER Reading 1: 9.274567
+Measure Process	TX_POWER Reading 2: 9.083344
+Measure Process	TX_POWER Reading 3: 9.057739
+Measure Process	TX_POWER Reading 4: 8.650818
+Measure Process	TX_POWER Reading 5: 8.980316
+Measure Process	TX_POWER Reading 6: 8.174988
+Measure Process	TX_POWER Reading 7: 9.899933
+Measure Process	TX_POWER Reading 8: 8.985596
+Measure Process	TX_POWER Reading 9: 8.082672
+Measure Process	TX_POWER Reading 10: 9.345215
+Measure Process	TX_POWER Reading 11: 8.910034
+Measure Process	TX_POWER Reading 12: 8.767548
+Measure Process	TX_POWER Reading 13: 8.488617
+Measure Process	TX_POWER Reading 14: 8.268982
+Measure Process	TX_POWER Reading 15: 9.61618
+Measure Process	TX_POWER Reading 16: 9.216125
+Measure Process	TX_POWER Reading 17: 8.436096
+Measure Process	TX_POWER Reading 18: 8.37851
+Measure Process	TX_POWER Reading 19: 8.263336
+Measure Process	TX_POWER Reading 20: 9.406281
+Measure Process	TX_POWER Reading 21: 9.540039
+Measure Process	TX_POWER Reading 22: 9.128632
+Measure Process	TX_POWER Reading 23: 8.47467
+Measure Process	TX_POWER Reading 24: 8.172455
+Measure Process	TX_POWER Reading 25: 8.287842
+Measure Process	TX_POWER Reading 26: 9.456055
+Measure Process	TX_POWER Reading 27: 8.537384
+Measure Process	TX_POWER Reading 28: 8.145416
+Measure Process	TX_POWER Reading 29: 9.345581
+Measure Process	TX_POWER Reading 30: 9.397552
+Measure Process	TX_POWER Reading 31: 8.49054
+Measure Process	TX_POWER Reading 32: 8.677368
+Measure Process	TX_POWER Reading 33: 8.453094
+Measure Process	TX_POWER Reading 34: 8.659515
+Measure Process	TX_POWER Reading 35: 8.974457
+Measure Process	End TX_POWER measure process: Final measurement = 8.6509948
+# test_result
+EvalAndLogResults	267	1493	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_MCH_CW	7	23	8.35	dB	554	112366	PASSED		<----------|--#----------------------|---------->	Off	False	True	RC1M1qW5
+EvalAndLogResults	267	1494	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_STATUS	0	0	0	P/F	0	112366	PASSED		<-----------------------|#|--------------------->	Off	False	False	RC1M1qWS
+EvalAndLogResults	267	1503	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_MCH_CW	7	23	8.65	dB	1098	132912	PASSED		<----------|--#----------------------|---------->	Off	False	True	RC1M1qW5
+EvalAndLogResults	267	1504	QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_STATUS	0	0	0	P/F	0	132912	PASSED		<-----------------------|#|--------------------->	Off	False	False	RC1M1qWS

@@ -1,0 +1,22 @@
+title_name: test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -58.5
+Measure Process	SIGNAL_LEVEL Reading 2: -58.5
+Measure Process	SIGNAL_LEVEL Reading 3: -58.5
+Measure Process	SIGNAL_LEVEL Reading 4: -58.5
+Measure Process	SIGNAL_LEVEL Reading 5: -58.5
+Measure Process	End SIGNAL_LEVEL measure process: -58.5
+
+title_name: test_result
+test_item: QC_NS_N78_RX_RSSI_C1_LCH_620668_ANT_CW
+low_limit: -65.0
+up_limit: -55.0
+test_data: -58.5
+unit: dBm
+state: PASSED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+

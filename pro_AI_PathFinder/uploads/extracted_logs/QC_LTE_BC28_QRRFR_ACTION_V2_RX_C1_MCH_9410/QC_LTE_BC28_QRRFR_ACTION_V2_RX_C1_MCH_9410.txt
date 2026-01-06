@@ -1,0 +1,10 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -59.7
+Measure Process	SIGNAL_LEVEL Reading 2: -59.7
+Measure Process	SIGNAL_LEVEL Reading 3: -59.7
+Measure Process	SIGNAL_LEVEL Reading 4: -59.7
+Measure Process	SIGNAL_LEVEL Reading 5: -59.7
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = -59.7
+# test_result
+EvalAndLogResults	355	905	QC_LTE_BC28_RX_RSSI_C1_MCH_9410_ANT_CW	-65	-55	-59.7	dBm	192	75911	PASSED		<----------|-------------#-----------|---------->	Off	False	False	QL28R1M1
+EvalAndLogResults	355	906	QC_LTE_BC28_RX_RSSI_C1_STATUS	0	0	0	P/F	0	75911	PASSED		<-----------------------|#|--------------------->	Off	False	False	QL28R1MS

@@ -1,0 +1,94 @@
+以下是 `bt_analysis.py` 文件中提取的函数及详细说明：
+
+
+### 1. `log_file_name_parse`（隐式定义，从代码片段推断）
+- **功能**：解析日志文件名，提取关键信息。
+- **参数**：日志文件名（代码中未显式传入，但逻辑围绕文件名处理）。
+- **返回值**：字典，包含以下键值对：
+  - `product`：产品名称
+  - `process`：测试流程名称
+  - `trackID`：测试跟踪ID
+  - `status`：测试状态（Pass/Fail）
+  - `failMsg`：失败信息（若状态为Fail）
+  - `date_time`：测试时间（格式转换后）
+- **逻辑**：通过文件名中的关键词（如“Failed”“Passed”）判断状态，拆分文件名提取TrackID和失败信息，转换时间格式。
+
+
+### 2. `analysis_nextest_log(nextest_log, log_title_info)`
+- **功能**：分析测试日志文件（`nextest_log`），提取失败项的详细信息并进行初步分析。
+- **参数**：
+  - `nextest_log`：测试日志文件路径
+  - `log_title_info`：从文件名解析的基础信息字典（含`failMsg`等）
+- **返回值**：字典（`use_info`），包含测试名称、含义、指示信息、测试值、合格范围、状态、解决方案等；若未找到有效信息则返回`None`。
+- **逻辑**：
+  - 读取日志文件内容，搜索包含失败信息（`failMsg`）和特定关键词（`EvalAndLogResults`）的行。
+  - 解析匹配行，提取测试名称、描述、测试值、合格范围、测量代码（`meascode`）等。
+  - 调用核心分析函数（`analysis_main_procedure`）生成分析结果，整理为结构化字典返回。
+
+
+### 3. `process_log_file(log_file)`
+- **功能**：主处理函数，协调整个日志解析与分析流程。
+- **参数**：`log_file`：日志压缩文件路径。
+- **返回值**：JSON格式的分析报告内容；若不属于BT测试则返回空字符串。
+- **逻辑**：
+  - 调用`log_file_name_parse`解析文件名基础信息，通过`check_station`判断是否为BT测试。
+  - 解压日志文件到临时目录，识别平台（MTK/Qualcomm）。
+  - 定位关键日志文件（启动日志`startup_log`、测试日志`nextest_log`）。
+  - 调用`analysis_nextest_log`分析失败信息，生成并保存JSON报告，返回报告内容。
+
+
+### 4. `read_json_file(file_path)`
+- **功能**：读取JSON文件内容并解析为字典或列表。
+- **参数**：`file_path`：JSON文件路径（默认路径为预定义地址）。
+- **返回值**：解析后的JSON数据（字典/列表）；若读取失败返回`None`。
+- **逻辑**：处理文件不存在、JSON格式错误等异常，返回解析结果。
+
+
+### 5. `save_json_string(json_analysis_str, file_path)`
+- **功能**：将JSON字符串保存为JSON文件。
+- **参数**：
+  - `json_analysis_str`：待保存的JSON字符串
+  - `file_path`：保存路径（默认路径为预定义地址）
+- **返回值**：布尔值（`True`表示保存成功，`False`表示失败）。
+- **逻辑**：解析JSON字符串，处理路径不存在、权限不足等异常，将数据格式化写入文件。
+
+
+### 6. `check_station(log_title_info)`
+- **功能**：判断测试流程是否属于BT（板级测试）。
+- **参数**：`log_title_info`：包含`process`字段的日志信息字典。
+- **返回值**：`"BT"`（属于BT测试）或`"other"`（非BT测试）。
+- **逻辑**：检查`process`字段是否包含BT相关关键词（如`boardtst`、`brdtest`等，不区分大小写）。
+
+
+### 7. `read_universal_file(input_file)`
+- **功能**：读取日志文件内容（兼容多种编码）。
+- **参数**：`input_file`：日志文件路径。
+- **返回值**：文件内容的行列表（`list`）；读取失败返回`None`。
+- **逻辑**：
+  - 优先使用`utf-8`编码读取，忽略解码错误。
+  - 若失败，尝试`gb18030`编码；处理文件不存在、编码异常等错误。
+
+
+### 8. `analysis_main_procedure(log_list, log_title_info)`
+- **功能**：核心分析逻辑，根据测量代码（`meascode`）和平台类型调用对应分析函数。
+- **参数**：
+  - `log_list`：日志文件内容行列表
+  - `log_title_info`：包含平台、测量代码等信息的字典
+- **返回值**：列表`[mean, indicator, suggestion]`，分别为失败项含义、指示信息、解决方案。
+- **逻辑**：
+  - 若`meascode`长度为8：调用`boardtest_basic_analysis`分析基础板级测试失败。
+  - 若`meascode`长度为10：区分MTK/高通平台，MTK调用`plat_mtk_library_callback_analysis`（代码未完全展示），高通返回开发中提示。
+  - 默认返回通用提示。
+
+
+### 9. `boardtest_basic_analysis(log_title_info)`
+- **功能**：分析基础板级测试（`meascode`长度为8）的失败原因，提供详细说明和解决方案。
+- **参数**：`log_title_info`：包含失败信息（`failMsg`）、测试名称等的字典。
+- **返回值**：列表`[mean, indicator, suggest]`，分别为失败项含义、问题指示、解决方案。
+- **逻辑**：通过正则匹配`failMsg`或测试名称，针对不同失败场景（如ADB连接失败、电流测量异常、固件下载失败等）返回对应的说明和建议。
+
+
+### 总结
+这些函数共同构成了一个针对MTK和高通平台手机射频测试异常的分析工具，流程为：**解析文件名→判断测试类型→解压日志→提取关键信息→分析失败原因→生成JSON报告**，核心是通过日志内容匹配和规则判断，快速定位测试异常的原因并提供解决方案。
+
+

@@ -1,0 +1,8 @@
+# test_process
+Measure Process	TX_POWER Reading 1: 0.688446
+Measure Process	TX_POWER Reading 2: 0.6199341
+Measure Process	TX_POWER Reading 3: 0.6500549
+Measure Process	End TX_POWER measure process: Final measurement = 0.652811666666667
+# test_result
+EvalAndLogResults	248	1471	BT_RAD_MEAS_CW_POW_CH_39	-5	5	0.65	dB	227	103768	PASSED		<----------|--------------#----------|---------->	Off	False	False	BTMPOW39
+EvalAndLogResults	248	1472	BT_RAD_MEAS_CW_POW_STATUS_CH_39	0	0	0	P/F	0	103768	PASSED		<-----------------------|#|--------------------->	Off	False	False	BTMSTT39

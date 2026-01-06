@@ -1,0 +1,10 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -58.3
+Measure Process	SIGNAL_LEVEL Reading 2: -58.2
+Measure Process	SIGNAL_LEVEL Reading 3: -58.2
+Measure Process	SIGNAL_LEVEL Reading 4: -58.3
+Measure Process	SIGNAL_LEVEL Reading 5: -58.2
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = -58.24
+# test_result
+EvalAndLogResults	327	769	QC_LTE_BC08_RX_RSSI_C0_MCH_3625_ANT_CW	-65	-55	-58.24	dBm	191	73174	PASSED		<----------|----------------#--------|---------->	Off	False	False	QL08ROM1
+EvalAndLogResults	327	770	QC_LTE_BC08_RX_RSSI_C0_STATUS	0	0	0	P/F	0	73174	PASSED		<-----------------------|#|--------------------->	Off	False	False	QL08ROMS

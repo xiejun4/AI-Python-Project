@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON数据查看器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .action-buttons button {
+            margin-right: 5px;
+            padding: 5px 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-actions {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JSON数据查看器</h1>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索测试项...">
+            <button onclick="searchData()">搜索</button>
+            <button onclick="resetSearch()">重置</button>
+            <button onclick="openAddModal()">添加新项</button>
+        </div>
+        
+        <div id="dataContainer">
+            <!-- 数据表格将通过JavaScript动态生成 -->
+        </div>
+    </div>
+    
+    <!-- 添加/编辑模态框 -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">添加新项</h2>
+            <form id="dataForm">
+                <input type="hidden" id="editIndex">
+                <div class="form-group">
+                    <label for="testGroup">测试组:</label>
+                    <input type="text" id="testGroup" required>
+                </div>
+                <div class="form-group">
+                    <label for="keyParts">关键参数:</label>
+                    <input type="text" id="keyParts" required>
+                </div>
+                <div class="form-group">
+                    <label for="testItems">测试项:</label>
+                    <input type="text" id="testItems" required>
+                </div>
+                <div class="form-group">
+                    <label for="method">方法:</label>
+                    <input type="text" id="method" required>
+                </div>
+                <div class="form-group">
+                    <label for="testDetail">测试详细信息:</label>
+                    <textarea id="testDetail" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dependency">依赖:</label>
+                    <input type="text" id="dependency">
+                </div>
+                <div class="form-group">
+                    <label for="principle">原理:</label>
+                    <textarea id="principle" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="impact">影响:</label>
+                    <input type="text" id="impact">
+                </div>
+                <div class="form-group">
+                    <label for="risk">风险:</label>
+                    <input type="text" id="risk">
+                </div>
+                <div class="form-group">
+                    <label for="owner">负责人:</label>
+                    <input type="text" id="owner">
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal()">取消</button>
+                    <button type="submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // 全局变量存储数据
+        let jsonData = {};
+        let currentData = [];
+        let editingIndex = -1;
+        
+        // 页面加载时获取数据
+        window.onload = function() {
+            loadData();
+        };
+        
+        // 加载数据
+        function loadData() {
+            fetch('grouped_output_with_properties.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    jsonData = data;
+                    flattenData();
+                    renderTable();
+                })
+                .catch(error => {
+                    console.error('加载数据时出错:', error);
+                    alert('加载数据时出错，请检查文件路径和格式: ' + error.message);
+                });
+        }
+        
+        // 将嵌套的JSON数据扁平化为数组
+        function flattenData() {
+            currentData = [];
+            for (const testGroup in jsonData) {
+                for (const keyParts in jsonData[testGroup]) {
+                    const items = jsonData[testGroup][keyParts];
+                    for (const item of items) {
+                        currentData.push({
+                            ...item,
+                            "Test Group": testGroup,
+                            "Key parts": keyParts
+                        });
+                    }
+                }
+            }
+        }
+        
+        // 渲染表格
+        function renderTable(data = currentData) {
+            const container = document.getElementById('dataContainer');
+            
+            if (data.length === 0) {
+                container.innerHTML = '<p>没有找到匹配的数据</p>';
+                return;
+            }
+            
+            let tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>测试组</th>
+                            <th>关键参数</th>
+                            <th>测试项</th>
+                            <th>方法</th>
+                            <th>测试详细信息</th>
+                            <th>依赖</th>
+                            <th>原理</th>
+                            <th>影响</th>
+                            <th>风险</th>
+                            <th>负责人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            data.forEach((item, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${escapeHtml(item['Test Group'] || '')}</td>
+                        <td>${escapeHtml(item['Key parts'] || '')}</td>
+                        <td>${escapeHtml(item['TEST ITEMS'] || '')}</td>
+                        <td>${escapeHtml(item['Method'] || '')}</td>
+                        <td>${escapeHtml(item['Test detail information'] || '')}</td>
+                        <td>${escapeHtml(item['Dependency'] || '')}</td>
+                        <td>${escapeHtml(item['Principle'] || '')}</td>
+                        <td>${escapeHtml(item['Impact'] || '')}</td>
+                        <td>${escapeHtml(item['Risk'] || '')}</td>
+                        <td>${escapeHtml(item['Owner'] || '')}</td>
+                        <td class="action-buttons">
+                            <button onclick="editItem(${index})">编辑</button>
+                            <button onclick="deleteItem(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        // 转义HTML特殊字符
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        
+        // 搜索数据
+        function searchData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderTable();
+                return;
+            }
+            
+            const filteredData = currentData.filter(item => {
+                return (
+                    (item['Test Group'] && item['Test Group'].toLowerCase().includes(searchTerm)) ||
+                    (item['Key parts'] && item['Key parts'].toLowerCase().includes(searchTerm)) ||
+                    (item['TEST ITEMS'] && item['TEST ITEMS'].toLowerCase().includes(searchTerm)) ||
+                    (item['Method'] && item['Method'].toLowerCase().includes(searchTerm)) ||
+                    (item['Test detail information'] && item['Test detail information'].toLowerCase().includes(searchTerm)) ||
+                    (item['Dependency'] && item['Dependency'].toLowerCase().includes(searchTerm)) ||
+                    (item['Principle'] && item['Principle'].toLowerCase().includes(searchTerm)) ||
+                    (item['Impact'] && item['Impact'].toLowerCase().includes(searchTerm)) ||
+                    (item['Risk'] && item['Risk'].toLowerCase().includes(searchTerm)) ||
+                    (item['Owner'] && item['Owner'].toLowerCase().includes(searchTerm))
+                );
+            });
+            
+            renderTable(filteredData);
+        }
+        
+        // 重置搜索
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            renderTable();
+        }
+        
+        // 打开添加模态框
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = '添加新项';
+            document.getElementById('dataForm').reset();
+            document.getElementById('editIndex').value = '';
+            document.getElementById('dataModal').style.display = 'block';
+        }
+        
+        // 编辑项目
+        function editItem(index) {
+            const item = currentData[index];
+            document.getElementById('modalTitle').textContent = '编辑项目';
+            document.getElementById('editIndex').value = index;
+            
+            document.getElementById('testGroup').value = item['Test Group'] || '';
+            document.getElementById('keyParts').value = item['Key parts'] || '';
+            document.getElementById('testItems').value = item['TEST ITEMS'] || '';
+            document.getElementById('method').value = item['Method'] || '';
+            document.getElementById('testDetail').value = item['Test detail information'] || '';
+            document.getElementById('dependency').value = item['Dependency'] || '';
+            document.getElementById('principle').value = item['Principle'] || '';
+            document.getElementById('impact').value = item['Impact'] || '';
+            document.getElementById('risk').value = item['Risk'] || '';
+            document.getElementById('owner').value = item['Owner'] || '';
+            
+            document.getElementById('dataModal').style.display = 'block';
+        }
+        
+        // 删除项目
+        function deleteItem(index) {
+            if (confirm('确定要删除这个项目吗？')) {
+                currentData.splice(index, 1);
+                renderTable();
+            }
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('dataModal').style.display = 'none';
+        }
+        
+        // 表单提交处理
+        document.getElementById('dataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const index = document.getElementById('editIndex').value;
+            const item = {
+                'Test Group': document.getElementById('testGroup').value,
+                'Key parts': document.getElementById('keyParts').value,
+                'TEST ITEMS': document.getElementById('testItems').value,
+                'Method': document.getElementById('method').value,
+                'Test detail information': document.getElementById('testDetail').value,
+                'Dependency': document.getElementById('dependency').value,
+                'Principle': document.getElementById('principle').value,
+                'Impact': document.getElementById('impact').value,
+                'Risk': document.getElementById('risk').value,
+                'Owner': document.getElementById('owner').value
+            };
+            
+            if (index === '') {
+                // 添加新项
+                currentData.push(item);
+            } else {
+                // 更新现有项
+                currentData[index] = item;
+            }
+            
+            renderTable();
+            closeModal();
+        });
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

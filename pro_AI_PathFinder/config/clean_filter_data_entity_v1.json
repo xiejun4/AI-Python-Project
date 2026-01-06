@@ -1,0 +1,98 @@
+{
+  "TestSites": {
+    "L2AR": "L2AR"
+  },
+  "Platforms": {
+    "MTK": ["MTK", "MediaTek 联发科芯片平台"],
+    "Qualcomm": ["Qualcomm", "Qualcomm 高通芯片平台"],
+    "GENERIC": ["Generic", "通用平台，不特定于任何芯片厂商"],
+    "GENERIC_Basic_Band": ["Generic_Basic_Band", "通用平台，不特定于任何芯片厂商的基带"]
+  },
+  "TestTypes": {
+    "COMPREHENSIVE_TEST": "Comprehensive Test",
+    "CALIBRATION": "Calibration",
+    "SPEAKER": "Speaker",
+    "MIC": "Mic",
+    "EAR": "EAR",
+    "BASIC_BAND": "BASIC_BAND"
+  },
+  "Patterns": {
+    "MTKPatterns": {
+      "COMPREHENSIVE_TEST": [
+        "^MTK_WLAN\\d+\\.\\d+G_TX_C\\d+_HQA_\\d+DB_(M|L)CH\\d+",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_C\\d+_HQA_RSSI_(M|L)CH\\d+",
+        "^MTK_WLAN\\d+G_TX_HQA_C\\d+_\\d+DB_CH\\d+",
+        "^MTK_WLAN\\d+G_RX_C\\d+_HQA_CH\\d+",
+        "^MTK_GPS_RX_V\\d+_L\\d+_-\\d+DB",
+        "^MTK_BLUETOOTH_TX_POWER_V\\d+_CH\\d+",
+        "^MTK_MMRF_LTE_BC\\d+_TX_\\d+DB_V\\d+_(M|L)CH\\d+",
+        "^MTK_MMRF_LTE_BC\\d+_RX_C\\d+_RSSI_V\\d+_(M|L)CH\\d+_EP"
+      ],
+      "CALIBRATION": [
+        "^MTK_WLAN\\d+\\.\\d+G_TX_C\\d+_HQA_\\d+DB_(M|L)CH\\d+_CAL",
+        "^MTK_WLAN\\d+\\.\\d+G_RX_C\\d+_HQA_RSSI_(M|L)CH\\d+_CAL",
+        "^MTK_WLAN\\d+G_TX_HQA_C\\d+_\\d+DB_CH\\d+_CAL",
+        "^MTK_WLAN\\d+G_RX_C\\d+_HQA_CH\\d+_CAL",
+        "^MTK_GPS_RX_V\\d+_L\\d+_-\\d+DB_CAL",
+        "^MTK_BLUETOOTH_TX_POWER_V\\d+_CH\\d+_CAL",
+        "^MTK_MMRF_LTE_BC\\d+_TX_\\d+DB_V\\d+_(M|L)CH\\d+_CAL",
+        "^MTK_MMRF_LTE_BC\\d+_RX_C\\d+_RSSI_V\\d+_(M|L)CH\\d+_EP_CAL"
+      ]
+    },
+    "QualcommPatterns": {
+      "COMPREHENSIVE_TEST": [
+        "^QC_BT_RAD_MEAS_CW_POW_(M|L)CH\\d+_PRO",
+        "^QC_GPS_RAD_CARRIER_TO_NOISE_GEN\\d+_(WR|L\\d+_EQ)",
+        "^QC_WLAN_5\\.0GHz_80211[na]_RADIATED_TX_C\\d+_(M|L)CH(\\d*?)_P2K_(TRUE|FALSE)",
+        "^QC_WLAN_5\\.0GHz_80211[na]_RADIATED_RX_C\\d+_(M|L)CH(\\d*?)_-?\\d+",
+        "^QC_WLAN_2\\.4GHz_80211[na]_RADIATED_TX_C\\d+_(M|L)CH_P2K_(TRUE|FALSE)",
+        "^QC_WLAN_2\\.4GHz_80211[na]_RADIATED_RX_C\\d+_(M|L)CH_EQ",
+        "^QC_LTE_BC\\d+_QRRFR_TX_POWER_(M|L)CH_\\d+_V\\d+",
+        "^QC_LTE_BC\\d+_QRRFR_ACTION_V\\d+_RX_C\\d+_(M|L)CH_\\d+",
+        "^QC_NS_N\\d+_.+?_V\\d+_RX_C\\d+_(M|H|L)CH_\\d+"
+      ],
+      "CALIBRATION": [
+        "^QC_BT_RAD_MEAS_CW_POW_(M|L)CH\\d+_PRO_CAL",
+        "^QC_GPS_RAD_CARRIER_TO_NOISE_GEN\\d+_(WR|L\\d+_EQ)_CAL",
+        "^QC_WLAN_5\\.0GHz_80211[na]_RADIATED_TX_C\\d+_(M|L)CH(\\d*?)_P2K_(TRUE|FALSE)_CAL",
+        "^QC_WLAN_5\\.0GHz_80211[na]_RADIATED_RX_C\\d+_(M|L)CH(\\d*?)_-?\\d+_CAL",
+        "^QC_WLAN_2\\.4GHz_80211[na]_RADIATED_TX_C\\d+_(M|L)CH_P2K_(TRUE|FALSE)_CAL",
+        "^QC_WLAN_2\\.4GHz_80211[na]_RADIATED_RX_C\\d+_(M|L)CH_EQ_CAL",
+        "^QC_LTE_BC\\d+_QRRFR_TX_POWER_(M|L)CH_\\d+_V\\d+_CAL",
+        "^QC_LTE_BC\\d+_QRRFR_ACTION_V\\d+_RX_C\\d+_(M|L)CH_\\d+_CAL"
+      ]
+    },
+    "GenericPatterns": {
+      "SPEAKER_TEST": [
+        "^AUDIO_L2AR_ALERT_[A-Za-z]+\\d?_\\d+_(?:\\d+K?Hz|\\d+)_TO_\\d+Hz_MIC[\\w-]+(?:_[\\w-]+)?(?:_ASYNC_(?:START|WAIT))?",
+        "AUDIO_L2AR_ALERT_[A-Za-z]+_\\d+_\\d+(?:KHz)?_TO_\\d+(?:KHz)?_MIC[\\w_]+(?:_ASYNC_(?:START|WAIT))?"
+      ],
+      "MIC_TEST": [
+        "AUDIO_SAMPLE_MIC_\\d+_CONTIGUOUS_SPKR\\d+_\\d+-\\d+(?:_ASYNC_(START|WAIT))?",
+        "^AUDIO_SAMPLE_MIC_\\d+_(FFT|DFT)_\\d+_\\d+K-\\d+K_SPKR\\d+(?:_[A-Za-z0-9-]+)?(?:_ASYNC_(START|WAIT))?",
+        "^AUDIO_MIC\\d+_SPKR\\d+_\\d+-\\d+K\\d+Hz_VS_SEAL_.+"
+      ],
+      "EAR_TEST": [
+        "^AUDIO_L2AR_EAR_(\\d+)_(\\d+K?Hz)_TO_(\\d+K?Hz)_MIC(\\d+)_([A-Za-z]+)_ASYNC_(START|WAIT)",
+        "^AUDIO_L2AR_EAR_(\\d+)_(\\d+K?Hz)_TO_(\\d+K?Hz)_MIC(\\d+)_([A-Za-z]+)"
+      ]
+    },
+    "BasicBandPatterns": {
+      "L2AR_BASIC_BAND": [
+        "^CAPSWTICH_TURBORCHARGE_\\w+_\\d+W",
+        "^GET_BATTERY_CHARGE_LEVEL_STATUS",
+
+        "^SPKinfoprogramming_READ",
+        "^SPK_INFO_PROGAMMING",
+
+        "^ANDROID_GET_BATTERY_LEVEL",
+        "^ANDROID_MAGNETOMETER",
+
+        "^MAGNETOMETER_PRESENSE_APK_STATUS",
+
+        "^QC_USIM_MECHANICAL_SWITCH_REMOVED_RAW_[0-9A-Z]{2}_[0-9A-Z]{4}",
+        "^MECH_SWITCH_STATE_SIM_REMOVED"
+      ]
+    }
+  }
+}

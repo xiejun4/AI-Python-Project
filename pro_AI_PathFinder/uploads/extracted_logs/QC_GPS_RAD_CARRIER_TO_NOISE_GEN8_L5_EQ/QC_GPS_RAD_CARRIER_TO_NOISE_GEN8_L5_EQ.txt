@@ -1,0 +1,10 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: 59.8
+Measure Process	SIGNAL_LEVEL Reading 2: 59.8
+Measure Process	SIGNAL_LEVEL Reading 3: 60.6
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = 60.0666666666667
+Measure Process	End RX_FREQUENCY_OFFSET measure process: Final measurement = 99.909
+# test_result
+EvalAndLogResults	267	495	QC_GPS_L5_CARRIER_TO_NOISE_ANT_CW	50	70	60.0666666666667	dB	4961	68134	PASSED		<----------|------------#------------|---------->	Off	False	True	GPS5CTWR
+EvalAndLogResults	267	496	QC_GPS_L5_FREQ_OFFSET_ANT_CW	94	106	99.91	kHz	1	68135	PASSED		<----------|------------#------------|---------->	Off	False	True	GP5FOFWR
+EvalAndLogResults	267	497	GPS_L5_OVERALL_STATUS	0	0	0	P/F	0	68135	PASSED		<-----------------------|#|--------------------->	Off	False	False	GPS5STAT

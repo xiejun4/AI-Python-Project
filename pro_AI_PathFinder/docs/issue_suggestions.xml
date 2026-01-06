@@ -1,0 +1,910 @@
+<root>
+  <test_type name="WLAN_TX">
+    <description language="zh">
+      <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、核心问题
+{{test_type}} {{freq_range}} {{antenna_type}}天线 {{channel_id}} 通道发射功率 {{power_value}} dBm，
+{{deviation}} {{standard_value}} dBm 标准，需快速排查测试设备连接、硬件及软件问题。
+二、产线快速排查步骤
+（一）测试设备检查
+综测仪：确认屏幕显示 “ {{freq_range}} {{channel_id}} ”；检查与设备线缆接口，重插松动接口。
+程控电源：查看指示灯是否正常；检查输出线有无破损，破损即换线。
+（二）硬件连接检查
+工装夹具：擦除接触点氧化发黑处；拧紧夹具螺丝，确保固定稳固。
+射频链路：换掉有折痕、破损的电缆；旋紧射频头松动连接处。
+{{antenna_type}}天线检查：确认天线与模块排线连接牢固，无松动/脱落；检查天线座有无氧化，氧化处用酒精棉擦拭清洁。
+（三）被测设备处理
+整机外观：拆开后盖（允许时），隔离元件脱落、烧焦的设备；插紧天线与模块松动排线。
+软件检查：进工厂测试工具查 {{test_type}} {{antenna_type}}天线 {{channel_id}} 功率，非 {{standard_value}} dBm 即上报；重启设备复测，仍超标则标记待处理。
+校准验证：若复测仍异常，重新执行 {{test_item_desc}} 校准流程（CAL），确认校准数据写入成功；校准后仍不达标则判定硬件故障。
+      ]]>
+    </description>
+    <description language="en">
+      <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Core Issue
+The transmission power of {{test_type}} ({{freq_range}}) {{antenna_type}} Antenna {{channel_id}} channel is {{power_value}} dBm,
+which is {{deviation}} the standard value of {{standard_value}} dBm. Quick troubleshooting of test equipment connections, hardware, and software issues is required.
+II. Quick Troubleshooting Steps for Production Line
+(1) Test Equipment Check
+Spectrum Analyzer: Confirm that the screen displays "{{freq_range}} {{channel_id}}"; Check the cable interface with the device and reinsert any loose connections.
+Programmable Power Supply: Check if the indicator light is normal; Inspect the output cable for any damage and replace if necessary.
+(2) Hardware Connection Check
+Fixture: Clean any oxidized or blackened contact points; Tighten the fixture screws to ensure a secure fit.
+RF Link: Replace any cables with creases or damage; Tighten any loose RF connector joints.
+{{antenna_type}} Antenna Check: Ensure the antenna-to-module cable is securely connected without looseness/falling off; Check the antenna base for oxidation and clean oxidized areas with alcohol wipes.
+(3) Device Under Test (DUT) Handling
+Device Appearance: Open the back cover (if allowed) to isolate devices with detached or burnt components; Secure any loose antenna or module cables.
+Software Check: Check the {{test_type}} {{antenna_type}} Antenna {{channel_id}} power using the factory test tool. Report any values not equal to {{standard_value}} dBm; Restart the device and retest. Mark for further processing if the issue persists.
+Calibration Verification: If the issue persists after retesting, re-execute the {{test_item_desc}} calibration process (CAL) and confirm successful calibration data writing; If calibration fails to resolve the issue,判定 as a hardware fault.
+      ]]>
+    </description>
+  </test_type>
+  <test_type name="WLAN_RX">
+    <description language="zh">
+      <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、核心问题定位
+{{test_type}} {{freq_range}} {{channel_id}} 通道接收信号强度 {{power_value}} dBm，
+{{deviation}} {{standard_value}} dBm 标准值，需重点关注以下方面：
+
+二、临时处理建议
+1. 若RSSI偏差>3dBm：检查测试设备连接及信号源
+2. 若RSSI波动过大：检查测试环境干扰情况
+
+三、问题上报指引
+请随问题单提供以下数据：
+1. 完整测试日志（含时间戳/RSSI采样值）
+      ]]>
+    </description>
+    <description language="en">
+      <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Core Problem Identification
+The received signal strength of {{channel_id}} channel in {{test_type}} ({{freq_range}}) is {{power_value}} dBm,
+which is {{deviation}} the standard value of {{standard_value}} dBm. Focus on the following aspects:
+
+II. Immediate Handling Suggestions
+1. If RSSI deviation >3dBm: Check test equipment connections and signal source
+2. If RSSI fluctuates excessively: Check for environmental interference
+
+III. Problem Reporting Guidelines
+Please include the following data with the problem ticket:
+1. Complete test logs (with timestamps/RSSI samples)
+      ]]>
+    </description>
+  </test_type>
+  <test_type name="GPS_RX">
+    <description language="zh">
+      <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、核心问题定位
+{{test_type}} {{freq_range}} {{channel_id}} 通道接收信号强度 {{power_value}} dBm，
+{{deviation}} {{standard_value}} dBm 标准值，需按以下维度排查：
+
+二、分层排查策略
+（一）测试环境验证
+1. GPS信号模拟器核查：
+   - 确认RF输出功率为-110dBm@{{gps_center_freq}}MHz
+   - 确认RF线缆衰减值（≤0.5dB）
+
+2. 频谱分析仪检查：
+   - 确认频谱仪参考电平设置为-100dBm
+   - 验证RBW/VBW设置（100kHz/300kHz）
+   - 检查GPS信号频谱纯度（杂散≤-40dBc）
+
+三、临时处理建议
+1. 若信号捕获失败：检查GPS模拟器RF输出连接
+2. 若跟踪不稳定：检查测试环境多径干扰
+
+四、问题上报指引
+请随问题单提供以下数据：
+1. 完整测试日志（含时间戳/CN0值/跟踪状态）
+      ]]>
+    </description>
+    <description language="en">
+      <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Root Cause Localization
+The received signal strength of {{channel_id}} channel in {{test_type}} ({{freq_range}}) is {{power_value}} dBm,
+which is {{deviation}} the standard value of {{standard_value}} dBm. Troubleshoot according to the following dimensions:
+
+II. Layered Diagnostic Strategy
+(1) Test Environment Verification
+1. GPS Signal Simulator Check:
+   - Confirm RF output power is -110dBm@{{gps_center_freq}}MHz
+   - Check RF cable attenuation (≤0.5dB)
+
+2. Spectrum Analyzer Verification:
+   - Confirm spectrum analyzer reference level is set to -100dBm
+   - Verify RBW/VBW settings (100kHz/300kHz)
+   - Check GPS signal spectral purity (spurious ≤-40dBc)
+
+III. Immediate Mitigation Suggestions
+1. For signal acquisition failure: Check GPS simulator RF output connection
+2. For unstable tracking: Check for multipath interference in test environment
+
+IV. Issue Reporting Guidelines
+Please include the following data with problem tickets:
+1. Complete test logs (with timestamps/CN0 values/tracking status)
+      ]]>
+    </description>
+  </test_type>
+  <test_type name="BLUETOOTH_TX">
+    <description language="zh">
+      <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、核心问题定位
+{{test_type}} {{freq_range}} {{channel_id}} 通道发射功率 {{power_value}} dBm，
+{{deviation}} {{standard_value}} dBm 标准值，需按以下维度排查：
+
+二、分层排查策略
+（一）测试环境验证
+1. 综测仪核查：
+   - 确认测试模式为"Bluetooth BR/EDR"
+   - 检查RF输入线缆接口，重插/更换测试线
+   - 验证测量带宽设置为1MHz
+   - 确认参考电平设置为-20dBm
+
+2. 频谱分析仪检查：
+   - 确认中心频率为{{bluetooth_center_freq}}MHz
+   - 验证RBW/VBW设置（300kHz/3MHz）
+   - 检查杂散辐射（≤-30dBm/MHz）
+
+三、临时处理建议
+1. 若功率偏差>1dBm：检查综测仪RF输入连接
+2. 若调制质量异常：检查测试环境干扰源
+
+四、问题上报指引
+请随问题单提供以下数据：
+1. 完整测试日志（含时间戳/功率值/EVM值）
+      ]]>
+    </description>
+    <description language="en">
+      <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Root Cause Localization
+The transmission power of {{channel_id}} channel in {{test_type}} ({{freq_range}}) is {{power_value}} dBm,
+which is {{deviation}} the standard value of {{standard_value}} dBm. Troubleshoot according to the following dimensions:
+
+II. Layered Diagnostic Strategy
+(1) Test Environment Verification
+1. Test Set Check:
+   - Confirm test mode is "Bluetooth BR/EDR"
+   - Check RF input cable connections
+   - Verify measurement bandwidth is set to 1MHz
+   - Confirm reference level is set to -20dBm
+
+2. Spectrum Analyzer Check:
+   - Confirm center frequency is {{bluetooth_center_freq}}MHz
+   - Verify RBW/VBW settings (300kHz/3MHz)
+   - Check spurious emissions (≤-30dBm/MHz)
+
+III. Immediate Mitigation Suggestions
+1. For power deviation >1dBm: Check test set RF input connection
+2. For abnormal modulation quality: Check for environmental interference sources
+
+IV. Issue Reporting Guidelines
+Please include the following data with problem tickets:
+1. Complete test logs (with timestamps/power values/EVM values)
+      ]]>
+    </description>
+  </test_type>
+  <test_type name="LTE_TX">
+    <description language="zh">
+      <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、核心问题定位
+{{test_type}} {{freq_range}} {{channel_id}} 通道发射功率 {{power_value}} dBm，
+{{deviation}} {{standard_value}} dBm 标准值，需按以下维度排查：
+
+二、分层排查策略
+（一）测试环境验证
+1. 信号源核查：
+   - 确认RF输出频率为{{lte_tx_center_freq}}MHz
+   - 验证调制方式为QPSK/16QAM/64QAM
+   - 确认功率设置为20dBm
+   - 检查RF线缆衰减值（≤0.5dB）
+
+2. 频谱分析仪检查：
+   - 确认中心频率为{{lte_tx_center_freq}}MHz
+   - 验证RBW/VBW设置（100kHz/300kHz）
+   - 检查ACLR（邻道泄漏比）符合3GPP要求
+   - 验证SEM（频谱发射模板）符合规范
+
+三、临时处理建议
+1. 若功率偏差>1dBm：检查信号源RF输出连接
+2. 若调制精度异常：检查基带配置参数
+
+四、问题上报指引
+请随问题单提供以下数据：
+1. 完整测试日志（含时间戳/功率值/EVM值/ACLR值）
+      ]]>
+    </description>
+    <description language="en">
+      <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Root Cause Localization
+The transmission power of {{channel_id}} channel in {{test_type}} ({{freq_range}}) is {{power_value}} dBm,
+which is {{deviation}} the standard value of {{standard_value}} dBm. Troubleshoot according to the following dimensions:
+
+II. Layered Diagnostic Strategy
+(1) Test Environment Verification
+1. Signal Generator Check:
+   - Confirm RF output frequency is {{lte_tx_center_freq}}MHz
+   - Verify modulation scheme is QPSK/16QAM/64QAM
+   - Confirm power setting is 20dBm
+   - Check RF cable attenuation (≤0.5dB)
+
+2. Spectrum Analyzer Check:
+   - Confirm center frequency is {{lte_tx_center_freq}}MHz
+   - Verify RBW/VBW settings (100kHz/300kHz)
+   - Check ACLR (Adjacent Channel Leakage Ratio) meets 3GPP requirements
+   - Verify SEM (Spectrum Emission Mask) compliance
+
+III. Immediate Mitigation Suggestions
+1. For power deviation >1dBm: Check signal generator RF output connection
+2. For abnormal modulation accuracy: Check baseband configuration parameters
+
+IV. Issue Reporting Guidelines
+Please include the following data with problem tickets:
+1. Complete test logs (with timestamps/power values/EVM values/ACLR values)
+      ]]>
+    </description>
+  </test_type>
+  <test_type name="LTE_RX">
+    <description language="zh">
+      <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、核心问题定位
+{{test_type}} {{freq_range}} {{channel_id}} 通道接收信号强度 {{power_value}} dBm，
+{{deviation}} {{standard_value}} dBm 标准值，需按以下维度排查：
+
+二、分层排查策略
+（一）测试环境验证
+1. 信号源核查：
+   - 确认RF输出频率为{{lte_rx_center_freq}}MHz
+   - 验证调制方式为QPSK
+   - 确认信号强度为-105dBm
+   - 检查RF线缆衰减值（≤0.5dB）
+
+2. 频谱分析仪检查：
+   - 确认中心频率为{{lte_rx_center_freq}}MHz
+   - 验证RBW/VBW设置（100kHz/300kHz）
+   - 检查信号质量（EVM≤17%）
+
+三、临时处理建议
+1. 若RSSI偏差>2dBm：检查信号源RF输出连接
+2. 若误包率异常：检查测试环境干扰源
+
+四、问题上报指引
+请随问题单提供以下数据：
+1. 完整测试日志（含时间戳/RSSI值/BLER值/EVM值）
+      ]]>
+    </description>
+    <description language="en">
+      <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Root Cause Localization
+The received signal strength of {{channel_id}} channel in {{test_type}} ({{freq_range}}) is {{power_value}} dBm,
+which is {{deviation}} the standard value of {{standard_value}} dBm. Troubleshoot according to the following dimensions:
+
+II. Layered Diagnostic Strategy
+(1) Test Environment Verification
+1. Signal Source Check:
+   - Confirm RF output frequency is {{lte_rx_center_freq}}MHz
+   - Verify modulation scheme is QPSK
+   - Confirm signal strength is -105dBm
+   - Check RF cable attenuation (≤0.5dB)
+
+2. Spectrum Analyzer Check:
+   - Confirm center frequency is {{lte_rx_center_freq}}MHz
+   - Verify RBW/VBW settings (100kHz/300kHz)
+   - Check signal quality (EVM≤17%)
+
+III. Immediate Mitigation Suggestions
+1. For RSSI deviation >2dBm: Check signal source RF output connection
+2. For abnormal packet error rate: Check for environmental interference sources
+
+IV. Issue Reporting Guidelines
+Please include the following data with problem tickets:
+1. Complete test logs (with timestamps/RSSI values/BLER values/EVM values)
+      ]]>
+    </description>
+  </test_type>
+  <test_type name="AUDIO_SAMPLE_MIC_1_CONTIGUOUS_SPKR1_300-5200_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 麦克风灵敏度异常
+{{level_spec_fails}}
+   可能原因：麦克风增益过高、环境噪音干扰或麦克风硬件故障
+
+2. 采样状态异常
+{{status_fails}}
+   可能原因：麦克风连接不稳定、采样率不匹配
+
+3. 综合判断
+{{comprehensive_analysis}}
+
+三、改进建议
+1. 调整麦克风增益设置，降低灵敏度
+2. 检查测试环境，减少外部噪音干扰
+3. 确认麦克风与扬声器的连接稳固，无松动或接触不良
+4. 考虑更换机器的麦克风硬件，尤其是当其他测试均正常时
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Microphone Sensitivity Abnormality
+{{level_spec_fails}}
+   Possible causes: Excessive microphone gain, environmental noise interference, or microphone hardware failure
+
+2. Sampling Status Abnormality
+{{status_fails}}
+   Possible causes: Unstable microphone connection, sampling rate mismatch
+
+3. Comprehensive Judgment
+{{comprehensive_analysis}}
+
+III. Recommendations
+1. Adjust microphone gain settings to reduce sensitivity
+2. Check the test environment to reduce external noise interference
+3. Ensure the microphone and speaker connections are secure without looseness or poor contact
+4. Consider replacing the microphone hardware of the machine, especially when all other tests are normal
+        ]]>
+    </description>
+  </test_type>  
+  <test_type name="AUDIO_SAMPLE_MIC_1_FFT_44100_4K-16K_SPKR1_MILOS_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 频率响应异常
+{{level_spec_fails}}
+   可能原因：麦克风频响曲线偏移、测试频段内存在干扰信号或滤波电路异常
+
+2. FFT算法处理异常
+{{status_fails}}
+   可能原因：算法参数配置错误、采样率不匹配（采样率:44100）或计算资源不足
+
+3. 声学耦合异常
+{{comprehensive_analysis}}
+   可能原因：麦克风与扬声器位置不当、声学环境反射干扰或扬声器频响异常
+
+三、改进建议
+1. 校准MIC1在4-16kHz频段的频率响应曲线
+2. 检查并优化FFT算法参数设置，确保与44100采样率匹配
+3. 调整麦克风与SPKR1的相对位置，减少声学干扰
+4. 检查测试环境，增加声学隔离措施
+5. 验证FFT算法实现，必要时进行算法优化或更新
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Frequency Response Abnormality
+{{level_spec_fails}}
+   Possible causes: Microphone frequency response curve deviation, interference signals in test frequency band, or abnormal filter circuit
+
+2. FFT Algorithm Processing Anomaly
+{{status_fails}}
+   Possible causes: Incorrect algorithm parameter configuration, sampling rate mismatch (sampling rate:44100), or insufficient computing resources
+
+3. Acoustic Coupling Anomaly
+{{comprehensive_analysis}}
+
+III. Recommendations
+1. Calibrate the frequency response curve of MIC1 in 4-16kHz band
+2. Check and optimize FFT algorithm parameter settings to ensure matching with 44100 sampling rate
+3. Adjust the relative position of microphone and SPKR1 to reduce acoustic interference
+4. Inspect the test environment and add acoustic isolation measures
+5. Verify FFT algorithm implementation and optimize or update the algorithm if necessary
+        ]]>
+    </description>
+  </test_type>
+  <test_type name="AUDIO_SAMPLE_MIC_1_DFT_8KHZ_300_5200_L2SPK1_BLOCK_equator_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 频率响应异常
+{{level_spec_fails}}
+   可能原因：麦克风频响曲线偏移、测试频段内存在干扰信号或滤波电路异常
+
+2. FFT算法处理异常
+{{status_fails}}
+   可能原因：算法参数配置错误、采样率不匹配（采样率:44100）或计算资源不足
+
+3. 声学耦合异常
+{{comprehensive_analysis}}
+   可能原因：麦克风与扬声器位置不当、声学环境反射干扰或扬声器频响异常
+
+三、改进建议
+1. 校准MIC1在4-16kHz频段的频率响应曲线
+2. 检查并优化FFT算法参数设置，确保与44100采样率匹配
+3. 调整麦克风与SPKR1的相对位置，减少声学干扰
+4. 检查测试环境，增加声学隔离措施
+5. 验证FFT算法实现，必要时进行算法优化或更新
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Frequency Response Abnormality
+{{level_spec_fails}}
+   Possible causes: Microphone frequency response curve deviation, interference signals in test frequency band, or abnormal filter circuit
+
+2. FFT Algorithm Processing Anomaly
+{{status_fails}}
+   Possible causes: Incorrect algorithm parameter configuration, sampling rate mismatch (sampling rate:44100), or insufficient computing resources
+
+3. Acoustic Coupling Anomaly
+{{comprehensive_analysis}}
+
+III. Recommendations
+1. Calibrate the frequency response curve of MIC1 in 4-16kHz band
+2. Check and optimize FFT algorithm parameter settings to ensure matching with 44100 sampling rate
+3. Adjust the relative position of microphone and SPKR1 to reduce acoustic interference
+4. Inspect the test environment and add acoustic isolation measures
+5. Verify FFT algorithm implementation and optimize or update the algorithm if necessary
+        ]]>
+    </description>
+  </test_type>  
+  <test_type name="AUDIO_MIC1_SPKR1_300-5K2Hz_VS_SEAL_PORTO_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 密封性相关音频性能异常
+{{level_spec_fails}}
+   可能原因：密封结构设计缺陷、麦克风/扬声器声学通路堵塞、密封件老化
+
+2. 特定频率段响应异常
+{{status_fails}}
+   可能原因：频段滤波参数设置错误、麦克风在目标频段灵敏度不足
+
+3. 综合判断
+{{comprehensive_analysis}}
+
+三、改进建议
+1. 检查PORTO机型密封结构，确保声学通路无遮挡
+2. 校准目标频段的麦克风增益，优化频率响应曲线
+3. 更换老化或损坏的密封组件，重新测试密封性
+4. 验证扬声器在高频段的输出功率是否达标
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Seal-related Audio Performance Abnormality
+{{level_spec_fails}}
+   Possible causes: Defects in seal structure design, blocked acoustic paths of microphone/speaker, aging of sealing components
+
+2. Abnormal Response in Specific Frequency Band
+{{status_fails}}
+   Possible causes: Incorrect filter parameter settings for target frequency band, insufficient microphone sensitivity in this band
+
+3. Comprehensive Judgment
+{{comprehensive_analysis}}
+
+III. Recommendations
+1. Inspect the seal structure of PORTO model to ensure no obstruction in acoustic paths
+2. Calibrate microphone gain in target frequency band and optimize frequency response curve
+3. Replace aged or damaged sealing components and retest seal performance
+4. Verify if the output power of speaker in high-frequency band meets the standard
+        ]]>
+    </description>
+  </test_type>
+  <test_type name="AUDIO_L2AR_EAR_14705_140Hz_TO_7100Hz_MIC1_KANSA_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 灵敏度响应异常
+{{level_spec_fails}}
+   可能原因：EAR传感器灵敏度漂移、测试频段内信号衰减异常或增益调节不当
+
+2. 音频信号同步异常
+{{status_fails}}
+   可能原因：时钟源不同步、数据传输延迟超标或MIC1与EAR采样相位偏差
+
+3. 频率响应特性异常
+{{comprehensive_analysis}}
+   可能原因：频率响应曲线非线性失真、测试频段内稳定性指标不达标或滤波特性异常
+
+三、改进建议
+1. 重新校准EAR在140Hz至7100Hz频段的灵敏度参数
+2. 优化MIC1与EAR的同步机制，确保时钟和采样相位一致
+3. 调整频率响应曲线，提升线性度和稳定性指标
+4. 验证并修正与KANSA产品的接口协议和通信参数
+5. 升级相关固件版本，确保系统兼容性
+6. 优化测试环境，减少外部干扰对灵敏度和同步性能的影响
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Sensitivity Response Abnormality
+{{level_spec_fails}}
+   Possible causes: EAR sensor sensitivity drift, abnormal signal attenuation in test frequency band, or improper gain adjustment
+
+2. Audio Signal Synchronization Anomaly
+{{status_fails}}
+   Possible causes: Clock source asynchrony, excessive data transmission delay, or sampling phase deviation between MIC1 and EAR
+
+3. Frequency Response Characteristic Anomaly
+{{comprehensive_analysis}}
+   Possible causes: Non-linear distortion of frequency response curve, unstable indicators in test frequency band, or abnormal filtering characteristics
+
+III. Recommendations
+1. Recalibrate EAR sensitivity parameters in 140Hz to 7100Hz frequency band
+2. Optimize synchronization mechanism between MIC1 and EAR to ensure consistent clock and sampling phase
+3. Adjust frequency response curve to improve linearity and stability indicators
+4. Verify and correct interface protocols and communication parameters with KANSA products
+5. Upgrade relevant firmware versions to ensure system compatibility
+6. Optimize test environment to reduce external interference on sensitivity and synchronization performance
+        ]]>
+    </description>
+  </test_type>
+  <test_type name="AUDIO_L2AR_ALERT_LEFT2_13000_7100_TO_1000Hz_MIC1LEFT_1V_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 灵敏度响应异常
+{{level_spec_fails}}
+   可能原因：ALERT_LEFT2传感器灵敏度漂移、测试频段内信号衰减异常或增益调节不当
+
+2. 音频信号同步异常
+{{status_fails}}
+   可能原因：时钟源不同步、数据传输延迟超标或MIC1LEFT与ALERT_LEFT2采样相位偏差
+
+3. 频率响应特性异常
+{{comprehensive_analysis}}
+   可能原因：频率响应曲线非线性失真、测试频段内稳定性指标不达标或滤波特性异常
+
+三、改进建议
+1. 重新校准ALERT_LEFT2在1000Hz至7100Hz频段的灵敏度参数
+2. 优化MIC1LEFT与ALERT_LEFT2的同步机制，确保时钟和采样相位一致
+3. 调整频率响应曲线，提升线性度和稳定性指标
+4. 验证并修正1V信号条件下的接口协议和通信参数
+5. 升级相关固件版本，确保系统兼容性
+6. 优化测试环境，减少外部干扰对灵敏度和同步性能的影响
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Sensitivity Response Abnormality
+{{level_spec_fails}}
+   Possible causes: ALERT_LEFT2 sensor sensitivity drift, abnormal signal attenuation in test frequency band, or improper gain adjustment
+
+2. Audio Signal Synchronization Anomaly
+{{status_fails}}
+   Possible causes: Clock source asynchrony, excessive data transmission delay, or sampling phase deviation between MIC1LEFT and ALERT_LEFT2
+
+3. Frequency Response Characteristic Anomaly
+{{comprehensive_analysis}}
+   Possible causes: Non-linear distortion of frequency response curve, unstable indicators in test frequency band, or abnormal filtering characteristics
+
+III. Recommendations
+1. Recalibrate ALERT_LEFT2 sensitivity parameters in 1000Hz to 7100Hz frequency band
+2. Optimize synchronization mechanism between MIC1LEFT and ALERT_LEFT2 to ensure consistent clock and sampling phase
+3. Adjust frequency response curve to improve linearity and stability indicators
+4. Verify and correct interface protocols and communication parameters under 1V signal condition
+5. Upgrade relevant firmware versions to ensure system compatibility
+6. Optimize test environment to reduce external interference on sensitivity and synchronization performance
+        ]]>
+    </description>
+  </test_type>
+  <test_type name="AUDIO_L2AR_ALERT_LEFT_11100_8KHz_TO_140Hz_MIC1left_URUS_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 灵敏度响应异常
+{{level_spec_fails}}
+   可能原因：ALERT_LEFT2传感器灵敏度漂移、测试频段内信号衰减异常或增益调节不当
+
+2. 音频信号同步异常
+{{status_fails}}
+   可能原因：时钟源不同步、数据传输延迟超标或MIC1LEFT与ALERT_LEFT2采样相位偏差
+
+3. 频率响应特性异常
+{{comprehensive_analysis}}
+   可能原因：频率响应曲线非线性失真、测试频段内稳定性指标不达标或滤波特性异常
+
+三、改进建议
+1. 重新校准ALERT_LEFT2在1000Hz至7100Hz频段的灵敏度参数
+2. 优化MIC1LEFT与ALERT_LEFT2的同步机制，确保时钟和采样相位一致
+3. 调整频率响应曲线，提升线性度和稳定性指标
+4. 验证并修正1V信号条件下的接口协议和通信参数
+5. 升级相关固件版本，确保系统兼容性
+6. 优化测试环境，减少外部干扰对灵敏度和同步性能的影响
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Sensitivity Response Abnormality
+{{level_spec_fails}}
+   Possible causes: ALERT_LEFT2 sensor sensitivity drift, abnormal signal attenuation in test frequency band, or improper gain adjustment
+
+2. Audio Signal Synchronization Anomaly
+{{status_fails}}
+   Possible causes: Clock source asynchrony, excessive data transmission delay, or sampling phase deviation between MIC1LEFT and ALERT_LEFT2
+
+3. Frequency Response Characteristic Anomaly
+{{comprehensive_analysis}}
+   Possible causes: Non-linear distortion of frequency response curve, unstable indicators in test frequency band, or abnormal filtering characteristics
+
+III. Recommendations
+1. Recalibrate ALERT_LEFT2 sensitivity parameters in 1000Hz to 7100Hz frequency band
+2. Optimize synchronization mechanism between MIC1LEFT and ALERT_LEFT2 to ensure consistent clock and sampling phase
+3. Adjust frequency response curve to improve linearity and stability indicators
+4. Verify and correct interface protocols and communication parameters under 1V signal condition
+5. Upgrade relevant firmware versions to ensure system compatibility
+6. Optimize test environment to reduce external interference on sensitivity and synchronization performance
+        ]]>
+    </description>
+  </test_type>
+  <test_type name="AUDIO_L2AR_ALERT_LEFT_4500_16KHz_TO_7KHz_MIC1left_PORTO_EQ_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 灵敏度响应异常
+{{level_spec_fails}}
+   可能原因：ALERT_LEFT2传感器灵敏度漂移、测试频段内信号衰减异常或增益调节不当
+
+2. 音频信号同步异常
+{{status_fails}}
+   可能原因：时钟源不同步、数据传输延迟超标或MIC1LEFT与ALERT_LEFT2采样相位偏差
+
+3. 频率响应特性异常
+{{comprehensive_analysis}}
+   可能原因：频率响应曲线非线性失真、测试频段内稳定性指标不达标或滤波特性异常
+
+三、改进建议
+1. 重新校准ALERT_LEFT2在1000Hz至7100Hz频段的灵敏度参数
+2. 优化MIC1LEFT与ALERT_LEFT2的同步机制，确保时钟和采样相位一致
+3. 调整频率响应曲线，提升线性度和稳定性指标
+4. 验证并修正1V信号条件下的接口协议和通信参数
+5. 升级相关固件版本，确保系统兼容性
+6. 优化测试环境，减少外部干扰对灵敏度和同步性能的影响
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Sensitivity Response Abnormality
+{{level_spec_fails}}
+   Possible causes: ALERT_LEFT2 sensor sensitivity drift, abnormal signal attenuation in test frequency band, or improper gain adjustment
+
+2. Audio Signal Synchronization Anomaly
+{{status_fails}}
+   Possible causes: Clock source asynchrony, excessive data transmission delay, or sampling phase deviation between MIC1LEFT and ALERT_LEFT2
+
+3. Frequency Response Characteristic Anomaly
+{{comprehensive_analysis}}
+   Possible causes: Non-linear distortion of frequency response curve, unstable indicators in test frequency band, or abnormal filtering characteristics
+
+III. Recommendations
+1. Recalibrate ALERT_LEFT2 sensitivity parameters in 1000Hz to 7100Hz frequency band
+2. Optimize synchronization mechanism between MIC1LEFT and ALERT_LEFT2 to ensure consistent clock and sampling phase
+3. Adjust frequency response curve to improve linearity and stability indicators
+4. Verify and correct interface protocols and communication parameters under 1V signal condition
+5. Upgrade relevant firmware versions to ensure system compatibility
+6. Optimize test environment to reduce external interference on sensitivity and synchronization performance
+        ]]>
+    </description>
+  </test_type>  
+  <test_type name="AUDIO_L2AR_ALERT_RIGHT_14600_16KHz_TO_7KHz_MIC2_PORTO_FAILED">
+    <description language="zh">
+        <![CDATA[
+测试项：{{test_item_desc}}
+问题描述：{{problem_desc}}
+
+排查建议：
+一、测试目的
+{{test_purpose}}
+
+二、失败原因分析
+1. 灵敏度响应异常
+{{level_spec_fails}}
+   可能原因：ALERT_LEFT2传感器灵敏度漂移、测试频段内信号衰减异常或增益调节不当
+
+2. 音频信号同步异常
+{{status_fails}}
+   可能原因：时钟源不同步、数据传输延迟超标或MIC1LEFT与ALERT_LEFT2采样相位偏差
+
+3. 频率响应特性异常
+{{comprehensive_analysis}}
+   可能原因：频率响应曲线非线性失真、测试频段内稳定性指标不达标或滤波特性异常
+
+三、改进建议
+1. 重新校准ALERT_LEFT2在1000Hz至7100Hz频段的灵敏度参数
+2. 优化MIC1LEFT与ALERT_LEFT2的同步机制，确保时钟和采样相位一致
+3. 调整频率响应曲线，提升线性度和稳定性指标
+4. 验证并修正1V信号条件下的接口协议和通信参数
+5. 升级相关固件版本，确保系统兼容性
+6. 优化测试环境，减少外部干扰对灵敏度和同步性能的影响
+        ]]>
+    </description>
+    <description language="en">
+        <![CDATA[
+Test Item: {{test_item_desc}}
+Problem Description: {{problem_desc}}
+
+Troubleshooting Suggestions:
+I. Test Purpose
+{{test_purpose}}
+
+II. Failure Analysis
+1. Sensitivity Response Abnormality
+{{level_spec_fails}}
+   Possible causes: ALERT_LEFT2 sensor sensitivity drift, abnormal signal attenuation in test frequency band, or improper gain adjustment
+
+2. Audio Signal Synchronization Anomaly
+{{status_fails}}
+   Possible causes: Clock source asynchrony, excessive data transmission delay, or sampling phase deviation between MIC1LEFT and ALERT_LEFT2
+
+3. Frequency Response Characteristic Anomaly
+{{comprehensive_analysis}}
+   Possible causes: Non-linear distortion of frequency response curve, unstable indicators in test frequency band, or abnormal filtering characteristics
+
+III. Recommendations
+1. Recalibrate ALERT_LEFT2 sensitivity parameters in 1000Hz to 7100Hz frequency band
+2. Optimize synchronization mechanism between MIC1LEFT and ALERT_LEFT2 to ensure consistent clock and sampling phase
+3. Adjust frequency response curve to improve linearity and stability indicators
+4. Verify and correct interface protocols and communication parameters under 1V signal condition
+5. Upgrade relevant firmware versions to ensure system compatibility
+6. Optimize test environment to reduce external interference on sensitivity and synchronization performance
+        ]]>
+    </description>
+  </test_type>
+</root>

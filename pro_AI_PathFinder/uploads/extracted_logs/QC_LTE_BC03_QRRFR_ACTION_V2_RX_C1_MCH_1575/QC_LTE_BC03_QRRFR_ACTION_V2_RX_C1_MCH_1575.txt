@@ -1,0 +1,10 @@
+# test_process
+Measure Process	SIGNAL_LEVEL Reading 1: -61.4
+Measure Process	SIGNAL_LEVEL Reading 2: -61.4
+Measure Process	SIGNAL_LEVEL Reading 3: -61.4
+Measure Process	SIGNAL_LEVEL Reading 4: -61.4
+Measure Process	SIGNAL_LEVEL Reading 5: -61.3
+Measure Process	End SIGNAL_LEVEL measure process: Final measurement = -61.38
+# test_result
+EvalAndLogResults	347	892	QC_LTE_BC03_RX_RSSI_C1_MCH_1575_ANT_CW	-65	-55	-61.38	dBm	193	74858	PASSED		<----------|---------#---------------|---------->	Off	False	False	QL03R1M1
+EvalAndLogResults	347	893	QC_LTE_BC03_RX_RSSI_C1_STATUS	0	0	0	P/F	0	74858	PASSED		<-----------------------|#|--------------------->	Off	False	False	QL03R1MS

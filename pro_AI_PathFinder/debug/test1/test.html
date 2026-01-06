@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h3 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>文件上传测试</h3>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">选择文件:</label>
+                <input type="file" id="file" name="file" required>
+            </div>
+            <button type="submit">上传文件</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const resultDiv = document.getElementById('result');
+            
+            // 清空之前的结果
+            resultDiv.innerHTML = '';
+            resultDiv.className = '';
+            
+            // 显示上传中状态
+            resultDiv.innerHTML = '<p>上传中...</p>';
+            resultDiv.className = 'success';
+            
+            fetch('http://localhost:5000/upload_new', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // 检查HTTP状态码
+                if (!response.ok) {
+                    throw new Error(`HTTP错误，状态码: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                // 显示成功结果
+                resultDiv.innerHTML = `
+                    <p class="success">上传成功!</p>
+                    <pre>${JSON.stringify(JSON.parse(data), null, 2)}</pre>
+                `;
+                resultDiv.className = 'success';
+            })
+            .catch(error => {
+                // 显示错误结果
+                resultDiv.innerHTML = `
+                    <p class="error">上传失败:</p>
+                    <pre>${error.message}</pre>
+                `;
+                resultDiv.className = 'error';
+                console.error('上传失败:', error);
+            });
+        });
+    </script>
+</body>
+</html>

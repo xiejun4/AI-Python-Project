@@ -1,0 +1,99 @@
+title_name: test_process
+Measure Process	TX_POWER Reading 1: 6.035126
+Measure Process	TX_POWER Reading 2: 6.586456
+Measure Process	TX_POWER Reading 3: 5.207794
+Measure Process	TX_POWER Reading 4: 6.223358
+Measure Process	TX_POWER Reading 5: 6.036072
+Measure Process	TX_POWER Reading 6: 6.257507
+Measure Process	End TX_POWER measure process: 5.2983094
+Measure Process	TX_POWER Reading 7: 5.677124
+Measure Process	TX_POWER Reading 8: 5.784424
+Measure Process	TX_POWER Reading 9: 7.256775
+Measure Process	TX_POWER Reading 10: 5.127258
+Measure Process	TX_POWER Reading 11: 5.050873
+Measure Process	TX_POWER Reading 12: 7.0755
+Measure Process	TX_POWER Reading 13: 6.750549
+Measure Process	TX_POWER Reading 14: 5.825226
+Measure Process	TX_POWER Reading 15: 5.241699
+Measure Process	TX_POWER Reading 16: 5.609924
+Measure Process	TX_POWER Reading 17: 7.402466
+Measure Process	TX_POWER Reading 18: 6.094635
+Measure Process	TX_POWER Reading 19: 6.254639
+Measure Process	TX_POWER Reading 20: 7.324585
+Measure Process	TX_POWER Reading 21: 6.470795
+Measure Process	TX_POWER Reading 22: 5.917297
+Measure Process	TX_POWER Reading 23: 5.715088
+Measure Process	TX_POWER Reading 24: 5.176239
+Measure Process	TX_POWER Reading 25: 7.559753
+Measure Process	TX_POWER Reading 26: 6.033081
+Measure Process	TX_POWER Reading 27: 5.556152
+Measure Process	TX_POWER Reading 28: 6.138733
+Measure Process	TX_POWER Reading 29: 6.84317
+Measure Process	TX_POWER Reading 30: 6.526428
+Measure Process	TX_POWER Reading 31: 5.426392
+Measure Process	TX_POWER Reading 32: 6.607788
+Measure Process	TX_POWER Reading 33: 5.68222
+Measure Process	TX_POWER Reading 34: 5.633057
+Measure Process	TX_POWER Reading 35: 7.485962
+Measure Process	TX_POWER Reading 36: 5.835175
+Measure Process	TX_POWER Reading 37: 5.171661
+Measure Process	TX_POWER Reading 38: 5.656189
+Measure Process	TX_POWER Reading 39: 6.305511
+Measure Process	TX_POWER Reading 40: 5.367035
+Measure Process	TX_POWER Reading 41: 5.63562
+Measure Process	TX_POWER Reading 42: 5.405579
+Measure Process	TX_POWER Reading 43: 6.820038
+Measure Process	TX_POWER Reading 44: 5.271301
+Measure Process	TX_POWER Reading 45: 6.679321
+Measure Process	TX_POWER Reading 46: 7.601532
+Measure Process	TX_POWER Reading 47: 5.371216
+Measure Process	TX_POWER Reading 48: 6.193939
+Measure Process	TX_POWER Reading 49: 6.263031
+Measure Process	TX_POWER Reading 50: 5.407959
+Measure Process	TX_POWER Reading 51: 6.091156
+Measure Process	TX_POWER Reading 52: 7.179993
+Measure Process	TX_POWER Reading 53: 5.149384
+Measure Process	TX_POWER Reading 54: 6.584259
+Measure Process	TX_POWER Reading 55: 7.467163
+Measure Process	TX_POWER Reading 56: 5.100922
+Measure Process	TX_POWER Reading 57: 5.491852
+Measure Process	TX_POWER Reading 58: 7.885925
+Measure Process	TX_POWER Reading 59: 6.507538
+Measure Process	TX_POWER Reading 60: 6.273651
+Measure Process	TX_POWER Reading 61: 6.300659
+Measure Process	TX_POWER Reading 62: 5.327454
+Measure Process	TX_POWER Reading 63: 5.870178
+Measure Process	TX_POWER Reading 64: 5.390106
+Measure Process	TX_POWER Reading 65: 5.736511
+Measure Process	TX_POWER Reading 66: 5.767548
+Measure Process	TX_POWER Reading 67: 5.268158
+Measure Process	TX_POWER Reading 68: 5.245483
+Measure Process	TX_POWER Reading 69: 5.162048
+Measure Process	TX_POWER Reading 70: 5.469208
+Measure Process	TX_POWER Reading 71: 6.105927
+Measure Process	TX_POWER Reading 72: 5.236786
+Measure Process	TX_POWER Reading 73: 5.12674
+Measure Process	TX_POWER Reading 74: 5.948883
+Measure Process	TX_POWER Reading 75: 6.153442
+Measure Process	TX_POWER Reading 76: 5.062378
+Measure Process	TX_POWER Reading 77: 5.908813
+Measure Process	TX_POWER Reading 78: 5.342194
+Measure Process	TX_POWER Reading 79: 5.121704
+Measure Process	TX_POWER Reading 80: 5.397186
+Measure Process	TX_POWER Reading 81: 5.374146
+Measure Process	TX_POWER Reading 82: 5.256317
+
+title_name: test_result
+test_item: QC_WLAN_5.0GHz_80211n_RAD_TX_C1_CAL_HCH_CW
+low_limit: 7.0
+up_limit: 23.0
+test_data: 5.23
+unit: dB
+state: FAILED
+meaning: 
+indicator: 
+trend_analysis: 
+implied_problem_possibility: 
+chart_name: 
+chart_content: 
+
