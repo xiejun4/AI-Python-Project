@@ -1,0 +1,7 @@
+<ModelInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.motorola-mobility.com/globaltest/nextest2010/modelinfo/">
+	<Product name="TEST">				
+        <Model name="ROW">
+			<Band name="WLAN_80211_5G" device_path="1" probe="Murata-mm126314" Rfpath_name="UUT_RF_CONN9_TO_TESTSET_MAIN_RF" station="BrdTest" />
+		</Model>
+	</Product>
+</ModelInfo>

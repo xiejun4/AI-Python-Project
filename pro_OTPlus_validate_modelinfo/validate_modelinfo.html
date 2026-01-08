@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModelInfo XML 验证工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .upload-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            background-color: #f0f8ff;
+            border-color: #2980b9;
+        }
+        
+        .upload-area.dragover {
+            background-color: #e3f2fd;
+            border-color: #1976d2;
+        }
+        
+        .upload-area h2 {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .upload-area p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .browse-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .browse-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .result-section {
+            margin-top: 30px;
+        }
+        
+        .result-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .result-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+        }
+        
+        .product-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .model-item {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .model-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+        
+        .valid-configs, .invalid-configs {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .valid-configs h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .invalid-configs h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .config-list {
+            list-style: none;
+        }
+        
+        .config-list li {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .valid-configs .config-list li {
+            background-color: #e8f5e8;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .invalid-configs .config-list li {
+            background-color: #ffebee;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .config-detail {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .reason {
+            font-size: 0.8em;
+            color: #e74c3c;
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        
+        .correct-hint {
+            font-size: 0.8em;
+            color: #27ae60;
+            margin-top: 5px;
+            padding-left: 20px;
+            font-style: italic;
+        }
+        
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .summary h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #3498db;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ModelInfo XML 验证工具</h1>
+        
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <h2>拖放文件到此处或点击浏览</h2>
+                <p>支持 ModelInfoFile_Beryl.xml 文件</p>
+                <input type="file" id="fileInput" class="file-input" accept=".xml">
+                <button class="browse-btn" onclick="document.getElementById('fileInput').click()">浏览文件</button>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <span class="spinner"></span>
+            <span>正在验证文件...</span>
+        </div>
+        
+        <div class="result-section" id="resultSection" style="display: none;">
+            <h2>验证结果</h2>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        // 定义验证规则
+        function defineRules() {
+            // 定义基础连接器映射
+            const baseConnectors = {
+                1: 'UUT_RF_CONN1_TO_TESTSET_MAIN_RF',
+                2: 'UUT_RF_CONN8_TO_TESTSET_MAIN_RF',
+                6: 'UUT_RF_CONN6_TO_TESTSET_MAIN_RF',
+                7: 'UUT_RF_CONN7_TO_TESTSET_MAIN_RF',
+                4: 'UUT_RF_CONN2_TO_TESTSET_ALT1_RF',
+                5: 'UUT_RF_CONN5_TO_TESTSET_ALT1_RF',
+                9: 'UUT_RF_CONN9_TO_TESTSET_ALT1_RF',
+                8: 'UUT_RF_CONN10_TO_TESTSET_ALT1_RF'
+            };
+            
+            // 添加 DIRECT_RF 连接器（100, 200, ..., 900）
+            for (let i = 100; i < 1000; i += 100) {
+                baseConnectors[i] = `UUT_RF_CONN${i}_TO_TESTSET_DIRECT_RF`;
+            }
+            
+            // 定义规则字典，按模型名称组织
+            return {
+                'ROW': {
+                    'connectors': { ...baseConnectors }
+                },
+                'PRC': {
+                    'connectors': { ...baseConnectors }
+                },
+                'WIFI': {
+                    'connectors': { ...baseConnectors }
+                }
+            };
+        }
+        
+        // 验证 Rfpath_name 格式
+        function validateRfpathFormat(rfpath) {
+            try {
+                // 提取 CONN 数值
+                const connPart = rfpath.split('CONN')[1].split('_TO_TESTSET')[0];
+                const connNumber = parseInt(connPart);
+                
+                // 提取 RF 类型
+                let rfType = '';
+                if (rfpath.includes('MAIN_RF')) {
+                    rfType = 'MAIN_RF';
+                } else if (rfpath.includes('ALT1_RF')) {
+                    rfType = 'ALT1_RF';
+                } else if (rfpath.includes('DIRECT_RF')) {
+                    rfType = 'DIRECT_RF';
+                } else {
+                    return {
+                        valid: false,
+                        errorParts: [rfpath.split('_TO_TESTSET')[1] || rfpath],
+                        correctHint: 'RF 类型必须是 MAIN_RF、ALT1_RF 或 DIRECT_RF'
+                    };
+                }
+                
+                // 根据 RF 类型验证 CONN 数值
+                if (rfType === 'MAIN_RF') {
+                    const allowedConn = new Set([1, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15]);
+                    if (!allowedConn.has(connNumber)) {
+                        return {
+                            valid: false,
+                            errorParts: [`CONN${connNumber}`, 'MAIN_RF'],
+                            correctHint: `MAIN_RF 的 CONN 数值必须在 {1, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15} 中`
+                        };
+                    }
+                } else if (rfType === 'ALT1_RF') {
+                    const allowedConn = new Set([2, 5, 9, 10]);
+                    if (!allowedConn.has(connNumber)) {
+                        return {
+                            valid: false,
+                            errorParts: [`CONN${connNumber}`, 'ALT1_RF'],
+                            correctHint: `ALT1_RF 的 CONN 数值必须在 {2, 5, 9, 10} 中`
+                        };
+                    }
+                } else if (rfType === 'DIRECT_RF') {
+                    const allowedConn = new Set();
+                    for (let i = 100; i < 1000; i += 100) {
+                        allowedConn.add(i);
+                    }
+                    if (!allowedConn.has(connNumber)) {
+                        return {
+                            valid: false,
+                            errorParts: [`CONN${connNumber}`, 'DIRECT_RF'],
+                            correctHint: `DIRECT_RF 的 CONN 数值必须是 100, 200, ..., 900`
+                        };
+                    }
+                }
+                
+                return {
+                    valid: true,
+                    errorParts: [],
+                    correctHint: ''
+                };
+            } catch (e) {
+                return {
+                    valid: false,
+                    errorParts: [rfpath],
+                    correctHint: 'Rfpath_name 格式无效'
+                };
+            }
+        }
+        
+        // 验证单个 Model 的配置
+        function validateModel(modelName, bands, rules) {
+            const results = {
+                'model': modelName,
+                'valid': [],
+                'invalid': []
+            };
+            
+            // 检查当前模型是否在规则中
+            if (rules[modelName]) {
+                // 获取当前模型的连接器规则
+                const modelConnectors = rules[modelName]['connectors'];
+                // 获取所有预期的 RF 路径
+                const expectedRfpaths = new Set(Object.values(modelConnectors));
+                
+                // 遍历每个 Band 进行验证
+                for (const band of bands) {
+                    // 验证 Rfpath_name 的格式是否符合规则
+                    const formatResult = validateRfpathFormat(band.rfpath);
+                    
+                    if (formatResult.valid) {
+                        // 检查当前 Band 的 RF 路径是否在预期列表中
+                        if (expectedRfpaths.has(band.rfpath)) {
+                            // 添加到有效配置列表
+                            results.valid.push({
+                                'band': band.name,
+                                'rfpath': band.rfpath,
+                                'device_path': band.device_path
+                            });
+                        } else {
+                            // 添加到无效配置列表
+                            results.invalid.push({
+                                'band': band.name,
+                                'rfpath': band.rfpath,
+                                'device_path': band.device_path,
+                                'reason': `Unexpected Rfpath_name: ${band.rfpath}`,
+                                'errorParts': [],
+                                'correctHint': 'Rfpath_name 不在预期列表中'
+                            });
+                        }
+                    } else {
+                        // 添加到无效配置列表
+                        results.invalid.push({
+                            'band': band.name,
+                            'rfpath': band.rfpath,
+                            'device_path': band.device_path,
+                            'reason': `Invalid Rfpath_name format: ${band.rfpath}`,
+                            'errorParts': formatResult.errorParts,
+                            'correctHint': formatResult.correctHint
+                        });
+                    }
+                }
+            } else {
+                // 模型不在规则中，所有配置都标记为无效
+                for (const band of bands) {
+                    results.invalid.push({
+                        'band': band.name,
+                        'rfpath': band.rfpath,
+                        'device_path': band.device_path,
+                        'reason': `Model '${modelName}' not found in rules`,
+                        'errorParts': [modelName],
+                        'correctHint': `Model 名称必须是 ${Object.keys(rules).join('、')} 之一`
+                    });
+                }
+            }
+            
+            return results;
+        }
+        
+        // 解析 XML 文件
+        function parseXml(xmlString) {
+            const parser = new DOMParser();
+            return parser.parseFromString(xmlString, 'application/xml');
+        }
+        
+        // 提取 Band 元素
+        function extractBands(xmlDoc) {
+            const products = {};
+            
+            // 查找所有 Product 元素
+            const productElements = xmlDoc.getElementsByTagName('Product');
+            for (const productElem of productElements) {
+                const productName = productElem.getAttribute('name');
+                const models = {};
+                
+                // 查找当前 Product 下的所有 Model 元素
+                const modelElements = productElem.getElementsByTagName('Model');
+                for (const modelElem of modelElements) {
+                    const modelName = modelElem.getAttribute('name');
+                    const bands = [];
+                    
+                    // 查找当前 Model 下的所有 Band 元素
+                    const bandElements = modelElem.getElementsByTagName('Band');
+                    for (const bandElem of bandElements) {
+                        const bandName = bandElem.getAttribute('name');
+                        const rfpath = bandElem.getAttribute('Rfpath_name');
+                        const devicePath = bandElem.getAttribute('device_path');
+                        
+                        if (bandName && rfpath) {
+                            bands.push({
+                                'name': bandName,
+                                'rfpath': rfpath,
+                                'device_path': devicePath
+                            });
+                        }
+                    }
+                    
+                    models[modelName] = bands;
+                }
+                
+                products[productName] = models;
+            }
+            
+            return products;
+        }
+        
+        // 生成验证报告
+        function generateReport(resultsList) {
+            let html = '';
+            let allValid = true;
+            
+            for (const result of resultsList) {
+                const productName = result.product;
+                const modelResults = result.results;
+                
+                html += `
+                    <div class="result-item">
+                        <div class="product-name">Product: ${productName}</div>
+                `;
+                
+                for (const modelResult of modelResults) {
+                    const modelName = modelResult.model;
+                    const validConfigs = modelResult.valid;
+                    const invalidConfigs = modelResult.invalid;
+                    
+                    if (invalidConfigs.length > 0) {
+                        allValid = false;
+                    }
+                    
+                    html += `
+                        <div class="model-item">
+                            <div class="model-name">Model: ${modelName}</div>
+                    `;
+                    
+                    // 显示有效配置
+                    if (validConfigs.length > 0) {
+                        html += `
+                            <div class="valid-configs">
+                                <h4>✓ 有效配置 (${validConfigs.length}):</h4>
+                                <ul class="config-list">
+                        `;
+                        
+                        for (const config of validConfigs) {
+                            html += `
+                                <li>
+                                    <div class="config-detail">
+                                        Band: ${config.band}, Rfpath: ${config.rfpath}, Device Path: ${config.device_path}
+                                    </div>
+                                </li>
+                            `;
+                        }
+                        
+                        html += `
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="valid-configs">
+                                <h4>✓ 有效配置: 无</h4>
+                            </div>
+                        `;
+                    }
+                    
+                    // 显示无效配置
+                    if (invalidConfigs.length > 0) {
+                        html += `
+                            <div class="invalid-configs">
+                                <h4>✗ 无效配置 (${invalidConfigs.length}):</h4>
+                                <ul class="config-list">
+                        `;
+                        
+                        for (const config of invalidConfigs) {
+                            // 加粗显示错误的部分
+                            let formattedRfpath = config.rfpath;
+                            if (config.errorParts && config.errorParts.length > 0) {
+                                for (const errorPart of config.errorParts) {
+                                    formattedRfpath = formattedRfpath.replace(new RegExp(errorPart, 'g'), `<strong style="color: red;">${errorPart}</strong>`);
+                                }
+                            }
+                            
+                            html += `
+                                <li>
+                                    <div class="config-detail">
+                                        Band: ${config.band}, Rfpath: ${formattedRfpath}, Device Path: ${config.device_path}
+                                    </div>
+                                    <div class="reason">原因: ${config.reason}</div>
+                                    ${config.correctHint ? `<div class="correct-hint">正确提示: ${config.correctHint}</div>` : ''}
+                                </li>
+                            `;
+                        }
+                        
+                        html += `
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="invalid-configs">
+                                <h4>✗ 无效配置: 无</h4>
+                            </div>
+                        `;
+                    }
+                    
+                    html += `
+                        </div>
+                    `;
+                }
+                
+                html += `
+                    </div>
+                `;
+            }
+            
+            // 添加总体验证结果
+            html += `
+                <div class="summary">
+                    <h3>总体验证结果</h3>
+                    <p>
+                        状态: <span class="${allValid ? 'success' : 'error'}">
+                            ${allValid ? '通过' : '失败'}
+                        </span>
+                    </p>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        // 处理文件上传
+        function handleFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    // 显示加载状态
+                    document.getElementById('loading').style.display = 'block';
+                    document.getElementById('resultSection').style.display = 'none';
+                    
+                    // 解析 XML 文件
+                    const xmlDoc = parseXml(e.target.result);
+                    
+                    // 提取 Band 元素
+                    const products = extractBands(xmlDoc);
+                    
+                    // 定义规则
+                    const rules = defineRules();
+                    
+                    // 验证每个 Product 和 Model
+                    const resultsList = [];
+                    for (const [productName, models] of Object.entries(products)) {
+                        const productResult = {
+                            'product': productName,
+                            'results': []
+                        };
+                        
+                        // 验证每个 Model
+                        for (const [modelName, bands] of Object.entries(models)) {
+                            // 验证当前 Model
+                            const modelResult = validateModel(modelName, bands, rules);
+                            // 添加到 Product 结果中
+                            productResult.results.push(modelResult);
+                        }
+                        
+                        // 添加到总结果列表
+                        resultsList.push(productResult);
+                    }
+                    
+                    // 生成报告
+                    const reportHtml = generateReport(resultsList);
+                    
+                    // 显示结果
+                    document.getElementById('resultContent').innerHTML = reportHtml;
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('resultSection').style.display = 'block';
+                } catch (error) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('resultSection').style.display = 'block';
+                    document.getElementById('resultContent').innerHTML = `
+                        <div class="error">
+                            <h3>错误</h3>
+                            <p>解析文件时出错: ${error.message}</p>
+                        </div>
+                    `;
+                }
+            };
+            
+            reader.onerror = function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('resultSection').style.display = 'block';
+                document.getElementById('resultContent').innerHTML = `
+                    <div class="error">
+                        <h3>错误</h3>
+                        <p>读取文件时出错</p>
+                    </div>
+                `;
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // 处理拖拽事件
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        // 拖拽进入
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        // 拖拽离开
+        uploadArea.addEventListener('dragleave', function() {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        // 拖拽放下
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.name.endsWith('.xml')) {
+                    handleFile(file);
+                } else {
+                    alert('请选择 XML 文件');
+                }
+            }
+        });
+        
+        // 点击上传区域
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+        
+        // 文件选择
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                handleFile(file);
+            }
+        });
+    </script>
+</body>
+</html>

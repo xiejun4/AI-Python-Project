@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModelInfo XML 验证工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .upload-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            background-color: #f0f8ff;
+            border-color: #2980b9;
+        }
+        
+        .upload-area.dragover {
+            background-color: #e3f2fd;
+            border-color: #1976d2;
+        }
+        
+        .upload-area h2 {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .upload-area p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .browse-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .browse-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .result-section {
+            margin-top: 30px;
+        }
+        
+        .result-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .result-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+        }
+        
+        .product-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .model-item {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .model-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+        
+        .valid-configs, .invalid-configs {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .valid-configs h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .invalid-configs h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .config-list {
+            list-style: none;
+        }
+        
+        .config-list li {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .valid-configs .config-list li {
+            background-color: #e8f5e8;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .invalid-configs .config-list li {
+            background-color: #ffebee;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .config-detail {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .reason {
+            font-size: 0.8em;
+            color: #e74c3c;
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        
+        .correct-hint {
+            font-size: 0.8em;
+            color: #27ae60;
+            margin-top: 5px;
+            padding-left: 20px;
+            font-style: italic;
+        }
+        
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .summary h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #3498db;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .error-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffebee;
+            border-left: 4px solid #e74c3c;
+            border-radius: 4px;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ModelInfo XML 验证工具</h1>
+        
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <h2>拖放文件到此处或点击浏览</h2>
+                <p>支持 ModelInfoFile_Beryl.xml 文件</p>
+                <input type="file" id="fileInput" class="file-input" accept=".xml">
+                <button class="browse-btn" onclick="document.getElementById('fileInput').click()">浏览文件</button>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <span class="spinner"></span>
+            <span>正在验证文件...</span>
+        </div>
+        
+        <div class="error-message" id="errorMessage" style="display: none;"></div>
+        
+        <div class="result-section" id="resultSection" style="display: none;">
+            <h2>验证结果</h2>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        // 处理文件上传
+        function handleFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    // 显示加载状态
+                    document.getElementById('loading').style.display = 'block';
+                    document.getElementById('resultSection').style.display = 'none';
+                    document.getElementById('errorMessage').style.display = 'none';
+                    
+                    // 准备发送到后端的数据
+                    const xmlContent = e.target.result;
+                    
+                    // 调用后端 API
+                    validateXml(xmlContent);
+                } catch (error) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('errorMessage').textContent = `错误: ${error.message}`;
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+            };
+            
+            reader.onerror = function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('errorMessage').textContent = '读取文件时出错';
+                document.getElementById('errorMessage').style.display = 'block';
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // 调用后端 API 验证 XML
+        function validateXml(xmlContent) {
+            // 注意：这里使用本地命令行调用后端脚本
+            // 实际部署时可能需要替换为真实的 API 调用
+            setTimeout(() => {
+                try {
+                    // 由于浏览器安全限制，我们无法直接调用本地命令行
+                    // 这里我们使用一个简化的验证实现，直接在前端进行验证
+                    // 实际部署时，应该使用后端 API 调用
+                    
+                    // 解析 XML
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlContent, "text/xml");
+                    
+                    // 提取产品和模型信息
+                    const products = [];
+                    let productElements = xmlDoc.getElementsByTagName("Product");
+                    
+                    // 如果没有找到 Product 元素，尝试使用命名空间
+                    if (productElements.length === 0) {
+                        // 查找所有元素，然后过滤出 Product 元素
+                        const allElements = xmlDoc.getElementsByTagName("*");
+                        // 使用更兼容的方式处理 HTMLCollection
+                        const elementsArray = [];
+                        for (let i = 0; i < allElements.length; i++) {
+                            elementsArray.push(allElements[i]);
+                        }
+                        productElements = elementsArray.filter(element => 
+                            element.localName === "Product"
+                        );
+                    }
+                    
+                    for (let i = 0; i < productElements.length; i++) {
+                        const productElement = productElements[i];
+                        const productName = productElement.getAttribute("name");
+                        let modelElements = productElement.getElementsByTagName("Model");
+                        
+                        // 如果没有找到 Model 元素，尝试使用命名空间
+                        if (modelElements.length === 0) {
+                            // 查找所有子元素，然后过滤出 Model 元素
+                            const allChildElements = productElement.getElementsByTagName("*");
+                            // 使用更兼容的方式处理 HTMLCollection
+                            const elementsArray = [];
+                            for (let i = 0; i < allChildElements.length; i++) {
+                                elementsArray.push(allChildElements[i]);
+                            }
+                            modelElements = elementsArray.filter(element => 
+                                element.localName === "Model"
+                            );
+                        }
+                        
+                        const productResult = {
+                            product: productName,
+                            results: []
+                        };
+                        
+                        for (let j = 0; j < modelElements.length; j++) {
+                            const modelElement = modelElements[j];
+                            const modelName = modelElement.getAttribute("name");
+                            let bandElements = modelElement.getElementsByTagName("Band");
+                            
+                            // 如果没有找到 Band 元素，尝试使用命名空间
+                            if (bandElements.length === 0) {
+                                // 查找所有子元素，然后过滤出 Band 元素
+                                const allChildElements = modelElement.getElementsByTagName("*");
+                                // 使用更兼容的方式处理 HTMLCollection
+                                const elementsArray = [];
+                                for (let i = 0; i < allChildElements.length; i++) {
+                                    elementsArray.push(allChildElements[i]);
+                                }
+                                bandElements = elementsArray.filter(element => 
+                                    element.localName === "Band"
+                                );
+                            }
+                            
+                            const valid = [];
+                            const invalid = [];
+                            
+                            for (let k = 0; k < bandElements.length; k++) {
+                                const bandElement = bandElements[k];
+                                const bandName = bandElement.getAttribute("name");
+                                const rfpath = bandElement.getAttribute("Rfpath_name");
+                                const devicePath = bandElement.getAttribute("device_path");
+                                
+                                if (rfpath) {
+                                    // 验证 Rfpath_name 格式
+                                    const validationResult = validateRfpathFormat(rfpath);
+                                    
+                                    if (validationResult.valid) {
+                                        valid.push({
+                                            band: bandName,
+                                            rfpath: rfpath,
+                                            device_path: devicePath
+                                        });
+                                    } else {
+                                        invalid.push({
+                                            band: bandName,
+                                            rfpath: rfpath,
+                                            device_path: devicePath,
+                                            reason: `Invalid Rfpath_name format: ${rfpath}`,
+                                            errorParts: validationResult.errorParts,
+                                            correctHint: validationResult.correctHint
+                                        });
+                                    }
+                                }
+                            }
+                            
+                            productResult.results.push({
+                                model: modelName,
+                                valid: valid,
+                                invalid: invalid
+                            });
+                        }
+                        
+                        products.push(productResult);
+                    }
+                    
+                    // 构建验证结果
+                    const result = {
+                        success: true,
+                        data: {
+                            results: products,
+                            allValid: products.every(p => 
+                                p.results.every(r => r.invalid.length === 0)
+                            )
+                        }
+                    };
+                    
+                    // 显示结果
+                    displayResult(result);
+                } catch (error) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('errorMessage').textContent = `验证出错: ${error.message}`;
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+            }, 1000);
+        }
+        
+        // 验证 Rfpath_name 格式
+        function validateRfpathFormat(rfpath) {
+            try {
+                const connPart = rfpath.split('CONN')[1].split('_TO_TESTSET')[0];
+                const connNumber = parseInt(connPart);
+                
+                let rfType = '';
+                if (rfpath.includes('MAIN_RF')) {
+                    rfType = 'MAIN_RF';
+                } else if (rfpath.includes('ALT1_RF')) {
+                    rfType = 'ALT1_RF';
+                } else if (rfpath.includes('DIRECT_RF')) {
+                    rfType = 'DIRECT_RF';
+                } else {
+                    return {
+                        valid: false,
+                        errorParts: [rfpath.split('_TO_TESTSET')[1] || rfpath],
+                        correctHint: 'RF 类型必须是 MAIN_RF、ALT1_RF 或 DIRECT_RF'
+                    };
+                }
+                
+                if (rfType === 'MAIN_RF') {
+                    const allowedConn = new Set([1, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15]);
+                    if (!allowedConn.has(connNumber)) {
+                        return {
+                            valid: false,
+                            errorParts: [`CONN${connNumber}`, 'MAIN_RF'],
+                            correctHint: 'MAIN_RF 的 CONN 数值必须在 {1, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15} 中'
+                        };
+                    }
+                } else if (rfType === 'ALT1_RF') {
+                    const allowedConn = new Set([2, 5, 9, 10]);
+                    if (!allowedConn.has(connNumber)) {
+                        return {
+                            valid: false,
+                            errorParts: [`CONN${connNumber}`, 'ALT1_RF'],
+                            correctHint: 'ALT1_RF 的 CONN 数值必须在 {2, 5, 9, 10} 中'
+                        };
+                    }
+                } else if (rfType === 'DIRECT_RF') {
+                    const allowedConn = new Set();
+                    for (let i = 100; i < 1000; i += 100) {
+                        allowedConn.add(i);
+                    }
+                    if (!allowedConn.has(connNumber)) {
+                        return {
+                            valid: false,
+                            errorParts: [`CONN${connNumber}`, 'DIRECT_RF'],
+                            correctHint: 'DIRECT_RF 的 CONN 数值必须是 100, 200, ..., 900'
+                        };
+                    }
+                }
+                
+                return {
+                    valid: true,
+                    errorParts: [],
+                    correctHint: ''
+                };
+            } catch (e) {
+                return {
+                    valid: false,
+                    errorParts: [rfpath],
+                    correctHint: 'Rfpath_name 格式无效'
+                };
+            }
+        }
+        
+        // 显示验证结果
+        function displayResult(data) {
+            if (!data.success) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('errorMessage').textContent = `错误: ${data.error}`;
+                document.getElementById('errorMessage').style.display = 'block';
+                return;
+            }
+            
+            const resultsList = data.data.results;
+            let html = '';
+            let allValid = data.data.allValid;
+            
+            for (const result of resultsList) {
+                const productName = result.product;
+                const modelResults = result.results;
+                
+                html += `
+                    <div class="result-item">
+                        <div class="product-name">Product: ${productName}</div>
+                `;
+                
+                for (const modelResult of modelResults) {
+                    const modelName = modelResult.model;
+                    const validConfigs = modelResult.valid;
+                    const invalidConfigs = modelResult.invalid;
+                    
+                    html += `
+                        <div class="model-item">
+                            <div class="model-name">Model: ${modelName}</div>
+                    `;
+                    
+                    // 显示有效配置
+                    if (validConfigs.length > 0) {
+                        html += `
+                            <div class="valid-configs">
+                                <h4>✓ 有效配置 (${validConfigs.length}):</h4>
+                                <ul class="config-list">
+                        `;
+                        
+                        for (const config of validConfigs) {
+                            html += `
+                                <li>
+                                    <div class="config-detail">
+                                        Band: ${config.band}, Rfpath: ${config.rfpath}, Device Path: ${config.device_path}
+                                    </div>
+                                </li>
+                            `;
+                        }
+                        
+                        html += `
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="valid-configs">
+                                <h4>✓ 有效配置: 无</h4>
+                            </div>
+                        `;
+                    }
+                    
+                    // 显示无效配置
+                    if (invalidConfigs.length > 0) {
+                        html += `
+                            <div class="invalid-configs">
+                                <h4>✗ 无效配置 (${invalidConfigs.length}):</h4>
+                                <ul class="config-list">
+                        `;
+                        
+                        for (const config of invalidConfigs) {
+                            // 加粗显示错误的部分
+                            let formattedRfpath = config.rfpath;
+                            if (config.errorParts && config.errorParts.length > 0) {
+                                for (const errorPart of config.errorParts) {
+                                    formattedRfpath = formattedRfpath.replace(new RegExp(errorPart, 'g'), `<strong style="color: red;">${errorPart}</strong>`);
+                                }
+                            }
+                            
+                            html += `
+                                <li>
+                                    <div class="config-detail">
+                                        Band: ${config.band}, Rfpath: ${formattedRfpath}, Device Path: ${config.device_path}
+                                    </div>
+                                    <div class="reason">原因: ${config.reason}</div>
+                                    ${config.correctHint ? `<div class="correct-hint">正确提示: ${config.correctHint}</div>` : ''}
+                                </li>
+                            `;
+                        }
+                        
+                        html += `
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="invalid-configs">
+                                <h4>✗ 无效配置: 无</h4>
+                            </div>
+                        `;
+                    }
+                    
+                    html += `
+                        </div>
+                    `;
+                }
+                
+                html += `
+                    </div>
+                `;
+            }
+            
+            // 添加总体验证结果
+            html += `
+                <div class="summary">
+                    <h3>总体验证结果</h3>
+                    <p>
+                        状态: <span class="${allValid ? 'success' : 'error'}">
+                            ${allValid ? '通过' : '失败'}
+                        </span>
+                    </p>
+                </div>
+            `;
+            
+            // 显示结果
+            document.getElementById('resultContent').innerHTML = html;
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+        }
+        
+        // 处理拖拽事件
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        // 拖拽进入
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        // 拖拽离开
+        uploadArea.addEventListener('dragleave', function() {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        // 拖拽放下
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.name.endsWith('.xml')) {
+                    handleFile(file);
+                } else {
+                    alert('请选择 XML 文件');
+                }
+            }
+        });
+        
+        // 点击上传区域
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+        
+        // 文件选择
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                handleFile(file);
+            }
+        });
+    </script>
+</body>
+</html>

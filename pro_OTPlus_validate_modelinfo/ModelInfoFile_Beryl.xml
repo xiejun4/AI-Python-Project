@@ -1,0 +1,49 @@
+﻿<ModelInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.motorola-mobility.com/globaltest/nextest2010/modelinfo/">
+	<Product name="BERYL">
+	    <Model name="WIFI">
+			<!-- 
+			BrdTest
+			Connector 0 -> UUT_RF_CONN2_TO_TESTSET_ALT1_RF  ECT-818033486
+			Connector 1 -> UUT_RF_CONN5_TO_TESTSET_ALT1_RF  ECT-818045874
+		    Connector 2 -> UUT_RF_CONN9_TO_TESTSET_ALT1_RF  Murata-mm126314
+			WlanBrdTst
+			Connector 1 -> UUT_RF_CONN100_TO_TESTSET_DIRECT_RF  ECT-818045874
+		    Connector 2 -> UUT_RF_CONN200_TO_TESTSET_DIRECT_RF  Murata-mm126314
+			--> 
+			<Band name="ISM" device_path="0" probe="ECT-818033486" Rfpath_name="UUT_RF_CONN2_TO_TESTSET_ALT12_RF" station="BrdTest"/>	
+			<Band name="ISM" device_path="1" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN5_TO_TESTSET_ALT12_RF" station="BrdTest"/>				
+            <Band name="WLAN_80211_2_4G" device_path="0" probe="ECT-818033486"  Rfpath_name="UUT_RF_CONN2123_TO_TESTSET_ALT1_RF" station="BrdTest"/>
+            <Band name="WLAN_80211_2_4G" device_path="1" probe="ECT-818045874"  Rfpath_name="UUT_RF_CONN5213_TO_TESTSET_ALT1_RF" station="BrdTest"/>
+			<Band name="WLAN_80211_5G" device_path="0" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN54_TO_TESTSET_ALT1_RF" station="BrdTest" />			
+            <Band name="WLAN_80211_5G" device_path="1" probe="Murata-mm126314" Rfpath_name="UUT_RF_CONN9_TO_TESTSET_MAIN_RF" station="BrdTest" />
+            <Band name="WLAN_80211_6G" device_path="0" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN100_TO_TESTSET_DIRECT_RF" station="WlanBrdTst" />			
+            <Band name="WLAN_80211_6G" device_path="1" probe="Murata-mm126314" Rfpath_name="UUT_RF_CONN200_TO_TESTSET_DIRECT_RF" station="WlanBrdTst" />
+			<Allow_Skip_Bands>TRUE</Allow_Skip_Bands>
+		</Model>	    
+	</Product>
+	<Product name="ZHIYU">
+	    <Model name="WIFI">
+			<!-- 
+			BrdTest
+			Connector 1 -> UUT_RF_CONN1_TO_TESTSET_MAIN_RF  Murata-mm126314
+			Connector 2 -> UUT_RF_CONN6_TO_TESTSET_MAIN_RF  Murata-mm126314
+		    Connector 3 -> UUT_RF_CONN7_TO_TESTSET_MAIN_RF  ECT-818045874
+			WlanBrdTst
+			Connector 1 -> UUT_RF_CONN100_TO_TESTSET_DIRECT_RF  Murata-mm126314
+			Connector 2 -> UUT_RF_CONN300_TO_TESTSET_DIRECT_RF  ECT-818045874
+			Connector 3 -> UUT_RF_CONN200_TO_TESTSET_DIRECT_RF  Murata-mm126314
+			--> 
+			<Band name="ISM" device_path="0" probe="Murata-mm126314" Rfpath_name="UUT_RF_CONN11_TO_TESTSET_MAIN_RF" station="BrdTest"/>	
+			<Band name="ISM" device_path="1" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN71_TO_TESTSET_MAIN_RF" station="BrdTest"/>				
+            <Band name="WLAN_80211_2_4G" device_path="0" probe="Murata-mm126314"  Rfpath_name="UUT_RF_CONN1_TO_TESTSET_MAIN_RF" station="BrdTest"/>
+            <Band name="WLAN_80211_2_4G" device_path="1" probe="ECT-818045874"  Rfpath_name="UUT_RF_CONN712_TO_TESTSET_MAIN_RF" station="BrdTest"/>
+			<Band name="WLAN_80211_5G" device_path="0" probe="Murata-mm126314" Rfpath_name="UUT_RF_CONN62_TO_TESTSET_MAIN_RF" station="BrdTest" />			
+            <Band name="WLAN_80211_5G" device_path="1" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN711_TO_TESTSET_MAIN_RF" station="BrdTest" />
+			<Band name="WLAN_80211_2_4G" device_path="0" probe="Murata-mm126314"  Rfpath_name="UUT_RF_CONN100_TO_TESTSET_DIRECT_RF" station="WlanBrdTst"/>
+            <Band name="WLAN_80211_2_4G" device_path="1" probe="ECT-818045874"  Rfpath_name="UUT_RF_CONN300_TO_TESTSET_DIRECT_RF" station="WlanBrdTst"/>
+            <Band name="WLAN_80211_6G" device_path="0" probe="Murata-mm126314" Rfpath_name="UUT_RF_CONN200_TO_TESTSET_DIRECT_RF" station="WlanBrdTst" />			
+            <Band name="WLAN_80211_6G" device_path="1" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN999300_TO_TESTSET_DIRECT_RF" station="WlanBrdTst" />
+			<Allow_Skip_Bands>TRUE</Allow_Skip_Bands>
+		</Model>	    
+	</Product>	
+</ModelInfo>

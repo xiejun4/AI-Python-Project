@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端验证测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .test-result {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>前端验证测试</h1>
+    <div id="testResult" class="test-result"></div>
+    
+    <script>
+        // 测试 XML 解析和验证逻辑
+        function testFrontendLogic() {
+            // 模拟 XML 内容
+            const xmlContent = `
+                <ModelInfo xmlns="http://www.motorola-mobility.com/globaltest/nextest2010/modelinfo/">
+                    <Product name="BERYL">
+                        <Model name="WIFI">
+                            <Band name="ISM" device_path="0" probe="ECT-818033486" Rfpath_name="UUT_RF_CONN2_TO_TESTSET_ALT12_RF" station="BrdTest"/>
+                            <Band name="WLAN_80211_6G" device_path="0" probe="ECT-818045874" Rfpath_name="UUT_RF_CONN100_TO_TESTSET_DIRECT_RF" station="WlanBrdTst" />
+                        </Model>
+                    </Product>
+                </ModelInfo>
+            `;
+            
+            try {
+                // 解析 XML
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlContent, "text/xml");
+                
+                // 提取产品和模型信息
+                const products = [];
+                let productElements = xmlDoc.getElementsByTagName("Product");
+                
+                // 如果没有找到 Product 元素，尝试使用命名空间
+                if (productElements.length === 0) {
+                    // 查找所有元素，然后过滤出 Product 元素
+                    const allElements = xmlDoc.getElementsByTagName("*");
+                    // 使用更兼容的方式处理 HTMLCollection
+                    const elementsArray = [];
+                    for (let i = 0; i < allElements.length; i++) {
+                        elementsArray.push(allElements[i]);
+                    }
+                    productElements = elementsArray.filter(element => 
+                        element.localName === "Product"
+                    );
+                }
+                
+                let testResult = "测试结果：<br>";
+                
+                if (productElements.length > 0) {
+                    testResult += `找到 ${productElements.length} 个 Product 元素<br>`;
+                    
+                    for (let i = 0; i < productElements.length; i++) {
+                        const productElement = productElements[i];
+                        const productName = productElement.getAttribute("name");
+                        testResult += `Product 名称: ${productName}<br>`;
+                        
+                        let modelElements = productElement.getElementsByTagName("Model");
+                        
+                        // 如果没有找到 Model 元素，尝试使用命名空间
+                        if (modelElements.length === 0) {
+                            // 查找所有子元素，然后过滤出 Model 元素
+                            const allChildElements = productElement.getElementsByTagName("*");
+                            // 使用更兼容的方式处理 HTMLCollection
+                            const elementsArray = [];
+                            for (let i = 0; i < allChildElements.length; i++) {
+                                elementsArray.push(allChildElements[i]);
+                            }
+                            modelElements = elementsArray.filter(element => 
+                                element.localName === "Model"
+                            );
+                        }
+                        
+                        if (modelElements.length > 0) {
+                            testResult += `找到 ${modelElements.length} 个 Model 元素<br>`;
+                            
+                            for (let j = 0; j < modelElements.length; j++) {
+                                const modelElement = modelElements[j];
+                                const modelName = modelElement.getAttribute("name");
+                                testResult += `Model 名称: ${modelName}<br>`;
+                                
+                                let bandElements = modelElement.getElementsByTagName("Band");
+                                
+                                // 如果没有找到 Band 元素，尝试使用命名空间
+                                if (bandElements.length === 0) {
+                                    // 查找所有子元素，然后过滤出 Band 元素
+                                    const allChildElements = modelElement.getElementsByTagName("*");
+                                    // 使用更兼容的方式处理 HTMLCollection
+                                    const elementsArray = [];
+                                    for (let i = 0; i < allChildElements.length; i++) {
+                                        elementsArray.push(allChildElements[i]);
+                                    }
+                                    bandElements = elementsArray.filter(element => 
+                                        element.localName === "Band"
+                                    );
+                                }
+                                
+                                if (bandElements.length > 0) {
+                                    testResult += `找到 ${bandElements.length} 个 Band 元素<br>`;
+                                    
+                                    for (let k = 0; k < bandElements.length; k++) {
+                                        const bandElement = bandElements[k];
+                                        const bandName = bandElement.getAttribute("name");
+                                        const rfpath = bandElement.getAttribute("Rfpath_name");
+                                        testResult += `Band 名称: ${bandName}, Rfpath: ${rfpath}<br>`;
+                                    }
+                                } else {
+                                    testResult += "未找到 Band 元素<br>";
+                                }
+                            }
+                        } else {
+                            testResult += "未找到 Model 元素<br>";
+                        }
+                    }
+                } else {
+                    testResult += "未找到 Product 元素<br>";
+                }
+                
+                document.getElementById('testResult').innerHTML = testResult;
+                document.getElementById('testResult').className = 'test-result success';
+            } catch (error) {
+                document.getElementById('testResult').innerHTML = `测试失败: ${error.message}`;
+                document.getElementById('testResult').className = 'test-result error';
+            }
+        }
+        
+        // 运行测试
+        testFrontendLogic();
+    </script>
+</body>
+</html>
