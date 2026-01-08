@@ -278,3 +278,142 @@ AI-Python-Project/
 如果你已经有一个本地 `AI-Python-Project` 仓库副本，也可以直接跳到第 3 步，无需重新 clone。
 
 需要我帮你写一个一键脚本自动完成复制+提交吗？😊
+
+
+
+
+
+# 2026-1-9  你问的是：**在 GitHub 上如何修改已有项目文件夹的名称？**
+
+------
+
+### ❌ 答案是：**GitHub 本身不能直接修改文件夹名称！**
+
+> 🚫 你无法通过网页界面（如点击“编辑”）来重命名文件夹。
+
+但别担心，这是 Git 的正常机制。你可以通过 **本地 Git 操作** 来安全地重命名文件夹，并同步到 GitHub。
+
+------
+
+## ✅ 正确做法：使用 `git mv` 命令重命名
+
+### 🔧 操作步骤（必须在本地电脑上完成）
+
+#### 第 1 步：克隆仓库到本地（如果还没做）
+
+```bash
+git clone https://github.com/xiejun4/AI-Python-Project.git
+cd AI-Python-Project
+```
+
+> 💡 确保你有写权限（你是协作者或所有者）。
+
+------
+
+#### 第 2 步：拉取最新代码（避免冲突）
+
+```bash
+git pull origin main
+```
+
+------
+
+#### 第 3 步：使用 `git mv` 重命名文件夹（关键！）
+
+比如你想把：
+
+```
+pro_Analysis_Daily_Report
+```
+
+改成：
+
+```
+pro_OTPlus_Analysis_Daily_Report
+```
+
+运行命令：
+
+```bash
+git mv pro_Analysis_Daily_Report pro_OTPlus_Analysis_Daily_Report
+```
+
+> ✅ 使用 `git mv` 而不是手动改名！
+> 它会告诉 Git 这是一个“重命名”操作，**保留历史记录**。
+
+------
+
+#### 第 4 步：查看状态确认更改
+
+```bash
+git status
+```
+
+你应该看到：
+
+```
+renamed:    pro_Analysis_Daily_Report -> pro_OTPlus_Analysis_Daily_Report
+```
+
+------
+
+#### 第 5 步：提交更改
+
+```bash
+git commit -m "Rename pro_Analysis_Daily_Report to pro_OTPlus_Analysis_Daily_Report"
+```
+
+------
+
+#### 第 6 步：推送到 GitHub
+
+```bash
+git push origin main
+```
+
+------
+
+### ✅ 完成！
+
+现在打开你的 GitHub 页面：
+
+👉 https://github.com/xiejun4/AI-Python-Project
+
+你会发现：
+
+- 文件夹名已变为 `pro_OTPlus_Analysis_Daily_Report`
+- 提交历史中有一条“rename”记录
+- 所有之前的提交仍然可以追溯
+
+------
+
+## ❌ 错误做法（不要这样做！）
+
+| 错误行为                       | 后果                                              |
+| ------------------------------ | ------------------------------------------------- |
+| 用 Windows 资源管理器直接改名  | Git 认为是“删除旧文件夹 + 新建新文件夹”，丢失历史 |
+| 先删后建                       | 同样破坏历史，且容易出错                          |
+| 在 GitHub 界面点击“Edit”改名字 | GitHub 不支持直接改文件夹名                       |
+
+------
+
+## 💡 小贴士
+
+- 如果你不想影响其他项目，建议先备份。
+- 修改后记得更新项目内所有路径引用（比如 Python 导入、配置文件等）。
+- 使用 `.gitignore` 忽略临时文件，避免上传大文件。
+
+------
+
+## 🚀 总结
+
+| 问题                          | 解决方法                      |
+| ----------------------------- | ----------------------------- |
+| GitHub 能不能直接改文件夹名？ | ❌ 不能                        |
+| 如何安全地改名？              | ✅ 在本地用 `git mv` 命令      |
+| 是否保留历史？                | ✅ 是，`git mv` 会保留完整历史 |
+| 推送后能看吗？                | ✅ 可以，在 GitHub 上立即生效  |
+
+------
+
+如果你已经执行了错误操作（比如手动改名导致 Git 报错），我可以帮你恢复！欢迎继续提问 😊
