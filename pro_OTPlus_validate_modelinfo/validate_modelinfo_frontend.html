@@ -99,6 +99,61 @@
             padding-bottom: 10px;
         }
         
+        .search-section {
+            margin-bottom: 20px;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .search-suggestion {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .search-suggestion:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .search-suggestion.active {
+            background-color: #e3f2fd;
+        }
+        
         .result-item {
             margin-bottom: 30px;
             padding: 20px;
@@ -262,6 +317,12 @@
         
         <div class="result-section" id="resultSection" style="display: none;">
             <h2>验证结果</h2>
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜索产品名称...">
+                    <div id="searchSuggestions" class="search-suggestions"></div>
+                </div>
+            </div>
             <div id="resultContent"></div>
         </div>
     </div>
@@ -517,93 +578,142 @@
             let html = '';
             let allValid = data.data.allValid;
             
+            // 收集所有产品信息并统计数据
+            const allProducts = [];
+            let totalProducts = 0;
+            let normalProducts = 0;
+            let abnormalProducts = 0;
+            
             for (const result of resultsList) {
                 const productName = result.product;
                 const modelResults = result.results;
-                
-                html += `
-                    <div class="result-item">
-                        <div class="product-name">Product: ${productName}</div>
-                `;
+                const models = [];
+                let isProductNormal = true;
                 
                 for (const modelResult of modelResults) {
-                    const modelName = modelResult.model;
-                    const validConfigs = modelResult.valid;
-                    const invalidConfigs = modelResult.invalid;
+                    models.push(modelResult.model);
+                    if (modelResult.invalid.length > 0) {
+                        isProductNormal = false;
+                    }
+                }
+                
+                allProducts.push({
+                    name: productName,
+                    models: models
+                });
+                
+                totalProducts++;
+                if (isProductNormal) {
+                    normalProducts++;
+                } else {
+                    abnormalProducts++;
+                }
+            }
+            
+            // 过滤出有错误的产品
+            const productsWithErrors = resultsList.filter(result => 
+                result.results.some(modelResult => modelResult.invalid.length > 0)
+            );
+            
+            // 如果所有产品都没有错误，只显示最终结果
+            if (allValid) {
+                // 显示所有产品信息
+                html += `
+                    <div class="summary">
+                        <h3>产品信息</h3>
+                        <p>
+                            共 ${totalProducts} 个产品，其中 ${normalProducts} 个正常，${abnormalProducts} 个异常。
+                        </p>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                `;
+                
+                for (const product of allProducts) {
+                    html += `
+                        <li>
+                            <strong>Product: ${product.name}</strong>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                ${product.models.map(model => `<li>Model: ${model}</li>`).join('')}
+                            </ul>
+                        </li>
+                    `;
+                }
+                
+                html += `
+                        </ul>
+                    </div>
+                `;
+                
+                // 显示总体验证结果
+                html += `
+                    <div class="summary">
+                        <h3>总体验证结果</h3>
+                        <p>
+                            状态: <span class="success">通过</span>
+                        </p>
+                        <p>
+                            配置正确，所有产品的 RF 连接器映射均符合规则要求。
+                        </p>
+                    </div>
+                `;
+            } else {
+                // 只显示有错误的产品
+                for (const result of productsWithErrors) {
+                    const productName = result.product;
+                    const modelResults = result.results;
+                    const productId = `product-${productName.toLowerCase().replace(/\s+/g, '-')}`;
                     
                     html += `
-                        <div class="model-item">
-                            <div class="model-name">Model: ${modelName}</div>
+                        <div class="result-item" id="${productId}">
+                            <div class="product-name">Product: ${productName}</div>
                     `;
                     
-                    // 显示有效配置
-                    if (validConfigs.length > 0) {
-                        html += `
-                            <div class="valid-configs">
-                                <h4>✓ 有效配置 (${validConfigs.length}):</h4>
-                                <ul class="config-list">
-                        `;
+                    for (const modelResult of modelResults) {
+                        const modelName = modelResult.model;
+                        const invalidConfigs = modelResult.invalid;
                         
-                        for (const config of validConfigs) {
+                        // 只显示有错误的模型
+                        if (invalidConfigs.length > 0) {
                             html += `
-                                <li>
-                                    <div class="config-detail">
-                                        Band: ${config.band}, Rfpath: ${config.rfpath}, Device Path: ${config.device_path}
-                                    </div>
-                                </li>
+                                <div class="model-item">
+                                    <div class="model-name">Model: ${modelName}</div>
                             `;
-                        }
-                        
-                        html += `
-                                </ul>
-                            </div>
-                        `;
-                    } else {
-                        html += `
-                            <div class="valid-configs">
-                                <h4>✓ 有效配置: 无</h4>
-                            </div>
-                        `;
-                    }
-                    
-                    // 显示无效配置
-                    if (invalidConfigs.length > 0) {
-                        html += `
-                            <div class="invalid-configs">
-                                <h4>✗ 无效配置 (${invalidConfigs.length}):</h4>
-                                <ul class="config-list">
-                        `;
-                        
-                        for (const config of invalidConfigs) {
-                            // 加粗显示错误的部分
-                            let formattedRfpath = config.rfpath;
-                            if (config.errorParts && config.errorParts.length > 0) {
-                                for (const errorPart of config.errorParts) {
-                                    formattedRfpath = formattedRfpath.replace(new RegExp(errorPart, 'g'), `<strong style="color: red;">${errorPart}</strong>`);
+                            
+                            // 显示无效配置
+                            html += `
+                                <div class="invalid-configs">
+                                    <h4>✗ 无效配置 (${invalidConfigs.length}):</h4>
+                                    <ul class="config-list">
+                            `;
+                            
+                            for (const config of invalidConfigs) {
+                                // 加粗显示错误的部分
+                                let formattedRfpath = config.rfpath;
+                                if (config.errorParts && config.errorParts.length > 0) {
+                                    for (const errorPart of config.errorParts) {
+                                        formattedRfpath = formattedRfpath.replace(new RegExp(errorPart, 'g'), `<strong style="color: red;">${errorPart}</strong>`);
+                                    }
                                 }
+                                
+                                html += `
+                                    <li>
+                                        <div class="config-detail">
+                                            Band: ${config.band}, Rfpath: ${formattedRfpath}, Device Path: ${config.device_path}
+                                        </div>
+                                        <div class="reason">原因: ${config.reason}</div>
+                                        ${config.correctHint ? `<div class="correct-hint">正确提示: ${config.correctHint}</div>` : ''}
+                                    </li>
+                                `;
                             }
                             
                             html += `
-                                <li>
-                                    <div class="config-detail">
-                                        Band: ${config.band}, Rfpath: ${formattedRfpath}, Device Path: ${config.device_path}
-                                    </div>
-                                    <div class="reason">原因: ${config.reason}</div>
-                                    ${config.correctHint ? `<div class="correct-hint">正确提示: ${config.correctHint}</div>` : ''}
-                                </li>
+                                    </ul>
+                                </div>
+                            `;
+                            
+                            html += `
+                                </div>
                             `;
                         }
-                        
-                        html += `
-                                </ul>
-                            </div>
-                        `;
-                    } else {
-                        html += `
-                            <div class="invalid-configs">
-                                <h4>✗ 无效配置: 无</h4>
-                            </div>
-                        `;
                     }
                     
                     html += `
@@ -611,27 +721,131 @@
                     `;
                 }
                 
+                // 添加产品信息和统计数据
                 html += `
+                    <div class="summary">
+                        <h3>产品信息</h3>
+                        <p>
+                            共 ${totalProducts} 个产品，其中 ${normalProducts} 个正常，${abnormalProducts} 个异常。
+                        </p>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                `;
+                
+                for (const product of allProducts) {
+                    html += `
+                        <li>
+                            <strong>Product: ${product.name}</strong>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                ${product.models.map(model => `<li>Model: ${model}</li>`).join('')}
+                            </ul>
+                        </li>
+                    `;
+                }
+                
+                html += `
+                        </ul>
+                    </div>
+                `;
+                
+                // 添加总体验证结果
+                html += `
+                    <div class="summary">
+                        <h3>总体验证结果</h3>
+                        <p>
+                            状态: <span class="error">失败</span>
+                        </p>
+                        <p>
+                            部分产品的 RF 连接器映射不符合规则要求，请检查以上错误信息。
+                        </p>
                     </div>
                 `;
             }
-            
-            // 添加总体验证结果
-            html += `
-                <div class="summary">
-                    <h3>总体验证结果</h3>
-                    <p>
-                        状态: <span class="${allValid ? 'success' : 'error'}">
-                            ${allValid ? '通过' : '失败'}
-                        </span>
-                    </p>
-                </div>
-            `;
             
             // 显示结果
             document.getElementById('resultContent').innerHTML = html;
             document.getElementById('loading').style.display = 'none';
             document.getElementById('resultSection').style.display = 'block';
+            
+            // 初始化搜索功能
+            initSearch(allProducts);
+        }
+        
+        // 初始化搜索功能
+        function initSearch(products) {
+            const searchInput = document.getElementById('searchInput');
+            const searchSuggestions = document.getElementById('searchSuggestions');
+            
+            // 收集所有产品名称
+            const productNames = products.map(product => product.name);
+            
+            // 搜索输入事件
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                searchSuggestions.innerHTML = '';
+                
+                if (query.length > 0) {
+                    const matchedProducts = productNames.filter(name => 
+                        name.toLowerCase().includes(query)
+                    );
+                    
+                    if (matchedProducts.length > 0) {
+                        matchedProducts.forEach(name => {
+                            const suggestion = document.createElement('div');
+                            suggestion.className = 'search-suggestion';
+                            suggestion.textContent = name;
+                            suggestion.addEventListener('click', function() {
+                                searchInput.value = name;
+                                searchSuggestions.style.display = 'none';
+                                scrollToProduct(name);
+                            });
+                            searchSuggestions.appendChild(suggestion);
+                        });
+                        searchSuggestions.style.display = 'block';
+                    } else {
+                        searchSuggestions.style.display = 'none';
+                    }
+                } else {
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+            
+            // 搜索回车事件
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = this.value.trim();
+                    if (query) {
+                        scrollToProduct(query);
+                    }
+                }
+            });
+            
+            // 点击页面其他地方关闭搜索建议
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+        }
+        
+        // 滚动到指定产品
+        function scrollToProduct(productName) {
+            const productId = `product-${productName.toLowerCase().replace(/\s+/g, '-')}`;
+            const productElement = document.getElementById(productId);
+            
+            if (productElement) {
+                productElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // 添加高亮效果
+                productElement.style.backgroundColor = '#fff3cd';
+                setTimeout(() => {
+                    productElement.style.backgroundColor = '';
+                }, 2000);
+            } else {
+                alert(`未找到产品: ${productName}`);
+            }
         }
         
         // 处理拖拽事件

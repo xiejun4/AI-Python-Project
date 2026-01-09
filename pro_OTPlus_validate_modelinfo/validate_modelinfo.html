@@ -188,6 +188,61 @@
             border-left: 4px solid #2196f3;
         }
         
+        .search-section {
+            margin-bottom: 20px;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .search-suggestion {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .search-suggestion:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .search-suggestion.active {
+            background-color: #e3f2fd;
+        }
+        
         .summary h3 {
             color: #1976d2;
             margin-bottom: 10px;
@@ -251,6 +306,12 @@
         
         <div class="result-section" id="resultSection" style="display: none;">
             <h2>验证结果</h2>
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜索产品名称...">
+                    <div id="searchSuggestions" class="search-suggestions"></div>
+                </div>
+            </div>
             <div id="resultContent"></div>
         </div>
     </div>
@@ -483,9 +544,10 @@
             for (const result of resultsList) {
                 const productName = result.product;
                 const modelResults = result.results;
+                const productId = `product-${productName.toLowerCase().replace(/\s+/g, '-')}`;
                 
                 html += `
-                    <div class="result-item">
+                    <div class="result-item" id="${productId}">
                         <div class="product-name">Product: ${productName}</div>
                 `;
                 
@@ -641,9 +703,12 @@
                     const reportHtml = generateReport(resultsList);
                     
                     // 显示结果
-                    document.getElementById('resultContent').innerHTML = reportHtml;
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultContent').innerHTML = reportHtml;
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            
+            // 初始化搜索功能
+            initSearch(resultsList);
                 } catch (error) {
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('resultSection').style.display = 'block';
@@ -712,6 +777,84 @@
                 handleFile(file);
             }
         });
+        
+        // 初始化搜索功能
+        function initSearch(resultsList) {
+            const searchInput = document.getElementById('searchInput');
+            const searchSuggestions = document.getElementById('searchSuggestions');
+            
+            // 收集所有产品名称
+            const productNames = resultsList.map(result => result.product);
+            
+            // 搜索输入事件
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                searchSuggestions.innerHTML = '';
+                
+                if (query.length > 0) {
+                    const matchedProducts = productNames.filter(name => 
+                        name.toLowerCase().includes(query)
+                    );
+                    
+                    if (matchedProducts.length > 0) {
+                        matchedProducts.forEach(name => {
+                            const suggestion = document.createElement('div');
+                            suggestion.className = 'search-suggestion';
+                            suggestion.textContent = name;
+                            suggestion.addEventListener('click', function() {
+                                searchInput.value = name;
+                                searchSuggestions.style.display = 'none';
+                                scrollToProduct(name);
+                            });
+                            searchSuggestions.appendChild(suggestion);
+                        });
+                        searchSuggestions.style.display = 'block';
+                    } else {
+                        searchSuggestions.style.display = 'none';
+                    }
+                } else {
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+            
+            // 搜索回车事件
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = this.value.trim();
+                    if (query) {
+                        scrollToProduct(query);
+                    }
+                }
+            });
+            
+            // 点击页面其他地方关闭搜索建议
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+        }
+        
+        // 滚动到指定产品
+        function scrollToProduct(productName) {
+            const productId = `product-${productName.toLowerCase().replace(/\s+/g, '-')}`;
+            const productElement = document.getElementById(productId);
+            
+            if (productElement) {
+                productElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // 添加高亮效果
+                productElement.style.backgroundColor = '#fff3cd';
+                setTimeout(() => {
+                    productElement.style.backgroundColor = '';
+                }, 2000);
+            } else {
+                alert(`未找到产品: ${productName}`);
+            }
+        }
     </script>
 </body>
 </html>
