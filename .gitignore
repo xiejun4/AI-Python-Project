@@ -1,16 +1,16 @@
 # ========================
-# Í¨ÓÃÏµÍ³ & ±à¼­Æ÷ºöÂÔ
+# é€šç”¨ç³»ç»Ÿ & ç¼–è¾‘å™¨å¿½ç•¥
 # ========================
 
-# ²Ù×÷ÏµÍ³Éú³ÉÎÄ¼ş
+# æ“ä½œç³»ç»Ÿç”Ÿæˆæ–‡ä»¶
 .DS_Store
 Thumbs.db
 desktop.ini
 *.swp
-*¡«
+*ï½
 .$*
 
-# ÈÕÖ¾ºÍ»º´æ
+# æ—¥å¿—å’Œç¼“å­˜
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -18,32 +18,32 @@ yarn-error.log*
 lerna-debug.log*
 
 # ========================
-# Python Ïà¹Ø
+# Python ç›¸å…³
 # ========================
 
-# ×Ö½ÚÂëºÍ»º´æ
+# å­—èŠ‚ç å’Œç¼“å­˜
 __pycache__/
 *.py[cod]
 *$py.class
 
-# ĞéÄâ»·¾³£¨Ç¿ÁÒ½¨ÒéºöÂÔ£©
+# è™šæ‹Ÿç¯å¢ƒï¼ˆå¼ºçƒˆå»ºè®®å¿½ç•¥ï¼‰
 venv/
 ENV/
 env/
 .venv/
 .env
 
-# ÒÀÀµ°ü
+# ä¾èµ–åŒ…
 .Python
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Jupyter Notebook Êä³ö
+# Jupyter Notebook è¾“å‡º
 .ipynb_checkpoints/
 *.ipynb
 
 # ========================
-# IDE / ±à¼­Æ÷ÅäÖÃ£¨Í¨³£²»¹²Ïí£©
+# IDE / ç¼–è¾‘å™¨é…ç½®ï¼ˆé€šå¸¸ä¸å…±äº«ï¼‰
 # ========================
 
 # JetBrains (PyCharm, IntelliJ)
@@ -62,23 +62,23 @@ pip-delete-this-directory.txt
 *.sublime-workspace
 
 # ========================
-# ¹¹½¨ & ²¿Êğ¹¤¾ß
+# æ„å»º & éƒ¨ç½²å·¥å…·
 # ========================
 
 # Vercel
 .vercel/
 
-# Trae£¨»òÆäËû AI ¸¨Öú¹¤¾ß£©
+# Traeï¼ˆæˆ–å…¶ä»– AI è¾…åŠ©å·¥å…·ï¼‰
 .trae/
 
 # Docker
 .dockerignore
 
 # ========================
-# Êı¾İ & Ä£ĞÍ£¨AI ¿ª·¢ÖØµã£¡£©
+# æ•°æ® & æ¨¡å‹ï¼ˆAI å¼€å‘é‡ç‚¹ï¼ï¼‰
 # ========================
 
-# ´óÄ£ĞÍÎÄ¼ş£¨±ÜÃâÎóÌá½»£©
+# å¤§æ¨¡å‹æ–‡ä»¶ï¼ˆé¿å…è¯¯æäº¤ï¼‰
 *.bin
 *.safetensors
 *.gguf
@@ -88,7 +88,7 @@ pip-delete-this-directory.txt
 *.h5
 *.onnx
 
-# Êı¾İ¼¯£¨Í¨³£Ì«´ó£©
+# æ•°æ®é›†ï¼ˆé€šå¸¸å¤ªå¤§ï¼‰
 data/
 datasets/
 *.csv
@@ -96,22 +96,22 @@ datasets/
 *.parquet
 *.arrow
 
-# ÁÙÊ±ÎÄ¼ş
+# ä¸´æ—¶æ–‡ä»¶
 tmp/
 temp/
 *.tmp
 
 # ========================
-# °²È« & Ãô¸ĞĞÅÏ¢
+# å®‰å…¨ & æ•æ„Ÿä¿¡æ¯
 # ========================
 
-# »·¾³±äÁ¿
+# ç¯å¢ƒå˜é‡
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# ÃÜÔ¿¡¢Ö¤Êé
+# å¯†é’¥ã€è¯ä¹¦
 *.pem
 *.key
 *.crt
@@ -119,15 +119,53 @@ secrets.yaml
 config/secrets.yml
 
 # ========================
-# ÆäËû×Ô¶¨ÒåºöÂÔÏî
+# å…¶ä»–è‡ªå®šä¹‰å¿½ç•¥é¡¹
 # ========================
 
-# ¹¤¾ß½Å±¾£¨Èç¹ûÄã²»Ïë¹²Ïí£©
+# å·¥å…·è„šæœ¬ï¼ˆå¦‚æœä½ ä¸æƒ³å…±äº«ï¼‰
 tools/
 
-# ±¾µØ²âÊÔÎÄ¼ş
+# æœ¬åœ°æµ‹è¯•æ–‡ä»¶
 test_output/
 results/
 
-# OT+²âÊÔÈÕÖ¾£¨Èç¹ûÄã²»Ïë¹²Ïí£©
+# OT+æµ‹è¯•æ—¥å¿—ï¼ˆå¦‚æœä½ ä¸æƒ³å…±äº«ï¼‰
 *.log_zip
+
+# ========================
+# æ–°å¢ï¼šNode.js/å‰ç«¯ç›¸å…³ï¼ˆè§£å†³electronå¤§æ–‡ä»¶é—®é¢˜ï¼‰
+# ========================
+
+# æ ¸å¿ƒï¼šå¿½ç•¥node_modulesï¼ˆé¿å…æäº¤ä¾èµ–åŒ…ï¼ŒåŒ…æ‹¬electron.exeï¼‰
+node_modules/
+**/node_modules/
+
+# npm/yarn/pnpm ç›¸å…³ç¼“å­˜/é”æ–‡ä»¶ï¼ˆå¯é€‰å¿½ç•¥ï¼Œå»ºè®®ä¿ç•™lockæ–‡ä»¶ï¼‰
+npm-cache/
+yarn-cache/
+pnpm-store/
+# package-lock.json  # å»ºè®®ä¿ç•™ï¼Œæ³¨é‡Šæ‰
+# yarn.lock         # å»ºè®®ä¿ç•™ï¼Œæ³¨é‡Šæ‰
+# pnpm-lock.yaml    # å»ºè®®ä¿ç•™ï¼Œæ³¨é‡Šæ‰
+
+# å‰ç«¯æ„å»ºäº§ç‰©
+dist/
+build/
+out/
+coverage/
+*.min.js
+*.min.css
+
+# Electron ç›¸å…³ï¼ˆé’ˆå¯¹æ€§å¿½ç•¥å¤§æ–‡ä»¶ï¼‰
+**/electron/dist/*.exe
+**/electron/dist/*.dll
+**/electron/dist/*.dylib
+**/electron/dist/*.so
+electron-builder.yml
+electron-packager/
+
+# å‰ç«¯è°ƒè¯•/ç¼“å­˜æ–‡ä»¶
+.eslintcache
+.prettiercache
+*.map
+*.tmp.js
